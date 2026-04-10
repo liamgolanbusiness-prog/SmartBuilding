@@ -16,6 +16,9 @@ import paymentRoutes from './routes/payment.routes';
 import ticketRoutes from './routes/ticket.routes';
 import announcementRoutes from './routes/announcement.routes';
 import pollRoutes from './routes/poll.routes';
+import adminRoutes from './routes/admin.routes';
+import financeRoutes from './routes/finance.routes';
+import maintenanceRoutes from './routes/maintenance.routes';
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler';
@@ -58,6 +61,9 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/polls', pollRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/finance', financeRoutes);
+app.use('/api/maintenance', maintenanceRoutes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {

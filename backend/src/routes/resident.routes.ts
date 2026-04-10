@@ -28,7 +28,7 @@ router.get(
   '/me',
   asyncHandler(async (req: AuthRequest, res: Response) => {
     const u = await query(
-      `SELECT id, full_name, apartment_number, phone_number, email, role, building_id
+      `SELECT id, full_name, apartment_number, phone_number, email, role, building_id, is_super_admin
        FROM residents WHERE id = $1`,
       [req.user!.id]
     );

@@ -176,6 +176,7 @@ export const verifyOTP = async (req: Request, res: Response) => {
       apartmentNumber: user.apartment_number,
       role: user.role,
       buildingId: user.building_id,
+      isSuperAdmin: !!user.is_super_admin,
     },
     isNewUser,
   });
@@ -209,6 +210,64 @@ export const refreshToken = async (req: Request, res: Response) => {
   const accessToken = generateToken(decoded.userId);
 
   res.status(200).json({ accessToken });
+};
+
+// Demo Google sign-in: accepts {email, name, inviteCode?}, finds or creates
+// a resident using the email, and returns an access token. This is for
+// development/testing only — no actual Google verification is performed.
+export const googleDemo = async (req: Request, res: Response) => {
+  const { email, name, inviteCode } = req.body;
+  if (!email) throw new AppError('email required', 400);
+
+  // Normalize: Google users have no phone; use email as phone-equivalent key.
+  const pseudoPhone = 'email:' + String(email).toLowerCase();
+
+  let userResult = await query(
+    `SELECT * FROM residents WHERE phone_number = $1 OR email = $2`,
+    [pseudoPhone, email]
+  );
+
+  let user;
+  if (userResult.rows.length === 0) {
+    if (!inviteCode) throw new AppError('Invite code required for new users', 400);
+    const buildingResult = await query(
+      `SELECT id FROM buildings WHERE invite_code = $1`,
+      [inviteCode]
+    );
+    if (buildingResult.rows.length === 0) throw new AppError('Invalid invite code', 400);
+    const buildingId = buildingResult.rows[0].id;
+
+    await query(
+      `INSERT INTO residents (building_id, phone_number, phone_verified, email, email_verified, full_name, role)
+       VALUES ($1, $2, true, $3, true, $4, 'resident')`,
+      [buildingId, pseudoPhone, email, name || 'Google User']
+    );
+    userResult = await query(
+      `SELECT * FROM residents WHERE phone_number = $1`,
+      [pseudoPhone]
+    );
+    user = userResult.rows[0];
+  } else {
+    user = userResult.rows[0];
+  }
+
+  const accessToken = generateToken(user.id);
+  const refreshTkn = generateRefreshToken(user.id);
+
+  res.status(200).json({
+    accessToken,
+    refreshToken: refreshTkn,
+    user: {
+      id: user.id,
+      phoneNumber: user.phone_number,
+      fullName: user.full_name,
+      apartmentNumber: user.apartment_number,
+      role: user.role,
+      buildingId: user.building_id,
+      isSuperAdmin: !!user.is_super_admin,
+      email: user.email,
+    },
+  });
 };
 
 export const logout = async (req: Request, res: Response) => {

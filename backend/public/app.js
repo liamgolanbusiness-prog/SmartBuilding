@@ -206,6 +206,159 @@ const I18N = {
     'poll.newPoll': 'סקר חדש להצבעה',
     'poll.reminder': 'תזכורת: טרם הצבעת בסקר',
     'poll.createdOk': 'הסקר פורסם ✓',
+    // Super admin
+    'profile.superAdmin': 'מנהל-על',
+    'profile.manageBuildings': '👑 ניהול בניינים',
+    'profile.switchUser': '🔄 החלפת משתמש (בדיקה)',
+    'admin.title': 'ניהול בניינים',
+    'admin.superAdmin': 'מנהל-על של המערכת',
+    'admin.manageAll': 'נהל את כל הבניינים במערכת',
+    'admin.newBuilding': 'בניין חדש',
+    'admin.bldName': 'שם הבניין',
+    'admin.bldAddress': 'כתובת',
+    'admin.bldCity': 'עיר',
+    'admin.totalApts': 'מספר דירות',
+    'admin.inviteCode': 'קוד הזמנה',
+    'admin.firstAdmin': 'מנהל ראשון',
+    'admin.adminName': 'שם המנהל',
+    'admin.adminApt': 'מס׳ דירה',
+    'admin.create': 'צור בניין',
+    'admin.noBuildings': 'אין בניינים עדיין',
+    'admin.needAllFields': 'יש למלא את כל השדות',
+    'admin.noPhone': 'חסר מספר טלפון',
+    'onboard.title': 'הבניין נוצר בהצלחה!',
+    'onboard.sub': 'הנה הפרטים של המנהל החדש',
+    'onboard.building': 'בניין',
+    'onboard.inviteCode': 'קוד הזמנה',
+    'onboard.adminName': 'שם המנהל',
+    'onboard.adminPhone': 'טלפון',
+    'onboard.tip': 'לחצו על הכפתור למטה כדי להיכנס לחשבון המנהל החדש ולראות את הבניין הריק מתחיל את דרכו.',
+    'onboard.loginAs': 'היכנס בתור המנהל החדש',
+    'onboard.backToAdmin': 'חזרה למסך ניהול',
+    'onboard.welcomeNewBuilding': 'ברוך הבא לבניין החדש! 🎉',
+    'switch.title': 'בחר משתמש לבדיקה',
+    'switch.switched': 'הוחלפת למשתמש אחר',
+    // Empty states
+    'empty.firstAnnTitle': 'אין הודעות עדיין',
+    'empty.firstAnnSub': 'פרסם את ההודעה הראשונה לדיירי הבניין',
+    'empty.firstAnnCta': '+ הודעה ראשונה',
+    'empty.firstTicTitle': 'אין קריאות פתוחות',
+    'empty.firstTicSub': 'כשתהיה תקלה בבניין, דווח עליה כאן',
+    'empty.firstTicCta': '+ דיווח ראשון',
+    'empty.firstPayTitle': 'אין תשלומים',
+    'empty.firstPaySub': 'מערכת התשלומים תוצג כאן ברגע שיהיה חיוב',
+    'empty.firstResTitle': 'רק אתה כאן',
+    'empty.firstResSub': 'שתף את קוד ההזמנה של הבניין כדי שדיירים יצטרפו',
+    // Tour
+    'tour.skip': 'דלג',
+    'tour.next': 'הבא',
+    'tour.finish': 'סיום',
+    'tour.s1.t': 'ברוכים הבאים ל‑VaadApp 👋',
+    'tour.s1.b': 'בואו נעשה סיור מהיר בתוך האפליקציה. תוכלו לדלג בכל שלב או לחזור על הסיור מאוחר יותר דרך הפרופיל.',
+    'tour.s2.t': 'הבית – הדף הראשי',
+    'tour.s2.b': 'כאן תראו את הבניין שלכם, יתרה, תשלומים, הודעות וקריאות אחרונות. זו נקודת הכניסה היומיומית שלכם.',
+    'tour.s3.t': 'חדשות והודעות 📢',
+    'tour.s3.b': 'קבלו הודעות מהוועד: הודעות חשובות, אירועים, תחזוקה וסקרים להצבעה. גוללים לפי קטגוריות.',
+    'tour.s4.t': 'קריאות שירות 🔧',
+    'tour.s4.b': 'דווחו על תקלות בבניין: מעלית, אינסטלציה, חשמל או ניקיון. עקבו אחר הטיפול מלידה ועד סגירה.',
+    'tour.s5.t': 'תשלומים 💰',
+    'tour.s5.b': 'ראו את היתרה שלכם, היסטוריית תשלומים, שיעור גבייה וגרף 6 חודשים. למנהלים יש גם דאשבורד מלא.',
+    'tour.s6.t': 'דיירים 👥',
+    'tour.s6.b': 'היכרות עם השכנים לפי מספר דירה. תוכלו לחפש, להזמין דיירים חדשים ולראות מי חבר בוועד.',
+    'tour.s7.t': 'מוכנים לצאת לדרך! 🎉',
+    'tour.s7.b': 'חוזרים לדף הבית. אם אתם מנהלי ועד, היכנסו ל"אני" → "כלי ועד" לניהול חוקי תשלום, הוצאות ותחזוקה.',
+    // Invite
+    'res.invite': 'הזמנת דיירים',
+    'invite.title': 'הזמנת דיירים חדשים',
+    'invite.sub': 'שתפו את קוד ההזמנה של הבניין',
+    'invite.code': 'קוד ההזמנה',
+    'invite.copy': '📋 העתק קוד',
+    'invite.share': '🔗 שתף',
+    'invite.copied': 'הועתק:',
+    'invite.shareMsg': 'הצטרפו לבניין {bld} ב‑VaadApp עם קוד ההזמנה: {code}',
+    'invite.step1': 'שלחו את הקוד לדייר',
+    'invite.step2': 'הדייר מתקין את האפליקציה',
+    'invite.step3': 'נכנס עם מספר הטלפון + קוד ההזמנה',
+    // Login
+    'login.or': 'או',
+    'login.google': 'המשך עם Google',
+    'google.title': 'כניסה עם Google (הדגמה)',
+    'google.sub': 'מצב פיתוח — מלאו את הפרטים וקוד הבניין',
+    'google.name': 'שם מלא',
+    'google.email': 'אימייל',
+    'google.invite': 'קוד הזמנה של הבניין',
+    'google.continue': 'המשך',
+    // Profile
+    'profile.vaadTools': 'כלי ועד',
+    'profile.openMgmt': '💼 ניהול ועד (חוקי תשלום, הוצאות, תחזוקה)',
+    'profile.replayTour': '🎬 הדרכה מחדש',
+    // Management
+    'mgmt.title': 'ניהול ועד',
+    'mgmt.rules': 'חוקי תשלום',
+    'mgmt.expenses': 'הוצאות',
+    'mgmt.maintenance': 'תחזוקה שוטפת',
+    // Rules
+    'rule.create': '+ חוק תשלום חדש',
+    'rule.newTitle': 'חוק תשלום חדש',
+    'rule.namePh': 'שם (לדוגמה: דמי ועד חודשי)',
+    'rule.descPh': 'תיאור (אופציונלי)',
+    'rule.amountPh': 'סכום בש״ח',
+    'rule.domPh': 'יום בחודש (1-28)',
+    'rule.save': 'שמור',
+    'rule.savedOk': 'החוק נשמר ✓',
+    'rule.allResidents': 'לכל הדיירים',
+    'rule.domLabel': 'יום',
+    'rule.applyNow': 'החל עכשיו',
+    'rule.applied': 'נוצרו {n} חיובים חדשים ✓',
+    'rule.emptyTitle': 'אין חוקי תשלום',
+    'rule.emptySub': 'צרו חוק תשלום חוזר והחילו אותו על כל הדיירים בלחיצה אחת',
+    'freq.weekly': 'שבועי',
+    'freq.biweekly': 'דו-שבועי',
+    'freq.monthly': 'חודשי',
+    'freq.quarterly': 'רבעוני',
+    'freq.semi': 'חצי שנתי',
+    'freq.yearly': 'שנתי',
+    'freq.onetime': 'חד פעמי',
+    // Expenses
+    'expense.create': '+ הוספת הוצאה',
+    'expense.newTitle': 'הוצאה חדשה',
+    'expense.titlePh': 'כותרת ההוצאה',
+    'expense.notesPh': 'הערות',
+    'expense.uploadReceipt': '📷 העלאת קבלה',
+    'expense.save': 'שמור הוצאה',
+    'expense.savedOk': 'ההוצאה נשמרה ✓',
+    'expense.totalMonth': 'סה״כ החודש',
+    'expense.totalYear': 'סה״כ השנה',
+    'expense.emptyTitle': 'אין הוצאות רשומות',
+    'expense.emptySub': 'תעדו כל הוצאה של הבניין עם קבלה, קטגוריה והערות',
+    'expense.fileTooLarge': 'הקובץ גדול מדי (מקסימום 1.2MB)',
+    'expCat.maintenance': '🔧 תחזוקה',
+    'expCat.cleaning': '🧹 ניקיון',
+    'expCat.utility': '💡 שירותים',
+    'expCat.insurance': '🛡️ ביטוח',
+    'expCat.supplies': '📦 ציוד',
+    'expCat.other': '📎 אחר',
+    // Maintenance tasks
+    'mt.create': '+ משימת תחזוקה חדשה',
+    'mt.newTitle': 'משימה חדשה',
+    'mt.titlePh': 'לדוגמה: בדיקת מעלית',
+    'mt.descPh': 'תיאור',
+    'mt.reminderPh': 'תזכורת ימים לפני',
+    'mt.save': 'שמור משימה',
+    'mt.savedOk': 'המשימה נשמרה ✓',
+    'mt.doneOk': 'המשימה סומנה כבוצעה ✓',
+    'mt.emptyTitle': 'אין משימות תחזוקה',
+    'mt.emptySub': 'הגדירו משימות חוזרות (כמו בדיקת מעלית חודשית) וקבלו תזכורות אוטומטיות',
+    'mt.markDone': 'סמן כבוצע',
+    'mt.lastDone': 'בוצע לאחרונה',
+    'mt.dueIn': 'עוד {n} ימים',
+    'mt.overdueBy': 'באיחור {n} ימים',
+    'mt.reminderTitle': 'תזכורת תחזוקה',
+    // Common
+    'common.delete': 'מחק',
+    'common.deleted': 'נמחק ✓',
+    'common.confirmDelete': 'אתם בטוחים שברצונכם למחוק?',
+    'poll.attachSub': 'דיירים יוכלו להצביע ישירות מההודעה',
   },
   en: {
     'stage.sub': 'Va\'ad · Building Management',
@@ -381,6 +534,159 @@ const I18N = {
     'poll.newPoll': 'New poll to vote on',
     'poll.reminder': 'Reminder: you haven\'t voted yet',
     'poll.createdOk': 'Poll published ✓',
+    // Super admin
+    'profile.superAdmin': 'Super admin',
+    'profile.manageBuildings': '👑 Manage buildings',
+    'profile.switchUser': '🔄 Switch user (testing)',
+    'admin.title': 'Manage buildings',
+    'admin.superAdmin': 'System super admin',
+    'admin.manageAll': 'Manage every building in the system',
+    'admin.newBuilding': 'New building',
+    'admin.bldName': 'Building name',
+    'admin.bldAddress': 'Address',
+    'admin.bldCity': 'City',
+    'admin.totalApts': 'Total apartments',
+    'admin.inviteCode': 'Invite code',
+    'admin.firstAdmin': 'First admin',
+    'admin.adminName': 'Admin name',
+    'admin.adminApt': 'Apt #',
+    'admin.create': 'Create building',
+    'admin.noBuildings': 'No buildings yet',
+    'admin.needAllFields': 'Please fill all fields',
+    'admin.noPhone': 'Missing phone number',
+    'onboard.title': 'Building created!',
+    'onboard.sub': 'Here are the new admin credentials',
+    'onboard.building': 'Building',
+    'onboard.inviteCode': 'Invite code',
+    'onboard.adminName': 'Admin name',
+    'onboard.adminPhone': 'Phone',
+    'onboard.tip': 'Tap below to log in as the new admin and see the fresh empty building come to life.',
+    'onboard.loginAs': 'Log in as the new admin',
+    'onboard.backToAdmin': 'Back to admin',
+    'onboard.welcomeNewBuilding': 'Welcome to the new building! 🎉',
+    'switch.title': 'Choose a test user',
+    'switch.switched': 'Switched user',
+    // Empty states
+    'empty.firstAnnTitle': 'No announcements yet',
+    'empty.firstAnnSub': 'Post the first announcement for your residents',
+    'empty.firstAnnCta': '+ First announcement',
+    'empty.firstTicTitle': 'No open tickets',
+    'empty.firstTicSub': 'When something needs attention in the building, report it here',
+    'empty.firstTicCta': '+ First ticket',
+    'empty.firstPayTitle': 'No payments',
+    'empty.firstPaySub': 'The payments dashboard will appear once there\'s activity',
+    'empty.firstResTitle': 'It\'s just you here',
+    'empty.firstResSub': 'Share the building invite code so residents can join',
+    // Tour
+    'tour.skip': 'Skip',
+    'tour.next': 'Next',
+    'tour.finish': 'Done',
+    'tour.s1.t': 'Welcome to VaadApp 👋',
+    'tour.s1.b': 'Let\'s take a quick tour. You can skip anytime or replay the tour later from your profile.',
+    'tour.s2.t': 'Home — your dashboard',
+    'tour.s2.b': 'See your building card, balance, payments, announcements, and recent tickets all in one place. This is your daily entry point.',
+    'tour.s3.t': 'News & announcements 📢',
+    'tour.s3.b': 'Get messages from the committee: important notices, events, maintenance, and polls you can vote on. Filter by category.',
+    'tour.s4.t': 'Maintenance tickets 🔧',
+    'tour.s4.b': 'Report building issues: elevator, plumbing, electrical, or cleaning. Track them from open to resolved.',
+    'tour.s5.t': 'Payments 💰',
+    'tour.s5.b': 'View your balance, payment history, collection rate, and a 6-month trend chart. Admins also get a full dashboard.',
+    'tour.s6.t': 'Residents 👥',
+    'tour.s6.b': 'Meet your neighbors by apartment number. Search, invite new residents, and see committee members.',
+    'tour.s7.t': 'You\'re all set! 🎉',
+    'tour.s7.b': 'Heading back home. If you\'re a committee admin, go to Me → Vaad tools to manage payment rules, expenses, and maintenance.',
+    // Invite
+    'res.invite': 'Invite residents',
+    'invite.title': 'Invite new residents',
+    'invite.sub': 'Share your building invite code',
+    'invite.code': 'Invite code',
+    'invite.copy': '📋 Copy code',
+    'invite.share': '🔗 Share',
+    'invite.copied': 'Copied:',
+    'invite.shareMsg': 'Join {bld} on VaadApp with invite code: {code}',
+    'invite.step1': 'Send the code to the resident',
+    'invite.step2': 'They install the app',
+    'invite.step3': 'Log in with their phone + invite code',
+    // Login
+    'login.or': 'or',
+    'login.google': 'Continue with Google',
+    'google.title': 'Google sign-in (demo)',
+    'google.sub': 'Demo mode — fill in details and building code',
+    'google.name': 'Full name',
+    'google.email': 'Email',
+    'google.invite': 'Building invite code',
+    'google.continue': 'Continue',
+    // Profile
+    'profile.vaadTools': 'Vaad tools',
+    'profile.openMgmt': '💼 Manage Vaad (rules, expenses, maintenance)',
+    'profile.replayTour': '🎬 Replay tour',
+    // Management
+    'mgmt.title': 'Vaad management',
+    'mgmt.rules': 'Payment rules',
+    'mgmt.expenses': 'Expenses',
+    'mgmt.maintenance': 'Maintenance',
+    // Rules
+    'rule.create': '+ New payment rule',
+    'rule.newTitle': 'New payment rule',
+    'rule.namePh': 'Name (e.g. Monthly Vaad fee)',
+    'rule.descPh': 'Description (optional)',
+    'rule.amountPh': 'Amount',
+    'rule.domPh': 'Day of month (1-28)',
+    'rule.save': 'Save',
+    'rule.savedOk': 'Rule saved ✓',
+    'rule.allResidents': 'All residents',
+    'rule.domLabel': 'Day',
+    'rule.applyNow': 'Apply now',
+    'rule.applied': 'Created {n} new charges ✓',
+    'rule.emptyTitle': 'No payment rules',
+    'rule.emptySub': 'Create a recurring payment rule and apply it to all residents with one click',
+    'freq.weekly': 'Weekly',
+    'freq.biweekly': 'Biweekly',
+    'freq.monthly': 'Monthly',
+    'freq.quarterly': 'Quarterly',
+    'freq.semi': 'Semi-annual',
+    'freq.yearly': 'Yearly',
+    'freq.onetime': 'One time',
+    // Expenses
+    'expense.create': '+ Add expense',
+    'expense.newTitle': 'New expense',
+    'expense.titlePh': 'Expense title',
+    'expense.notesPh': 'Notes',
+    'expense.uploadReceipt': '📷 Upload receipt',
+    'expense.save': 'Save expense',
+    'expense.savedOk': 'Expense saved ✓',
+    'expense.totalMonth': 'This month',
+    'expense.totalYear': 'This year',
+    'expense.emptyTitle': 'No expenses yet',
+    'expense.emptySub': 'Document every building expense with a receipt, category and notes',
+    'expense.fileTooLarge': 'File too large (max 1.2MB)',
+    'expCat.maintenance': '🔧 Maintenance',
+    'expCat.cleaning': '🧹 Cleaning',
+    'expCat.utility': '💡 Utilities',
+    'expCat.insurance': '🛡️ Insurance',
+    'expCat.supplies': '📦 Supplies',
+    'expCat.other': '📎 Other',
+    // Maintenance tasks
+    'mt.create': '+ New maintenance task',
+    'mt.newTitle': 'New task',
+    'mt.titlePh': 'e.g. Elevator inspection',
+    'mt.descPh': 'Description',
+    'mt.reminderPh': 'Reminder days before',
+    'mt.save': 'Save task',
+    'mt.savedOk': 'Task saved ✓',
+    'mt.doneOk': 'Marked done ✓',
+    'mt.emptyTitle': 'No maintenance tasks',
+    'mt.emptySub': 'Set up recurring tasks (e.g. monthly elevator check) and get automatic reminders',
+    'mt.markDone': 'Mark done',
+    'mt.lastDone': 'Last done',
+    'mt.dueIn': 'in {n} days',
+    'mt.overdueBy': 'overdue by {n} days',
+    'mt.reminderTitle': 'Maintenance reminder',
+    // Common
+    'common.delete': 'Delete',
+    'common.deleted': 'Deleted ✓',
+    'common.confirmDelete': 'Are you sure you want to delete?',
+    'poll.attachSub': 'Residents can vote directly from the announcement',
   },
 };
 
@@ -409,6 +715,48 @@ async function api(path, opts = {}) {
   if (!res.ok) throw new Error(data.message || data.error || `HTTP ${res.status}`);
   return data;
 }
+
+// ---------------- Onboarding tour ----------------
+const TOUR_STEPS = [
+  { icon: '👋', tKey: 'tour.s1', nav: 'home' },
+  { icon: '🏢', tKey: 'tour.s2', nav: 'home' },
+  { icon: '📢', tKey: 'tour.s3', nav: 'announcements' },
+  { icon: '🔧', tKey: 'tour.s4', nav: 'tickets' },
+  { icon: '💰', tKey: 'tour.s5', nav: 'payments' },
+  { icon: '👥', tKey: 'tour.s6', nav: 'residents' },
+  { icon: '🎉', tKey: 'tour.s7', nav: 'home' },
+];
+let tourStep = 0;
+
+function renderTourStep() {
+  const step = TOUR_STEPS[tourStep];
+  if (!step) return closeTour(true);
+  const indicator = $('tour-step-indicator');
+  indicator.innerHTML = TOUR_STEPS.map((_, i) => `<span class="${i === tourStep ? 'active' : ''}"></span>`).join('');
+  $('tour-icon').textContent = step.icon;
+  $('tour-title').textContent = t(step.tKey + '.t');
+  $('tour-body').textContent = t(step.tKey + '.b');
+  $('tour-next').textContent = tourStep === TOUR_STEPS.length - 1 ? t('tour.finish') : t('tour.next');
+  // Navigate to the corresponding view in the background
+  if (step.nav) show(step.nav);
+}
+
+function startTour() {
+  tourStep = 0;
+  $('tour-overlay').classList.remove('hidden');
+  renderTourStep();
+}
+function closeTour(markDone) {
+  $('tour-overlay').classList.add('hidden');
+  if (markDone) localStorage.setItem('vaad_tour_done', '1');
+  show('home');
+}
+$('tour-next')?.addEventListener('click', () => {
+  tourStep++;
+  if (tourStep >= TOUR_STEPS.length) return closeTour(true);
+  renderTourStep();
+});
+$('tour-skip')?.addEventListener('click', () => closeTour(true));
 
 // ---------------- Web push-style notifications ----------------
 let notifPermReq = false;
@@ -557,7 +905,7 @@ function applyPrefs() {
 const applyTheme = applyPrefs;
 
 // ---------------- Routing ----------------
-const views = ['login', 'home', 'announcements', 'tickets', 'payments', 'residents', 'profile', 'ticket-detail'];
+const views = ['login', 'home', 'announcements', 'tickets', 'payments', 'residents', 'profile', 'ticket-detail', 'admin', 'onboarded', 'management'];
 const tabRoutes = ['home', 'announcements', 'tickets', 'payments', 'profile'];
 let currentRoute = 'login';
 let navStack = [];
@@ -587,6 +935,8 @@ function show(route, opts = {}) {
   if (route === 'payments') loadPayments();
   if (route === 'residents') loadResidents();
   if (route === 'profile') loadProfile();
+  if (route === 'admin') loadAdminBuildings();
+  if (route === 'management') loadManagement();
 }
 
 function back() {
@@ -741,12 +1091,33 @@ async function enterDashboard() {
     appState.me = me;
     show('home');
     ensureNotifPerm(); // ask once after login
+    // First-time tour
+    if (!localStorage.getItem('vaad_tour_done')) {
+      setTimeout(() => startTour(), 800);
+    }
   } catch (e) {
     console.error(e);
     store.token = null; store.user = null;
     show('login');
   }
 }
+
+// Google demo login
+$('google-login-btn')?.addEventListener('click', () => $('google-sheet').classList.remove('hidden'));
+$('google-close')?.addEventListener('click', () => $('google-sheet').classList.add('hidden'));
+$('g-submit')?.addEventListener('click', async () => {
+  const email = $('g-email').value.trim();
+  const name = $('g-name').value.trim();
+  const inviteCode = $('g-invite').value.trim().toUpperCase();
+  if (!email || !name || !inviteCode) return toast(t('admin.needAllFields'));
+  try {
+    const res = await api('/api/auth/google-demo', { method: 'POST', body: JSON.stringify({ email, name, inviteCode }) });
+    store.token = res.accessToken;
+    store.user = res.user;
+    $('google-sheet').classList.add('hidden');
+    await enterDashboard();
+  } catch (e) { toast(e.message); }
+});
 
 // Seeded user autofill
 document.querySelectorAll('.seed-hint li[data-phone]').forEach((li) => {
@@ -1000,7 +1371,23 @@ function renderAnnouncementList() {
   const f = appState.announcementFilter;
   const filtered = appState.announcements.filter((a) => f === 'all' || a.category === f);
   const list = $('announcements-list');
-  list.innerHTML = filtered.length ? filtered.map(renderAnnouncement).join('') : `<div class="empty">${t('ann.empty')}</div>`;
+  const isVaad = ['vaad_admin', 'vaad_member'].includes(appState.me?.user?.role);
+  if (!filtered.length) {
+    if (f === 'all' && appState.announcements.length === 0) {
+      list.innerHTML = `
+        <div class="empty-cta">
+          <span class="emo">📢</span>
+          <h4>${t('empty.firstAnnTitle')}</h4>
+          <p>${t('empty.firstAnnSub')}</p>
+          ${isVaad ? `<button class="btn-primary" id="empty-ann-cta">${t('empty.firstAnnCta')}</button>` : ''}
+        </div>`;
+      $('empty-ann-cta')?.addEventListener('click', () => $('new-announcement-form').classList.remove('hidden'));
+    } else {
+      list.innerHTML = `<div class="empty">${t('ann.empty')}</div>`;
+    }
+    return;
+  }
+  list.innerHTML = filtered.map(renderAnnouncement).join('');
   // Wire poll votes
   list.querySelectorAll('.poll-card').forEach((card) => {
     const pollId = card.dataset.pollId;
@@ -1030,9 +1417,13 @@ $$('#ann-chips .chip').forEach((c) =>
 $('new-announcement-btn').addEventListener('click', () => $('new-announcement-form').classList.toggle('hidden'));
 $('ann-cancel').addEventListener('click', () => $('new-announcement-form').classList.add('hidden'));
 
-// Poll fields toggle + add option
-$('ann-is-poll')?.addEventListener('change', (e) => {
-  $('poll-fields').classList.toggle('hidden', !e.target.checked);
+// Poll fields toggle + add option (button wrapper)
+$('ann-is-poll-btn')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  const cb = $('ann-is-poll');
+  cb.checked = !cb.checked;
+  $('ann-is-poll-btn').classList.toggle('active', cb.checked);
+  $('poll-fields').classList.toggle('hidden', !cb.checked);
 });
 $('poll-add-opt')?.addEventListener('click', () => {
   const wrap = $('poll-options-wrap');
@@ -1123,7 +1514,23 @@ function renderTicketList() {
   const f = appState.ticketFilter;
   const filtered = appState.tickets.filter((tk) => f === 'all' || tk.status === f);
   const list = $('tickets-list');
-  list.innerHTML = filtered.length ? filtered.map(renderTicket).join('') : `<div class="empty">${t('tic.empty')}</div>`;
+  if (!filtered.length) {
+    if (f === 'all' && appState.tickets.length === 0) {
+      list.innerHTML = `
+        <div class="empty-cta">
+          <span class="emo">🔧</span>
+          <h4>${t('empty.firstTicTitle')}</h4>
+          <p>${t('empty.firstTicSub')}</p>
+          <button class="btn-primary" id="empty-tic-cta">${t('empty.firstTicCta')}</button>
+        </div>`;
+      $('empty-tic-cta')?.addEventListener('click', () => $('new-ticket-form').classList.remove('hidden'));
+    } else {
+      list.innerHTML = `<div class="empty">${t('tic.empty')}</div>`;
+    }
+    // still need to wire clicks for non-existent items (no-op)
+    return;
+  }
+  list.innerHTML = filtered.map(renderTicket).join('');
   // wire clicks
   $$('#tickets-list .list-item').forEach((el) => {
     el.addEventListener('click', () => openTicket(el.dataset.ticketId));
@@ -1456,13 +1863,463 @@ function renderResidentList() {
   const q = (appState.residentSearch || '').toLowerCase();
   const filtered = !q ? appState.residents : appState.residents.filter((r) => (r.full_name || '').toLowerCase().includes(q) || String(r.apartment_number || '').includes(q));
   const list = $('residents-list');
-  list.innerHTML = filtered.length ? filtered.map(renderResident).join('') : `<div class="empty">${t('res.empty')}</div>`;
+  if (!filtered.length) {
+    if (!q && appState.residents.length <= 1) {
+      const code = appState.me?.building?.invite_code || '—';
+      list.innerHTML = `
+        <div class="empty-cta" style="grid-column:1/-1">
+          <span class="emo">👥</span>
+          <h4>${t('empty.firstResTitle')}</h4>
+          <p>${t('empty.firstResSub')}</p>
+          <div style="margin-top:6px"><span class="admin-building-code" style="font-size:13px">${escapeHtml(code)}</span></div>
+        </div>`;
+    } else {
+      list.innerHTML = `<div class="empty">${t('res.empty')}</div>`;
+    }
+    return;
+  }
+  list.innerHTML = filtered.map(renderResident).join('');
 }
 
 $('res-search').addEventListener('input', (e) => {
   appState.residentSearch = e.target.value;
   renderResidentList();
 });
+
+// Invite sheet
+$('invite-btn')?.addEventListener('click', () => {
+  const code = appState.me?.building?.invite_code || '—';
+  $('invite-code-big').textContent = code;
+  $('invite-sheet').classList.remove('hidden');
+});
+$('invite-close')?.addEventListener('click', () => $('invite-sheet').classList.add('hidden'));
+$('invite-sheet')?.addEventListener('click', (e) => { if (e.target.id === 'invite-sheet') e.currentTarget.classList.add('hidden'); });
+$('invite-copy-btn')?.addEventListener('click', async () => {
+  const code = $('invite-code-big').textContent;
+  try { if (navigator.clipboard) await navigator.clipboard.writeText(code); toast(t('invite.copied') + ' ' + code); }
+  catch { toast(code); }
+});
+$('invite-share-btn')?.addEventListener('click', async () => {
+  const code = $('invite-code-big').textContent;
+  const bld = appState.me?.building?.name || '';
+  const msg = t('invite.shareMsg', { code, bld });
+  if (navigator.share) {
+    try { await navigator.share({ title: t('invite.title'), text: msg }); } catch {}
+  } else {
+    try { if (navigator.clipboard) await navigator.clipboard.writeText(msg); toast(t('profile.copied') + ' ' + code); } catch {}
+  }
+});
+
+// ---------------- Management (payment rules / expenses / maintenance) ----------------
+async function loadManagement() {
+  // Default tab: rules
+  if (!appState.mgmtTab) appState.mgmtTab = 'rules';
+  setMgmtTab(appState.mgmtTab);
+}
+
+function setMgmtTab(tab) {
+  appState.mgmtTab = tab;
+  document.querySelectorAll('.mgmt-tab').forEach((b) => b.classList.toggle('active', b.dataset.mt === tab));
+  ['rules', 'expenses', 'maintenance'].forEach((k) => {
+    $('mgmt-' + k)?.classList.toggle('hidden', k !== tab);
+  });
+  if (tab === 'rules') loadPaymentRules();
+  if (tab === 'expenses') loadExpenses();
+  if (tab === 'maintenance') loadMaintenance();
+}
+document.querySelectorAll('.mgmt-tab').forEach((b) => b.addEventListener('click', () => setMgmtTab(b.dataset.mt)));
+$('open-mgmt-btn')?.addEventListener('click', () => show('management'));
+
+// ---- Payment Rules ----
+async function loadPaymentRules() {
+  try {
+    const { rules } = await api('/api/finance/payment-rules');
+    appState.rules = rules;
+    const list = $('rules-list');
+    if (!rules.length) {
+      list.innerHTML = `<div class="empty-cta"><span class="emo">💳</span><h4>${t('rule.emptyTitle')}</h4><p>${t('rule.emptySub')}</p></div>`;
+      return;
+    }
+    list.innerHTML = rules.map((r) => `
+      <div class="rule-item" data-rule-id="${escapeAttr(r.id)}">
+        <div class="rule-head">
+          <div>
+            <div class="rule-name" dir="${dir(r.name)}">${escapeHtml(r.name)}</div>
+            ${r.description ? `<div class="rule-meta" dir="${dir(r.description)}">${escapeHtml(r.description)}</div>` : ''}
+            <div class="rule-meta">
+              <span class="rule-freq">${t('freq.' + (r.frequency === 'one_time' ? 'onetime' : r.frequency))}</span>
+              ${r.day_of_month ? `<span>${t('rule.domLabel')} ${r.day_of_month}</span>` : ''}
+              ${r.applies_to === 'all' ? `<span>${t('rule.allResidents')}</span>` : ''}
+            </div>
+          </div>
+          <div class="rule-amount">${fmtMoney(r.amount, r.currency)}</div>
+        </div>
+        <div class="rule-actions">
+          <button class="apply" data-act="apply">${t('rule.applyNow')}</button>
+          <button class="del" data-act="del">${t('common.delete')}</button>
+        </div>
+      </div>
+    `).join('');
+    list.querySelectorAll('.rule-item').forEach((el) => {
+      const id = el.dataset.ruleId;
+      el.querySelector('[data-act="apply"]').addEventListener('click', async () => {
+        try {
+          const res = await api('/api/finance/payment-rules/' + id + '/apply', { method: 'POST' });
+          toast(t('rule.applied', { n: res.created }));
+        } catch (e) { toast(e.message); }
+      });
+      el.querySelector('[data-act="del"]').addEventListener('click', async () => {
+        if (!confirm(t('common.confirmDelete'))) return;
+        try {
+          await api('/api/finance/payment-rules/' + id, { method: 'DELETE' });
+          toast(t('common.deleted'));
+          loadPaymentRules();
+        } catch (e) { toast(e.message); }
+      });
+    });
+  } catch (e) { console.error(e); }
+}
+
+$('rule-new-btn')?.addEventListener('click', () => $('rule-new-form').classList.toggle('hidden'));
+$('r-cancel')?.addEventListener('click', () => $('rule-new-form').classList.add('hidden'));
+$('r-submit')?.addEventListener('click', async () => {
+  const payload = {
+    name: $('r-name').value.trim(),
+    description: $('r-desc').value.trim() || null,
+    amount: Number($('r-amount').value),
+    frequency: $('r-freq').value,
+    day_of_month: $('r-dom').value ? Number($('r-dom').value) : null,
+    start_date: $('r-start').value || null,
+  };
+  if (!payload.name || !payload.amount || !payload.frequency) return toast(t('admin.needAllFields'));
+  try {
+    await api('/api/finance/payment-rules', { method: 'POST', body: JSON.stringify(payload) });
+    ['r-name', 'r-desc', 'r-amount', 'r-dom', 'r-start'].forEach((id) => ($(id).value = ''));
+    $('rule-new-form').classList.add('hidden');
+    loadPaymentRules();
+    toast(t('rule.savedOk'));
+  } catch (e) { toast(e.message); }
+});
+
+// ---- Expenses ----
+async function loadExpenses() {
+  try {
+    const { expenses } = await api('/api/finance/expenses');
+    appState.expenses = expenses;
+    const now = new Date();
+    const thisMonth = expenses.filter((e) => { const d = new Date(e.expense_date); return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth(); });
+    const thisYear = expenses.filter((e) => { const d = new Date(e.expense_date); return d.getFullYear() === now.getFullYear(); });
+    $('exp-total-month').textContent = fmtMoney(thisMonth.reduce((s, e) => s + Number(e.amount || 0), 0));
+    $('exp-total-year').textContent = fmtMoney(thisYear.reduce((s, e) => s + Number(e.amount || 0), 0));
+    const list = $('expenses-list');
+    if (!expenses.length) {
+      list.innerHTML = `<div class="empty-cta"><span class="emo">🧾</span><h4>${t('expense.emptyTitle')}</h4><p>${t('expense.emptySub')}</p></div>`;
+      return;
+    }
+    list.innerHTML = expenses.map((e) => {
+      const icon = { maintenance: '🔧', cleaning: '🧹', utility: '💡', insurance: '🛡️', supplies: '📦', other: '📎' }[e.category] || '💰';
+      const catLabel = t('expCat.' + (e.category || 'other'));
+      return `
+        <div class="exp-item" data-exp-id="${escapeAttr(e.id)}">
+          <div class="exp-head">
+            <div style="display:flex;gap:10px;align-items:center;flex:1">
+              ${e.receipt_data ? `<div class="exp-receipt-thumb" style="background-image:url('${e.receipt_data}')"></div>` : `<div class="exp-receipt-thumb" style="display:grid;place-items:center;font-size:22px">${icon}</div>`}
+              <div style="flex:1">
+                <div class="exp-title" dir="${dir(e.title)}">${escapeHtml(e.title)}</div>
+                <div class="exp-meta">
+                  <span>${escapeHtml(catLabel.replace(/^[\\p{Emoji}\\s]+/u, ''))}</span>
+                  <span>📅 ${fmtDate(e.expense_date)}</span>
+                  <span>👤 ${escapeHtml(e.created_by_name || '—')}</span>
+                </div>
+              </div>
+            </div>
+            <div class="exp-amount">${fmtMoney(e.amount, e.currency)}</div>
+          </div>
+          ${e.notes ? `<div class="exp-meta" style="margin-top:8px" dir="${dir(e.notes)}">📝 ${escapeHtml(e.notes)}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  } catch (e) { console.error(e); }
+}
+
+$('exp-new-btn')?.addEventListener('click', () => $('exp-new-form').classList.toggle('hidden'));
+$('e-cancel')?.addEventListener('click', () => { $('exp-new-form').classList.add('hidden'); $('e-receipt-preview').classList.add('hidden'); });
+$('e-receipt')?.addEventListener('change', async (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  if (file.size > 1_200_000) return toast(t('expense.fileTooLarge'));
+  const reader = new FileReader();
+  reader.onload = () => {
+    appState.receiptData = reader.result;
+    $('e-receipt-preview').classList.remove('hidden');
+    $('e-receipt-preview').innerHTML = `<img src="${reader.result}" alt="receipt" />`;
+  };
+  reader.readAsDataURL(file);
+});
+$('e-submit')?.addEventListener('click', async () => {
+  const payload = {
+    title: $('e-title').value.trim(),
+    amount: Number($('e-amount').value),
+    category: $('e-category').value,
+    expense_date: $('e-date').value || new Date().toISOString().slice(0, 10),
+    notes: $('e-notes').value.trim() || null,
+    receipt_data: appState.receiptData || null,
+  };
+  if (!payload.title || !payload.amount) return toast(t('admin.needAllFields'));
+  try {
+    await api('/api/finance/expenses', { method: 'POST', body: JSON.stringify(payload) });
+    ['e-title', 'e-amount', 'e-date', 'e-notes'].forEach((id) => ($(id).value = ''));
+    appState.receiptData = null;
+    $('e-receipt-preview').classList.add('hidden');
+    $('e-receipt').value = '';
+    $('exp-new-form').classList.add('hidden');
+    loadExpenses();
+    toast(t('expense.savedOk'));
+  } catch (e) { toast(e.message); }
+});
+
+// ---- Maintenance ----
+async function loadMaintenance() {
+  try {
+    const { tasks } = await api('/api/maintenance');
+    appState.maintenance = tasks;
+    const list = $('maintenance-list');
+    if (!tasks.length) {
+      list.innerHTML = `<div class="empty-cta"><span class="emo">🛠️</span><h4>${t('mt.emptyTitle')}</h4><p>${t('mt.emptySub')}</p></div>`;
+      return;
+    }
+    const now = new Date();
+    list.innerHTML = tasks.map((tk) => {
+      const icon = { elevator: '🛗', plumbing: '🚿', electrical: '💡', cleaning: '🧹', other: '📦' }[tk.category] || '🛠️';
+      const due = new Date(tk.next_due);
+      const daysUntil = Math.round((due - now) / (1000 * 60 * 60 * 24));
+      let cls = '';
+      if (daysUntil < 0) cls = 'overdue';
+      else if (daysUntil <= tk.reminder_days_before) cls = 'soon';
+      return `
+        <div class="mt-item" data-mt-id="${escapeAttr(tk.id)}">
+          <div class="mt-head">
+            <div>
+              <div class="mt-title" dir="${dir(tk.title)}">${icon} ${escapeHtml(tk.title)}</div>
+              ${tk.description ? `<div class="mt-meta" dir="${dir(tk.description)}">${escapeHtml(tk.description)}</div>` : ''}
+              <div class="mt-meta">
+                <span class="mt-freq">${t('freq.' + tk.frequency)}</span>
+                ${tk.last_done ? `<span>✓ ${t('mt.lastDone')}: ${fmtDate(tk.last_done)}</span>` : ''}
+              </div>
+            </div>
+            <div class="mt-next-due ${cls}">${daysUntil < 0 ? t('mt.overdueBy', { n: Math.abs(daysUntil) }) : t('mt.dueIn', { n: daysUntil })}</div>
+          </div>
+          <div class="mt-actions">
+            <button class="done" data-act="done">${t('mt.markDone')}</button>
+            <button class="del" data-act="del">${t('common.delete')}</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+    list.querySelectorAll('.mt-item').forEach((el) => {
+      const id = el.dataset.mtId;
+      el.querySelector('[data-act="done"]').addEventListener('click', async () => {
+        try {
+          await api('/api/maintenance/' + id + '/done', { method: 'POST' });
+          toast(t('mt.doneOk'));
+          loadMaintenance();
+        } catch (e) { toast(e.message); }
+      });
+      el.querySelector('[data-act="del"]').addEventListener('click', async () => {
+        if (!confirm(t('common.confirmDelete'))) return;
+        try {
+          await api('/api/maintenance/' + id, { method: 'DELETE' });
+          loadMaintenance();
+          toast(t('common.deleted'));
+        } catch (e) { toast(e.message); }
+      });
+    });
+    // Reminders: notify for any task due within reminder_days_before
+    checkMaintenanceReminders(tasks);
+  } catch (e) { console.error(e); }
+}
+
+function checkMaintenanceReminders(tasks) {
+  const now = new Date();
+  const remindedKey = 'vaad_mt_reminded';
+  const reminded = JSON.parse(localStorage.getItem(remindedKey) || '{}');
+  let changed = false;
+  (tasks || []).forEach((tk) => {
+    if (!tk.active) return;
+    const due = new Date(tk.next_due);
+    const daysUntil = (due - now) / (1000 * 60 * 60 * 24);
+    if (daysUntil <= tk.reminder_days_before && daysUntil >= -1 && !reminded[tk.id + tk.next_due]) {
+      sendLocalNotification(t('mt.reminderTitle'), tk.title + ' · ' + t('mt.dueIn', { n: Math.max(0, Math.round(daysUntil)) }));
+      reminded[tk.id + tk.next_due] = Date.now();
+      changed = true;
+    }
+  });
+  if (changed) localStorage.setItem(remindedKey, JSON.stringify(reminded));
+}
+
+$('mt-new-btn')?.addEventListener('click', () => $('mt-new-form').classList.toggle('hidden'));
+$('m-cancel')?.addEventListener('click', () => $('mt-new-form').classList.add('hidden'));
+$('m-submit')?.addEventListener('click', async () => {
+  const payload = {
+    title: $('m-title').value.trim(),
+    description: $('m-desc').value.trim() || null,
+    category: $('m-category').value,
+    frequency: $('m-freq').value,
+    next_due: $('m-next').value || null,
+    reminder_days_before: Number($('m-reminder').value || 3),
+  };
+  if (!payload.title || !payload.frequency) return toast(t('admin.needAllFields'));
+  try {
+    await api('/api/maintenance', { method: 'POST', body: JSON.stringify(payload) });
+    ['m-title', 'm-desc', 'm-next'].forEach((id) => ($(id).value = ''));
+    $('m-reminder').value = '3';
+    $('mt-new-form').classList.add('hidden');
+    loadMaintenance();
+    toast(t('mt.savedOk'));
+  } catch (e) { toast(e.message); }
+});
+
+// ---------------- Super Admin ----------------
+async function loadAdminBuildings() {
+  try {
+    const { buildings } = await api('/api/admin/buildings');
+    appState.buildings = buildings;
+    const list = $('admin-buildings-list');
+    list.innerHTML = buildings.length ? buildings.map((b) => `
+      <div class="admin-building" data-building-id="${escapeAttr(b.id)}">
+        <div class="admin-building-head">
+          <div>
+            <div class="admin-building-name" dir="${dir(b.name)}">🏢 ${escapeHtml(b.name)}</div>
+            <div class="admin-building-addr" dir="${dir(b.address)}">${escapeHtml(b.address)}, ${escapeHtml(b.city)}</div>
+          </div>
+          <span class="admin-building-code">${escapeHtml(b.invite_code)}</span>
+        </div>
+        <div class="admin-building-stats">
+          <div><b>${b.total_apartments}</b><small>${t('home.stat.apts')}</small></div>
+          <div><b>${b.resident_count}</b><small>${t('home.stat.residents')}</small></div>
+          <div><b>${b.ticket_count}</b><small>${t('nav.tickets')}</small></div>
+          <div><b>${b.announcement_count}</b><small>${t('nav.announcements')}</small></div>
+        </div>
+      </div>
+    `).join('') : `<div class="empty">${t('admin.noBuildings')}</div>`;
+  } catch (e) {
+    console.error(e);
+    toast(e.message);
+  }
+}
+
+$('admin-new-btn')?.addEventListener('click', () => {
+  $('admin-new-form').classList.toggle('hidden');
+});
+$('adm-cancel')?.addEventListener('click', () => $('admin-new-form').classList.add('hidden'));
+$('adm-submit')?.addEventListener('click', async () => {
+  const payload = {
+    name: $('adm-name').value.trim(),
+    address: $('adm-address').value.trim(),
+    city: $('adm-city').value.trim(),
+    total_apartments: Number($('adm-apts').value || 0),
+    invite_code: $('adm-code').value.trim().toUpperCase(),
+    admin_name: $('adm-admin-name').value.trim(),
+    admin_phone: $('adm-admin-phone').value.trim(),
+    admin_apartment: $('adm-admin-apt').value.trim() || '1',
+  };
+  if (!payload.name || !payload.address || !payload.city || !payload.total_apartments || !payload.invite_code || !payload.admin_name || !payload.admin_phone) {
+    return toast(t('admin.needAllFields'));
+  }
+  try {
+    const res = await api('/api/admin/buildings', { method: 'POST', body: JSON.stringify(payload) });
+    // Show onboarding success page
+    $('onb-building').textContent = res.building.name;
+    $('onb-code').textContent = res.building.invite_code;
+    $('onb-admin-name').textContent = res.admin.name;
+    $('onb-admin-phone').textContent = res.admin.phone;
+    appState.lastCreatedAdminPhone = res.admin.phone;
+    // Reset form
+    ['adm-name', 'adm-address', 'adm-city', 'adm-apts', 'adm-code', 'adm-admin-name', 'adm-admin-phone', 'adm-admin-apt'].forEach((id) => ($(id).value = ''));
+    $('admin-new-form').classList.add('hidden');
+    show('onboarded');
+  } catch (e) { toast(e.message); }
+});
+
+$('onb-back-btn')?.addEventListener('click', () => show('admin'));
+$('onb-login-btn')?.addEventListener('click', async () => {
+  const phone = appState.lastCreatedAdminPhone;
+  if (!phone) return toast(t('admin.noPhone'));
+  try {
+    // Generate OTP via super-admin dev endpoint, then verify
+    const { code } = await api('/api/admin/login-as', { method: 'POST', body: JSON.stringify({ phone_number: phone }) });
+    // Log out current user by clearing token
+    store.token = null; store.user = null; appState.me = null;
+    // Verify the new OTP
+    const res = await api('/api/auth/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify({ phoneNumber: phone, code }),
+    });
+    store.token = res.accessToken;
+    store.user = res.user;
+    navStack = [];
+    // Clear state from previous session
+    appState.announcements = [];
+    appState.tickets = [];
+    appState.payments = [];
+    appState.residents = [];
+    appState.polls = [];
+    await enterDashboard();
+    toast(t('onboard.welcomeNewBuilding'));
+  } catch (e) { toast(e.message); }
+});
+
+// Switch user (super admin dev tool)
+async function openSwitchUserSheet() {
+  const sheet = $('switch-user-sheet');
+  sheet.classList.remove('hidden');
+  // Get all residents across all buildings (via admin buildings + residents)
+  try {
+    const { buildings } = await api('/api/admin/buildings');
+    // For each building, fetch residents. Simpler: use /api/residents but that's scoped. Instead use a dev approach:
+    // For now, list all seeded users from current building + known phones
+    const list = $('switch-user-list');
+    // Get current-building residents via /api/residents
+    const { residents } = await api('/api/residents');
+    // Also add admins of other buildings (we don't have a cross-building residents endpoint,
+    // but we can list the admins from the buildings list's first admin heuristic — skip for simplicity
+    // and just show current building residents + known seeded users)
+    list.innerHTML = residents.map((r) => `
+      <div class="switch-user" data-phone="${escapeAttr(r.phone_number)}">
+        <div class="avatar" style="background:${avatarColor(r.full_name)}">${initials(r.full_name)}</div>
+        <div class="switch-user-meta">
+          <div class="switch-user-name" dir="${dir(r.full_name)}">${escapeHtml(r.full_name)}</div>
+          <div class="switch-user-sub">${escapeHtml(r.phone_number)} · ${t('role.' + (r.role || 'resident'))}</div>
+        </div>
+      </div>
+    `).join('');
+    list.querySelectorAll('.switch-user').forEach((el) => {
+      el.addEventListener('click', () => switchUser(el.dataset.phone));
+    });
+  } catch (e) { toast(e.message); }
+}
+
+async function switchUser(phone) {
+  try {
+    const { code } = await api('/api/admin/login-as', { method: 'POST', body: JSON.stringify({ phone_number: phone }) });
+    store.token = null; store.user = null; appState.me = null;
+    const res = await api('/api/auth/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify({ phoneNumber: phone, code }),
+    });
+    store.token = res.accessToken;
+    store.user = res.user;
+    navStack = [];
+    appState.announcements = []; appState.tickets = []; appState.payments = []; appState.residents = []; appState.polls = [];
+    $('switch-user-sheet').classList.add('hidden');
+    await enterDashboard();
+    toast(t('switch.switched'));
+  } catch (e) { toast(e.message); }
+}
+
+$('open-admin-btn')?.addEventListener('click', () => show('admin'));
+$('switch-user-btn')?.addEventListener('click', openSwitchUserSheet);
+$('switch-user-cancel')?.addEventListener('click', () => $('switch-user-sheet').classList.add('hidden'));
 
 // ---------------- Profile ----------------
 async function loadProfile() {
@@ -1476,6 +2333,11 @@ async function loadProfile() {
     $('profile-role').textContent = t('role.' + (user?.role || 'resident'));
     $('profile-role').className = 'badge role-' + (user?.role || 'resident');
     $('profile-apt').textContent = t('common.apartment') + ' ' + (user?.apartment_number || '—');
+    // Show super-admin group if applicable
+    $('super-admin-group').classList.toggle('hidden', !user?.is_super_admin);
+    // Show vaad-mgmt group for vaad members/admin/treasurer
+    const isVaad = ['vaad_admin', 'vaad_member', 'treasurer'].includes(user?.role);
+    $('vaad-mgmt-group').classList.toggle('hidden', !isVaad);
     $('p-bld-name').textContent = building?.name || '—';
     $('p-bld-addr').textContent = (building?.address || '') + ', ' + (building?.city || '');
     $('p-bld-code').textContent = building?.invite_code || '—';
@@ -1506,6 +2368,7 @@ $('logout-btn-profile').addEventListener('click', () => {
 });
 
 $('about-btn').addEventListener('click', () => toast(t('profile.aboutToast')));
+$('replay-tour-btn')?.addEventListener('click', () => { localStorage.removeItem('vaad_tour_done'); startTour(); });
 $('help-btn')?.addEventListener('click', () => toast(t('profile.supportEmail')));
 $('share-btn')?.addEventListener('click', async () => {
   const code = appState.me?.building?.invite_code || 'DEKEL2024';

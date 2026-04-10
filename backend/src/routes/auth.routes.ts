@@ -10,6 +10,9 @@ router.post('/send-otp', asyncHandler(authController.sendOTP));
 // Verify OTP and login
 router.post('/verify-otp', asyncHandler(authController.verifyOTP));
 
+// Demo Google sign-in (no real OAuth verification)
+router.post('/google-demo', asyncHandler(authController.googleDemo));
+
 // Refresh access token
 router.post('/refresh-token', asyncHandler(authController.refreshToken));
 

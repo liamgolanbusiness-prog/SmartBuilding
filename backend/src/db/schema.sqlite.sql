@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS residents (
   is_tenant INTEGER DEFAULT 0,
 
   role TEXT DEFAULT 'resident',
+  is_super_admin INTEGER DEFAULT 0,
 
   notifications_enabled INTEGER DEFAULT 1,
   notification_channels TEXT DEFAULT '{"push": true, "email": true, "sms": false}',

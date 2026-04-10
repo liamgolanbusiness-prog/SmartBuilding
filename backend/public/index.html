@@ -107,6 +107,32 @@
                   </div>
 
                   <div id="login-error" class="error hidden"></div>
+
+                  <div class="login-divider"><span data-i18n="login.or">או</span></div>
+
+                  <button class="btn-google" id="google-login-btn">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09Z"/><path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23Z"/><path fill="#fbbc05" d="M5.84 14.09A6.62 6.62 0 0 1 5.48 12c0-.73.13-1.43.36-2.09V7.07H2.18A11 11 0 0 0 1 12c0 1.78.43 3.46 1.18 4.93l3.66-2.84Z"/><path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38Z"/></svg>
+                    <span data-i18n="login.google">המשך עם Google</span>
+                  </button>
+                </div>
+
+                <!-- Google demo modal -->
+                <div id="google-sheet" class="modal-overlay hidden">
+                  <div class="modal">
+                    <div class="modal-close" id="google-close">✕</div>
+                    <div class="invite-hero">
+                      <div class="invite-icon" style="background:#fff;border:1px solid var(--line)"><svg viewBox="0 0 24 24" width="32" height="32"><path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09Z"/><path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23Z"/><path fill="#fbbc05" d="M5.84 14.09A6.62 6.62 0 0 1 5.48 12c0-.73.13-1.43.36-2.09V7.07H2.18A11 11 0 0 0 1 12c0 1.78.43 3.46 1.18 4.93l3.66-2.84Z"/><path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38Z"/></svg></div>
+                      <h3 data-i18n="google.title">כניסה עם Google (הדגמה)</h3>
+                      <p class="muted small" data-i18n="google.sub">מצב פיתוח — מלאו את הפרטים וקוד הבניין</p>
+                    </div>
+                    <label data-i18n="google.name">שם מלא</label>
+                    <input id="g-name" class="text-input" placeholder="ישראל ישראלי" style="margin-bottom:10px" />
+                    <label data-i18n="google.email">אימייל</label>
+                    <input id="g-email" class="text-input" type="email" placeholder="you@example.com" style="margin-bottom:10px" />
+                    <label data-i18n="google.invite">קוד הזמנה של הבניין</label>
+                    <input id="g-invite" class="text-input" placeholder="DEKEL2024" style="margin-bottom:14px" />
+                    <button class="btn-primary" id="g-submit" data-i18n="google.continue">המשך</button>
+                  </div>
                 </div>
 
                 <div class="login-trust muted small">
@@ -260,10 +286,16 @@
                     <option value="event" data-i18n="cat.event">🎉 אירוע</option>
                   </select>
                   <textarea id="ann-content" data-i18n-placeholder="ann.contentPh" placeholder="מה תרצו לפרסם?" rows="4"></textarea>
-                  <label class="inline-toggle">
-                    <input type="checkbox" id="ann-is-poll" class="switch" />
-                    <span data-i18n="poll.attach">📊 צרף סקר להצבעה</span>
-                  </label>
+                  <button type="button" id="ann-is-poll-btn" class="poll-toggle-btn">
+                    <span class="poll-toggle-check">
+                      <input type="checkbox" id="ann-is-poll" />
+                      <svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-9" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <span class="poll-toggle-label">
+                      <b data-i18n="poll.attach">📊 צרף סקר להצבעה</b>
+                      <small data-i18n="poll.attachSub">דיירים יוכלו להצביע ישירות מההודעה</small>
+                    </span>
+                  </button>
                   <div id="poll-fields" class="poll-fields hidden">
                     <input id="poll-question" data-i18n-placeholder="poll.questionPh" placeholder="שאלת הסקר" />
                     <div id="poll-options-wrap">
@@ -457,7 +489,9 @@
                 <header class="app-header">
                   <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
                   <h2 data-i18n="nav.residents">דיירים</h2>
-                  <span class="spacer"></span>
+                  <button class="icon-btn" id="invite-btn" data-i18n-title="res.invite" title="הזמנת דיירים">
+                    <svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-8 0a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-2.67 0-8 1.34-8 4v3h10v-3c0-.96.63-1.96 1.63-2.7A11 11 0 0 0 8 13Zm8 0c-.29 0-.62.02-.97.05A5.5 5.5 0 0 1 18 17v3h6v-3c0-2.66-5.33-4-8-4Z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+                  </button>
                 </header>
 
                 <div class="search">
@@ -468,6 +502,31 @@
                 <div id="residents-list" class="list grid-2"></div>
                 <div class="h-spacer"></div>
               </section>
+
+              <!-- INVITE SHEET overlay (absolute) -->
+              <div id="invite-sheet" class="modal-overlay hidden">
+                <div class="modal">
+                  <div class="modal-close" id="invite-close">✕</div>
+                  <div class="invite-hero">
+                    <div class="invite-icon">📨</div>
+                    <h3 data-i18n="invite.title">הזמנת דיירים חדשים</h3>
+                    <p class="muted small" data-i18n="invite.sub">שתפו את קוד ההזמנה של הבניין</p>
+                  </div>
+                  <div class="invite-code-box">
+                    <div class="invite-code-label" data-i18n="invite.code">קוד ההזמנה</div>
+                    <div class="invite-code" id="invite-code-big">—</div>
+                  </div>
+                  <div class="invite-actions">
+                    <button class="btn-primary" id="invite-copy-btn" data-i18n="invite.copy">📋 העתק קוד</button>
+                    <button class="btn-ghost" id="invite-share-btn" data-i18n="invite.share">🔗 שתף</button>
+                  </div>
+                  <div class="invite-steps">
+                    <div class="invite-step"><b>1.</b> <span data-i18n="invite.step1">שלחו את הקוד לדייר</span></div>
+                    <div class="invite-step"><b>2.</b> <span data-i18n="invite.step2">הדייר מתקין את האפליקציה</span></div>
+                    <div class="invite-step"><b>3.</b> <span data-i18n="invite.step3">נכנס עם מספר הטלפון + קוד ההזמנה</span></div>
+                  </div>
+                </div>
+              </div>
 
               <!-- PROFILE -->
               <section id="view-profile" class="view hidden">
@@ -521,15 +580,236 @@
                   <div class="sg-row static"><span data-i18n="profile.bldCode">קוד הזמנה</span><b id="p-bld-code">—</b></div>
                 </div>
 
+                <div class="settings-group hidden" id="vaad-mgmt-group">
+                  <div class="sg-title" data-i18n="profile.vaadTools">כלי ועד</div>
+                  <button class="sg-row link" id="open-mgmt-btn"><span data-i18n="profile.openMgmt">💼 ניהול ועד (חוקי תשלום, הוצאות, תחזוקה)</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                </div>
+
+                <div class="settings-group hidden" id="super-admin-group">
+                  <div class="sg-title" data-i18n="profile.superAdmin">מנהל-על</div>
+                  <button class="sg-row link" id="open-admin-btn"><span data-i18n="profile.manageBuildings">👑 ניהול בניינים</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                  <button class="sg-row link" id="switch-user-btn"><span data-i18n="profile.switchUser">🔄 החלפת משתמש (בדיקה)</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                </div>
+
                 <div class="settings-group">
                   <div class="sg-title" data-i18n="profile.account">חשבון</div>
+                  <button class="sg-row link" id="replay-tour-btn"><span data-i18n="profile.replayTour">🎬 הדרכה מחדש</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
                   <button class="sg-row link" id="about-btn"><span data-i18n="profile.about">ℹ️ אודות VaadApp</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
                   <button class="sg-row link" id="help-btn"><span data-i18n="profile.help">❓ עזרה ותמיכה</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
                   <button class="sg-row link" id="share-btn"><span data-i18n="profile.share">🔗 שתף קוד בניין</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
                   <button class="sg-row link danger" id="logout-btn-profile"><span data-i18n="profile.logout">⎋ התנתק</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
                 </div>
 
+                <!-- Switch user sheet -->
+                <div id="switch-user-sheet" class="sheet hidden">
+                  <div class="sheet-title" data-i18n="switch.title">בחר משתמש לבדיקה</div>
+                  <div id="switch-user-list" class="switch-list"></div>
+                  <div class="sheet-actions">
+                    <button class="btn-ghost" id="switch-user-cancel" data-i18n="common.cancel">ביטול</button>
+                  </div>
+                </div>
+
                 <div class="build-stamp muted small" data-i18n="profile.version">VaadApp 1.0 · נבנה באהבה</div>
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- MANAGEMENT (vaad-only) -->
+              <section id="view-management" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="mgmt.title">ניהול ועד</h2>
+                  <span class="spacer"></span>
+                </header>
+
+                <div class="mgmt-tabs">
+                  <button class="mgmt-tab active" data-mt="rules" data-i18n="mgmt.rules">חוקי תשלום</button>
+                  <button class="mgmt-tab" data-mt="expenses" data-i18n="mgmt.expenses">הוצאות</button>
+                  <button class="mgmt-tab" data-mt="maintenance" data-i18n="mgmt.maintenance">תחזוקה שוטפת</button>
+                </div>
+
+                <!-- RULES -->
+                <div class="mgmt-panel" id="mgmt-rules">
+                  <button class="btn-primary btn-sm" id="rule-new-btn" data-i18n="rule.create">+ חוק תשלום חדש</button>
+                  <div id="rule-new-form" class="sheet hidden">
+                    <div class="sheet-title" data-i18n="rule.newTitle">חוק תשלום חדש</div>
+                    <input id="r-name" data-i18n-placeholder="rule.namePh" placeholder="שם (לדוגמה: דמי ועד חודשי)" />
+                    <textarea id="r-desc" data-i18n-placeholder="rule.descPh" placeholder="תיאור (אופציונלי)" rows="2"></textarea>
+                    <div class="row2">
+                      <input id="r-amount" type="number" step="0.01" min="0" data-i18n-placeholder="rule.amountPh" placeholder="סכום בש״ח" />
+                      <select id="r-freq">
+                        <option value="monthly" data-i18n="freq.monthly">חודשי</option>
+                        <option value="quarterly" data-i18n="freq.quarterly">רבעוני</option>
+                        <option value="yearly" data-i18n="freq.yearly">שנתי</option>
+                        <option value="one_time" data-i18n="freq.onetime">חד פעמי</option>
+                      </select>
+                    </div>
+                    <div class="row2">
+                      <input id="r-dom" type="number" min="1" max="28" data-i18n-placeholder="rule.domPh" placeholder="יום בחודש (1-28)" />
+                      <input id="r-start" type="date" />
+                    </div>
+                    <div class="sheet-actions">
+                      <button class="btn-ghost" id="r-cancel" data-i18n="common.cancel">ביטול</button>
+                      <button class="btn-primary" id="r-submit" data-i18n="rule.save">שמור</button>
+                    </div>
+                  </div>
+                  <div id="rules-list" class="list"></div>
+                </div>
+
+                <!-- EXPENSES -->
+                <div class="mgmt-panel hidden" id="mgmt-expenses">
+                  <div class="exp-summary">
+                    <div>
+                      <small data-i18n="expense.totalMonth">סה״כ החודש</small>
+                      <b id="exp-total-month">₪0</b>
+                    </div>
+                    <div>
+                      <small data-i18n="expense.totalYear">סה״כ השנה</small>
+                      <b id="exp-total-year">₪0</b>
+                    </div>
+                  </div>
+                  <button class="btn-primary btn-sm" id="exp-new-btn" data-i18n="expense.create">+ הוספת הוצאה</button>
+                  <div id="exp-new-form" class="sheet hidden">
+                    <div class="sheet-title" data-i18n="expense.newTitle">הוצאה חדשה</div>
+                    <input id="e-title" data-i18n-placeholder="expense.titlePh" placeholder="כותרת ההוצאה" />
+                    <div class="row2">
+                      <input id="e-amount" type="number" step="0.01" min="0" data-i18n-placeholder="rule.amountPh" placeholder="סכום" />
+                      <select id="e-category">
+                        <option value="maintenance" data-i18n="expCat.maintenance">🔧 תחזוקה</option>
+                        <option value="cleaning" data-i18n="expCat.cleaning">🧹 ניקיון</option>
+                        <option value="utility" data-i18n="expCat.utility">💡 שירותים</option>
+                        <option value="insurance" data-i18n="expCat.insurance">🛡️ ביטוח</option>
+                        <option value="supplies" data-i18n="expCat.supplies">📦 ציוד</option>
+                        <option value="other" data-i18n="expCat.other">📎 אחר</option>
+                      </select>
+                    </div>
+                    <input id="e-date" type="date" />
+                    <textarea id="e-notes" data-i18n-placeholder="expense.notesPh" placeholder="הערות" rows="2"></textarea>
+                    <label class="file-upload-label">
+                      <span data-i18n="expense.uploadReceipt">📷 העלאת קבלה</span>
+                      <input id="e-receipt" type="file" accept="image/*" hidden />
+                    </label>
+                    <div id="e-receipt-preview" class="receipt-preview hidden"></div>
+                    <div class="sheet-actions">
+                      <button class="btn-ghost" id="e-cancel" data-i18n="common.cancel">ביטול</button>
+                      <button class="btn-primary" id="e-submit" data-i18n="expense.save">שמור הוצאה</button>
+                    </div>
+                  </div>
+                  <div id="expenses-list" class="list"></div>
+                </div>
+
+                <!-- MAINTENANCE -->
+                <div class="mgmt-panel hidden" id="mgmt-maintenance">
+                  <button class="btn-primary btn-sm" id="mt-new-btn" data-i18n="mt.create">+ משימת תחזוקה חדשה</button>
+                  <div id="mt-new-form" class="sheet hidden">
+                    <div class="sheet-title" data-i18n="mt.newTitle">משימה חדשה</div>
+                    <input id="m-title" data-i18n-placeholder="mt.titlePh" placeholder="לדוגמה: בדיקת מעלית" />
+                    <textarea id="m-desc" data-i18n-placeholder="mt.descPh" placeholder="תיאור" rows="2"></textarea>
+                    <div class="row2">
+                      <select id="m-category">
+                        <option value="elevator" data-i18n="ticCat.elevator">🛗 מעלית</option>
+                        <option value="plumbing" data-i18n="ticCat.plumbing">🚿 אינסטלציה</option>
+                        <option value="electrical" data-i18n="ticCat.electrical">💡 חשמל</option>
+                        <option value="cleaning" data-i18n="ticCat.cleaning">🧹 ניקיון</option>
+                        <option value="other" data-i18n="ticCat.other">📦 אחר</option>
+                      </select>
+                      <select id="m-freq">
+                        <option value="weekly" data-i18n="freq.weekly">שבועי</option>
+                        <option value="biweekly" data-i18n="freq.biweekly">דו-שבועי</option>
+                        <option value="monthly" data-i18n="freq.monthly">חודשי</option>
+                        <option value="quarterly" data-i18n="freq.quarterly">רבעוני</option>
+                        <option value="semiannual" data-i18n="freq.semi">חצי שנתי</option>
+                        <option value="yearly" data-i18n="freq.yearly">שנתי</option>
+                      </select>
+                    </div>
+                    <div class="row2">
+                      <input id="m-next" type="date" />
+                      <input id="m-reminder" type="number" min="0" max="30" value="3" data-i18n-placeholder="mt.reminderPh" placeholder="תזכורת ימים לפני" />
+                    </div>
+                    <div class="sheet-actions">
+                      <button class="btn-ghost" id="m-cancel" data-i18n="common.cancel">ביטול</button>
+                      <button class="btn-primary" id="m-submit" data-i18n="mt.save">שמור משימה</button>
+                    </div>
+                  </div>
+                  <div id="maintenance-list" class="list"></div>
+                </div>
+
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- SUPER ADMIN -->
+              <section id="view-admin" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="admin.title">ניהול בניינים</h2>
+                  <button class="icon-btn" id="admin-new-btn">
+                    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                  </button>
+                </header>
+
+                <div class="admin-hero">
+                  <div class="admin-hero-icon">👑</div>
+                  <div>
+                    <div class="admin-hero-title" data-i18n="admin.superAdmin">מנהל-על של המערכת</div>
+                    <div class="admin-hero-sub" data-i18n="admin.manageAll">נהל את כל הבניינים במערכת</div>
+                  </div>
+                </div>
+
+                <div id="admin-new-form" class="sheet hidden">
+                  <div class="sheet-title" data-i18n="admin.newBuilding">בניין חדש</div>
+                  <input id="adm-name" data-i18n-placeholder="admin.bldName" placeholder="שם הבניין" />
+                  <input id="adm-address" data-i18n-placeholder="admin.bldAddress" placeholder="כתובת" />
+                  <input id="adm-city" data-i18n-placeholder="admin.bldCity" placeholder="עיר" />
+                  <div class="row2">
+                    <input id="adm-apts" type="number" min="1" data-i18n-placeholder="admin.totalApts" placeholder="מספר דירות" />
+                    <input id="adm-code" data-i18n-placeholder="admin.inviteCode" placeholder="קוד הזמנה" />
+                  </div>
+                  <div class="sheet-divider" data-i18n="admin.firstAdmin">מנהל ראשון</div>
+                  <input id="adm-admin-name" data-i18n-placeholder="admin.adminName" placeholder="שם המנהל" />
+                  <div class="row2">
+                    <div class="phone-input">
+                      <span class="cc">🇮🇱 +972</span>
+                      <input id="adm-admin-phone" type="tel" placeholder="501111111" />
+                    </div>
+                    <input id="adm-admin-apt" data-i18n-placeholder="admin.adminApt" placeholder="מס׳ דירה" />
+                  </div>
+                  <div class="sheet-actions">
+                    <button class="btn-ghost" id="adm-cancel" data-i18n="common.cancel">ביטול</button>
+                    <button class="btn-primary" id="adm-submit" data-i18n="admin.create">צור בניין</button>
+                  </div>
+                </div>
+
+                <div id="admin-buildings-list" class="list"></div>
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- ONBOARDING SUCCESS -->
+              <section id="view-onboarded" class="view hidden">
+                <div class="onboard-hero">
+                  <div class="onboard-confetti">🎉</div>
+                  <h1 class="onboard-title" data-i18n="onboard.title">הבניין נוצר בהצלחה!</h1>
+                  <p class="onboard-sub" data-i18n="onboard.sub">הנה הפרטים של המנהל החדש</p>
+                </div>
+                <div class="onboard-card">
+                  <div class="onboard-row">
+                    <small data-i18n="onboard.building">בניין</small>
+                    <b id="onb-building">—</b>
+                  </div>
+                  <div class="onboard-row">
+                    <small data-i18n="onboard.inviteCode">קוד הזמנה</small>
+                    <b id="onb-code">—</b>
+                  </div>
+                  <div class="onboard-row">
+                    <small data-i18n="onboard.adminName">שם המנהל</small>
+                    <b id="onb-admin-name">—</b>
+                  </div>
+                  <div class="onboard-row">
+                    <small data-i18n="onboard.adminPhone">טלפון</small>
+                    <b id="onb-admin-phone" dir="ltr">—</b>
+                  </div>
+                </div>
+                <p class="muted small" style="text-align:center;margin:18px 16px" data-i18n="onboard.tip">לחצו על הכפתור למטה כדי להיכנס לחשבון המנהל החדש ולראות את הבניין הריק מתחיל את דרכו.</p>
+                <button class="btn-primary btn-lg" id="onb-login-btn" style="margin:0 20px" data-i18n="onboard.loginAs">היכנס בתור המנהל החדש</button>
+                <button class="btn-ghost btn-lg" id="onb-back-btn" style="margin:0 20px" data-i18n="onboard.backToAdmin">חזרה למסך ניהול</button>
                 <div class="h-spacer"></div>
               </section>
 
@@ -571,6 +851,20 @@
             </nav>
 
             <div class="home-indicator"></div>
+
+            <!-- Onboarding tour overlay -->
+            <div id="tour-overlay" class="tour-overlay hidden">
+              <div class="tour-card">
+                <div class="tour-step-indicator" id="tour-step-indicator"></div>
+                <div class="tour-icon" id="tour-icon">👋</div>
+                <h3 class="tour-title" id="tour-title">—</h3>
+                <p class="tour-body" id="tour-body">—</p>
+                <div class="tour-actions">
+                  <button class="btn-ghost" id="tour-skip" data-i18n="tour.skip">דלג</button>
+                  <button class="btn-primary" id="tour-next" data-i18n="tour.next">הבא</button>
+                </div>
+              </div>
+            </div>
 
             <!-- Notifications panel -->
             <div id="notif-panel" class="notif-panel hidden">
