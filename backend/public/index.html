@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>VaadApp — ניהול בניין</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- Desktop frame showing phone mockup + copy -->
+  <div class="stage" id="stage">
+    <aside class="stage-copy">
+      <div class="brand-row">
+        <div class="logo-tile">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 11 12 3l9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <h1>VaadApp</h1>
+          <div class="sub" data-i18n="stage.sub">ועד בית · ניהול בניין</div>
+        </div>
+      </div>
+      <p class="tagline" data-i18n="stage.tagline">כל מה שהוועד של הבניין שלך צריך — הודעות, קריאות שירות, תשלומים ודיירים — באפליקציה אחת יפה ונוחה.</p>
+      <div class="marquee muted small" data-i18n="stage.marquee">עברית 🇮🇱 ואנגלית 🇺🇸 · מצב כהה · תמיכה מלאה ב‑RTL · מותאם לנייד</div>
+      <ul class="features">
+        <li><span>📢</span><div><b data-i18n="stage.f1.title">הודעות</b><small data-i18n="stage.f1.sub">הצמדה, קטגוריות, התראות בעברית ובאנגלית</small></div></li>
+        <li><span>🔧</span><div><b data-i18n="stage.f2.title">קריאות שירות</b><small data-i18n="stage.f2.sub">מעקב מפתיחה ועד סגירה</small></div></li>
+        <li><span>💰</span><div><b data-i18n="stage.f3.title">תשלומים</b><small data-i18n="stage.f3.sub">יתרה, חיובים והיסטוריה</small></div></li>
+        <li><span>👥</span><div><b data-i18n="stage.f4.title">מדריך דיירים</b><small data-i18n="stage.f4.sub">איתור שכנים לפי דירה</small></div></li>
+      </ul>
+      <div class="seed-hint">
+        <div class="hint-title" data-i18n="stage.seed.title">🔑 משתמשי בדיקה (ה‑OTP מודפס לקונסול של השרת)</div>
+        <ul>
+          <li data-phone="+972501234567"><b data-i18n="stage.seed.admin">מנהל ועד</b><code>+972501234567</code></li>
+          <li data-phone="+972502345678"><b data-i18n="stage.seed.member">חבר ועד</b><code>+972502345678</code></li>
+          <li data-phone="+972503456789"><b data-i18n="stage.seed.resident">דייר</b><code>+972503456789</code></li>
+        </ul>
+        <div class="muted small" data-i18n="stage.seed.tip">טיפ: לחצו על משתמש כדי למלא את הטלפון אוטומטית. כפתור שפה בפרופיל.</div>
+      </div>
+      <div class="stage-actions">
+        <button class="btn-ghost" id="theme-toggle-outside" data-i18n="stage.btn.theme">🌗 מצב</button>
+        <button class="btn-ghost" id="device-iphone">iPhone 14</button>
+        <button class="btn-ghost" id="device-pixel">Pixel 7</button>
+        <button class="btn-ghost" id="device-fullscreen" data-i18n="stage.btn.fullscreen">מסך מלא</button>
+        <button class="btn-ghost" id="lang-toggle-outside" data-i18n="stage.btn.lang">🌐 English</button>
+      </div>
+    </aside>
+
+    <div class="phone-wrap">
+      <div class="phone" id="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-side-btn left"></div>
+          <div class="phone-side-btn left2"></div>
+          <div class="phone-side-btn right"></div>
+          <div class="phone-screen" id="screen">
+            <!-- Status bar -->
+            <div class="status-bar">
+              <span class="sb-time" id="sb-time">9:41</span>
+              <span class="sb-dynamic"></span>
+              <span class="sb-right">
+                <svg viewBox="0 0 18 12"><path d="M1 11V8m4 3V6m4 5V4m4 7V2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <svg viewBox="0 0 16 12"><path d="M8 10a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm0-4a3 3 0 0 1 2.12.88.5.5 0 0 0 .71-.7 4 4 0 0 0-5.66 0 .5.5 0 1 0 .71.7A3 3 0 0 1 8 6Zm0-4a7 7 0 0 1 4.95 2.05.5.5 0 1 0 .7-.71 8 8 0 0 0-11.3 0 .5.5 0 0 0 .7.71A7 7 0 0 1 8 2Z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 22 10"><rect x="1" y="1" width="18" height="8" rx="2" stroke="currentColor" fill="none"/><rect x="3" y="3" width="13" height="4" rx="1" fill="currentColor"/><rect x="20" y="4" width="1.5" height="2" fill="currentColor"/></svg>
+              </span>
+            </div>
+
+            <!-- Route container -->
+            <main class="app-scroll" id="app-scroll">
+
+              <!-- LOGIN -->
+              <section id="view-login" class="view">
+                <div class="login-hero">
+                  <div class="login-logo">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M3 11 12 3l9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V11Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>
+                  </div>
+                  <h1 class="login-title">VaadApp</h1>
+                  <p class="muted login-sub" data-i18n="login.sub">הבניין שלך, בכיס שלך</p>
+                </div>
+
+                <div class="login-card">
+                  <div id="step-phone">
+                    <label data-i18n="login.phoneLabel">מספר טלפון</label>
+                    <div class="phone-input">
+                      <span class="cc">🇮🇱 +972</span>
+                      <input id="phone" type="tel" value="501234567" placeholder="501234567" />
+                    </div>
+                    <button id="send-otp" class="btn-primary btn-lg">
+                      <span data-i18n="login.sendCode">שלח קוד אימות</span>
+                      <svg viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                  </div>
+
+                  <div id="step-otp" class="hidden">
+                    <label data-i18n="login.otpLabel">הזינו את הקוד בן 6 הספרות</label>
+                    <div class="otp-input">
+                      <input maxlength="1" inputmode="numeric" />
+                      <input maxlength="1" inputmode="numeric" />
+                      <input maxlength="1" inputmode="numeric" />
+                      <input maxlength="1" inputmode="numeric" />
+                      <input maxlength="1" inputmode="numeric" />
+                      <input maxlength="1" inputmode="numeric" />
+                    </div>
+                    <div class="otp-hint muted small"><span data-i18n="login.otpHint">הקוד מודפס בקונסול של השרת</span> · <a href="#" id="resend-otp" data-i18n="login.resend">שלח מחדש</a></div>
+                    <button id="verify-otp" class="btn-primary btn-lg" data-i18n="login.verify">אמת והמשך</button>
+                    <button id="back-phone" class="btn-ghost btn-lg" data-i18n="login.changePhone">← שינוי מספר טלפון</button>
+                  </div>
+
+                  <div id="login-error" class="error hidden"></div>
+                </div>
+
+                <div class="login-trust muted small">
+                  <span>🔒</span> <span data-i18n="login.trust">מאובטח · ללא סיסמאות · הצפנה מקצה לקצה</span>
+                </div>
+              </section>
+
+              <!-- HOME / DASHBOARD -->
+              <section id="view-home" class="view hidden">
+                <header class="app-header">
+                  <div class="greet">
+                    <div class="greet-hi" id="greet-hi">בוקר טוב</div>
+                    <div class="greet-name" id="greet-name">—</div>
+                  </div>
+                  <button class="icon-btn" id="bell-btn" data-i18n-title="home.notifTitle" title="התראות">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 21a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    <span class="pill" id="bell-count">0</span>
+                  </button>
+                </header>
+
+                <div class="building-card">
+                  <div class="bc-top">
+                    <div class="bc-icon">🏢</div>
+                    <div>
+                      <div class="bc-name" id="bc-name">—</div>
+                      <div class="bc-addr" id="bc-addr">—</div>
+                    </div>
+                  </div>
+                  <div class="bc-stats">
+                    <div><b id="stat-residents">0</b><small data-i18n="home.stat.residents">דיירים</small></div>
+                    <div><b id="stat-apts">0</b><small data-i18n="home.stat.apts">דירות</small></div>
+                    <div><b id="stat-open">0</b><small data-i18n="home.stat.open">קריאות פתוחות</small></div>
+                  </div>
+                </div>
+
+                <div class="section-head">
+                  <h3 data-i18n="home.quick">פעולות מהירות</h3>
+                </div>
+                <div class="quick-grid">
+                  <button class="qa qa-1" data-qa="new-ticket"><span>🛠️</span><b data-i18n="home.qa.report">דווח על תקלה</b></button>
+                  <button class="qa qa-2" data-qa="new-announcement"><span>📣</span><b data-i18n="home.qa.announce">פרסם הודעה</b></button>
+                  <button class="qa qa-3" data-qa="pay"><span>💳</span><b data-i18n="home.qa.pay">תשלום דמי ועד</b></button>
+                  <button class="qa qa-4" data-qa="directory"><span>📇</span><b data-i18n="home.qa.directory">מדריך דיירים</b></button>
+                </div>
+
+                <!-- Admin insights (vaad only) -->
+                <div id="admin-insights" class="hidden">
+                  <div class="section-head">
+                    <h3 data-i18n="home.insights">נתוני ועד</h3>
+                    <span class="badge role-vaad_admin" data-i18n="role.vaad_admin">מנהל</span>
+                  </div>
+                  <div class="insights-grid">
+                    <div class="insight">
+                      <div class="insight-icon">💰</div>
+                      <div>
+                        <b id="ins-collected">₪0</b>
+                        <small data-i18n="home.ins.collected">נגבה החודש</small>
+                      </div>
+                    </div>
+                    <div class="insight">
+                      <div class="insight-icon">⏳</div>
+                      <div>
+                        <b id="ins-pending">₪0</b>
+                        <small data-i18n="home.ins.pending">ממתין</small>
+                      </div>
+                    </div>
+                    <div class="insight">
+                      <div class="insight-icon">📊</div>
+                      <div>
+                        <b id="ins-rate">0%</b>
+                        <small data-i18n="home.ins.rate">אחוז גבייה</small>
+                      </div>
+                    </div>
+                    <div class="insight">
+                      <div class="insight-icon">✅</div>
+                      <div>
+                        <b id="ins-resolved">0</b>
+                        <small data-i18n="home.ins.resolved">קריאות שנסגרו</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="section-head">
+                  <h3 data-i18n="home.balance">היתרה שלך</h3>
+                  <a href="#" data-nav="payments" data-i18n="common.seeAll">ראה הכל →</a>
+                </div>
+                <div class="balance-card">
+                  <div class="bal-label" data-i18n="home.currentBalance">יתרה נוכחית</div>
+                  <div class="bal-amount" id="bal-amount">₪0</div>
+                  <div class="bal-meta" id="bal-meta">—</div>
+                  <div class="bal-bar"><div id="bal-bar-fill"></div></div>
+                  <div class="bal-foot">
+                    <span data-i18n="home.paidThisYear">שולם השנה</span>
+                    <b id="bal-paid">₪0</b>
+                  </div>
+                </div>
+
+                <div class="section-head">
+                  <h3 data-i18n="home.payActivity">פעילות תשלומים</h3>
+                  <span class="muted small" data-i18n="home.last6">6 חודשים אחרונים</span>
+                </div>
+                <div class="chart-card">
+                  <svg id="pay-chart" viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg"></svg>
+                  <div class="chart-legend">
+                    <span><i style="background:var(--ok)"></i><span data-i18n="status.paid">שולם</span></span>
+                    <span><i style="background:var(--warn)"></i><span data-i18n="status.pending">ממתין</span></span>
+                  </div>
+                </div>
+
+                <div class="section-head">
+                  <h3 data-i18n="home.latestAnn">הודעות אחרונות</h3>
+                  <a href="#" data-nav="announcements" data-i18n="common.seeAll">ראה הכל →</a>
+                </div>
+                <div id="home-announcements" class="list"></div>
+
+                <div class="section-head">
+                  <h3 data-i18n="home.recentTic">קריאות אחרונות</h3>
+                  <a href="#" data-nav="tickets" data-i18n="common.seeAll">ראה הכל →</a>
+                </div>
+                <div id="home-tickets" class="list"></div>
+
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- ANNOUNCEMENTS -->
+              <section id="view-announcements" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="nav.announcements">הודעות</h2>
+                  <button class="icon-btn" id="new-announcement-btn" data-role="vaad">
+                    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                  </button>
+                </header>
+
+                <div class="chips" id="ann-chips">
+                  <button class="chip active" data-filter="all" data-i18n="filter.all">הכל</button>
+                  <button class="chip" data-filter="urgent" data-i18n="cat.urgent">🚨 דחוף</button>
+                  <button class="chip" data-filter="maintenance" data-i18n="cat.maintenance">🔧 תחזוקה</button>
+                  <button class="chip" data-filter="event" data-i18n="cat.event">🎉 אירועים</button>
+                  <button class="chip" data-filter="general" data-i18n="cat.general">📄 כללי</button>
+                </div>
+
+                <div id="new-announcement-form" class="sheet hidden">
+                  <div class="sheet-title" data-i18n="ann.new">הודעה חדשה</div>
+                  <input id="ann-title" data-i18n-placeholder="ann.titlePh" placeholder="כותרת" />
+                  <select id="ann-category">
+                    <option value="general" data-i18n="cat.general">📄 כללי</option>
+                    <option value="maintenance" data-i18n="cat.maintenance">🔧 תחזוקה</option>
+                    <option value="urgent" data-i18n="cat.urgent">🚨 דחוף</option>
+                    <option value="event" data-i18n="cat.event">🎉 אירוע</option>
+                  </select>
+                  <textarea id="ann-content" data-i18n-placeholder="ann.contentPh" placeholder="מה תרצו לפרסם?" rows="4"></textarea>
+                  <div class="sheet-actions">
+                    <button class="btn-ghost" id="ann-cancel" data-i18n="common.cancel">ביטול</button>
+                    <button class="btn-primary" id="ann-submit" data-i18n="ann.publish">פרסם</button>
+                  </div>
+                </div>
+
+                <div id="announcements-list" class="list"></div>
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- TICKETS -->
+              <section id="view-tickets" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="nav.tickets">קריאות</h2>
+                  <button class="icon-btn" id="new-ticket-btn">
+                    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                  </button>
+                </header>
+
+                <div class="chips" id="tic-chips">
+                  <button class="chip active" data-filter="all" data-i18n="filter.all">הכל</button>
+                  <button class="chip" data-filter="open" data-i18n="status.open">● פתוח</button>
+                  <button class="chip" data-filter="in_progress" data-i18n="status.in_progress">⟳ בטיפול</button>
+                  <button class="chip" data-filter="resolved" data-i18n="status.resolved">✓ נסגר</button>
+                </div>
+
+                <div id="new-ticket-form" class="sheet hidden">
+                  <div class="sheet-title" data-i18n="tic.new">דיווח על תקלה</div>
+                  <input id="tic-title" data-i18n-placeholder="tic.titlePh" placeholder="מה התקלה?" />
+                  <div class="row2">
+                    <select id="tic-category">
+                      <option value="elevator" data-i18n="ticCat.elevator">🛗 מעלית</option>
+                      <option value="plumbing" data-i18n="ticCat.plumbing">🚿 אינסטלציה</option>
+                      <option value="electrical" data-i18n="ticCat.electrical">💡 חשמל</option>
+                      <option value="cleaning" data-i18n="ticCat.cleaning">🧹 ניקיון</option>
+                      <option value="other" data-i18n="ticCat.other">📦 אחר</option>
+                    </select>
+                    <select id="tic-priority">
+                      <option value="low" data-i18n="prio.low">🟢 נמוך</option>
+                      <option value="normal" selected data-i18n="prio.normal">🟡 רגיל</option>
+                      <option value="high" data-i18n="prio.high">🟠 גבוה</option>
+                      <option value="urgent" data-i18n="prio.urgent">🔴 דחוף</option>
+                    </select>
+                  </div>
+                  <input id="tic-location" data-i18n-placeholder="tic.locPh" placeholder="מיקום (לדוגמה: לובי קומה 3)" />
+                  <textarea id="tic-description" data-i18n-placeholder="tic.descPh" placeholder="תיאור התקלה…" rows="4"></textarea>
+                  <div class="sheet-actions">
+                    <button class="btn-ghost" id="tic-cancel" data-i18n="common.cancel">ביטול</button>
+                    <button class="btn-primary" id="tic-submit" data-i18n="tic.create">צור קריאה</button>
+                  </div>
+                </div>
+
+                <div id="tickets-list" class="list"></div>
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- PAYMENTS -->
+              <section id="view-payments" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="nav.payments">תשלומים</h2>
+                  <span class="spacer"></span>
+                </header>
+
+                <div class="pay-card">
+                  <div class="pay-gradient"></div>
+                  <div class="pay-top">
+                    <div class="pay-chip" data-i18n="pay.balance">יתרת ועד</div>
+                    <div class="pay-logo">◆</div>
+                  </div>
+                  <div class="pay-amount" id="pay-amount">₪0</div>
+                  <div class="pay-foot">
+                    <div>
+                      <small data-i18n="pay.nextDue">תשלום הבא</small>
+                      <b id="pay-due">—</b>
+                    </div>
+                    <button class="btn-primary btn-sm" id="pay-now-btn" data-i18n="pay.now">שלם עכשיו</button>
+                  </div>
+                </div>
+
+                <div class="chips" id="pay-chips">
+                  <button class="chip active" data-filter="all" data-i18n="filter.all">הכל</button>
+                  <button class="chip" data-filter="pending" data-i18n="status.pending">⏳ ממתין</button>
+                  <button class="chip" data-filter="paid" data-i18n="status.paid">✓ שולם</button>
+                </div>
+
+                <div id="payments-list" class="list"></div>
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- RESIDENTS -->
+              <section id="view-residents" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="nav.residents">דיירים</h2>
+                  <span class="spacer"></span>
+                </header>
+
+                <div class="search">
+                  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <input id="res-search" data-i18n-placeholder="res.searchPh" placeholder="חיפוש לפי שם או מספר דירה" />
+                </div>
+
+                <div id="residents-list" class="list grid-2"></div>
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- PROFILE -->
+              <section id="view-profile" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="nav.profile">פרופיל</h2>
+                  <span class="spacer"></span>
+                </header>
+
+                <div class="profile-card">
+                  <div class="avatar big" id="profile-avatar">—</div>
+                  <div class="profile-name" id="profile-name">—</div>
+                  <div class="profile-sub" id="profile-sub">—</div>
+                  <div class="profile-badges">
+                    <span class="badge" id="profile-role">—</span>
+                    <span class="badge" id="profile-apt">—</span>
+                  </div>
+                </div>
+
+                <div class="settings-group">
+                  <div class="sg-title" data-i18n="profile.language">שפה</div>
+                  <div class="sg-row static">
+                    <span data-i18n="profile.chooseLang">בחרו שפה</span>
+                    <div class="seg" id="lang-seg">
+                      <button data-lang="he" class="active">עברית</button>
+                      <button data-lang="en">English</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-group">
+                  <div class="sg-title" data-i18n="profile.prefs">העדפות</div>
+                  <label class="sg-row">
+                    <span data-i18n="profile.dark">🌙 מצב כהה</span>
+                    <input type="checkbox" id="toggle-dark" class="switch" />
+                  </label>
+                  <label class="sg-row">
+                    <span data-i18n="profile.notif">🔔 התראות</span>
+                    <input type="checkbox" id="toggle-notif" class="switch" checked />
+                  </label>
+                  <label class="sg-row">
+                    <span data-i18n="profile.email">📧 התראות במייל</span>
+                    <input type="checkbox" id="toggle-email" class="switch" checked />
+                  </label>
+                </div>
+
+                <div class="settings-group">
+                  <div class="sg-title" data-i18n="profile.building">בניין</div>
+                  <div class="sg-row static"><span data-i18n="profile.bldName">שם</span><b id="p-bld-name">—</b></div>
+                  <div class="sg-row static"><span data-i18n="profile.bldAddr">כתובת</span><b id="p-bld-addr">—</b></div>
+                  <div class="sg-row static"><span data-i18n="profile.bldCode">קוד הזמנה</span><b id="p-bld-code">—</b></div>
+                </div>
+
+                <div class="settings-group">
+                  <div class="sg-title" data-i18n="profile.account">חשבון</div>
+                  <button class="sg-row link" id="about-btn"><span data-i18n="profile.about">ℹ️ אודות VaadApp</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                  <button class="sg-row link" id="help-btn"><span data-i18n="profile.help">❓ עזרה ותמיכה</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                  <button class="sg-row link" id="share-btn"><span data-i18n="profile.share">🔗 שתף קוד בניין</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                  <button class="sg-row link danger" id="logout-btn-profile"><span data-i18n="profile.logout">⎋ התנתק</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                </div>
+
+                <div class="build-stamp muted small" data-i18n="profile.version">VaadApp 1.0 · נבנה באהבה</div>
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- TICKET DETAIL -->
+              <section id="view-ticket-detail" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="ticDetail.title">קריאה</h2>
+                  <span class="spacer"></span>
+                </header>
+                <div id="ticket-detail-body"></div>
+                <div class="h-spacer"></div>
+              </section>
+
+            </main>
+
+            <!-- Bottom tab bar -->
+            <nav class="tabbar hidden" id="tabbar">
+              <button class="tab active" data-nav="home">
+                <svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V11Z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+                <span data-i18n="tab.home">בית</span>
+              </button>
+              <button class="tab" data-nav="announcements">
+                <svg viewBox="0 0 24 24"><path d="M3 10v4l12 5V5L3 10Zm12 0 6-3v10l-6-3" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+                <span data-i18n="tab.news">חדשות</span>
+              </button>
+              <button class="tab" data-nav="tickets">
+                <svg viewBox="0 0 24 24"><path d="M14 3 3 14l7 7 11-11V3h-7Z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><circle cx="17" cy="7" r="1.5" fill="currentColor"/></svg>
+                <span data-i18n="tab.tickets">קריאות</span>
+              </button>
+              <button class="tab" data-nav="payments">
+                <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="13" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 11h20" stroke="currentColor" stroke-width="2"/></svg>
+                <span data-i18n="tab.pay">תשלום</span>
+              </button>
+              <button class="tab" data-nav="profile">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M4 21c1-5 5-7 8-7s7 2 8 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                <span data-i18n="tab.me">אני</span>
+              </button>
+            </nav>
+
+            <div class="home-indicator"></div>
+
+            <!-- Notifications panel -->
+            <div id="notif-panel" class="notif-panel hidden">
+              <div class="notif-head">
+                <b data-i18n="notif.title">התראות</b>
+                <button id="notif-close" class="icon-btn">✕</button>
+              </div>
+              <div id="notif-list" class="notif-list"></div>
+            </div>
+
+            <!-- Toast -->
+            <div id="toast" class="toast hidden"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
