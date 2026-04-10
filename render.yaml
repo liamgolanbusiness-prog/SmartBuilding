@@ -1,0 +1,41 @@
+# Render blueprint for the VaadApp / SmartBuilding demo.
+#
+# To deploy:
+#   1. Push this repo to GitHub (already done on branch claude/enable-iphone-testing-ULTg6)
+#   2. Go to https://dashboard.render.com/blueprints
+#   3. Click "New Blueprint Instance" and point it at this repo + branch
+#   4. Render detects this file and provisions the service
+#   5. Open the resulting https://*.onrender.com URL on your iPhone
+#
+# The free plan spins the service down after 15 min of inactivity and has
+# ephemeral disk — the SQLite DB is re-seeded on every cold start, which is
+# exactly what we want for a demo.
+
+services:
+  - type: web
+    name: vaad-demo
+    runtime: docker
+    plan: free
+    region: frankfurt
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # DEMO_MODE: the /api/auth/send-otp endpoint returns the 6-digit code
+      # directly in its response. This lets anyone testing on a real phone
+      # log in without SMS/Twilio setup. Do NOT enable for a real production.
+      - key: DEMO_MODE
+        value: "true"
+      - key: PORT
+        value: "3000"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 1h
+      - key: REFRESH_TOKEN_SECRET
+        generateValue: true
+      - key: REFRESH_TOKEN_EXPIRES_IN
+        value: 30d

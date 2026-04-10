@@ -1029,11 +1029,20 @@ $('send-otp').addEventListener('click', async () => {
   if (raw.startsWith('0')) raw = raw.slice(1);
   const phoneNumber = raw.startsWith('972') ? '+' + raw : '+972' + raw;
   try {
-    await api('/api/auth/send-otp', { method: 'POST', body: JSON.stringify({ phoneNumber }) });
+    const res = await api('/api/auth/send-otp', { method: 'POST', body: JSON.stringify({ phoneNumber }) });
     $('step-phone').classList.add('hidden');
     $('step-otp').classList.remove('hidden');
     $$('.otp-input input')[0].focus();
     toast(t('login.codeSent'));
+    // DEMO_MODE: backend returns the OTP directly so phone users without
+    // server-log access can still log in. Auto-fill and trigger verify.
+    if (res && res.demoOtp) {
+      const digits = String(res.demoOtp).slice(0, 6).split('');
+      const inputs = $$('.otp-input input');
+      inputs.forEach((inp, idx) => { inp.value = digits[idx] || ''; });
+      toast('Demo mode: code auto-filled (' + res.demoOtp + ')');
+      if (digits.length === 6) setTimeout(() => $('verify-otp').click(), 400);
+    }
   } catch (e) { showError(e.message); }
 });
 

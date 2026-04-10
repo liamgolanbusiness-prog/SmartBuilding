@@ -11,16 +11,18 @@ const generateOTP = (): string => {
 
 // Generate JWT token
 const generateToken = (userId: string): string => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET!, {
-    expiresIn: process.env.JWT_EXPIRES_IN || '1h',
-  });
+  const opts: jwt.SignOptions = {
+    expiresIn: (process.env.JWT_EXPIRES_IN || '1h') as jwt.SignOptions['expiresIn'],
+  };
+  return jwt.sign({ userId }, process.env.JWT_SECRET!, opts);
 };
 
 // Generate refresh token
 const generateRefreshToken = (userId: string): string => {
-  return jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET!, {
-    expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || '30d',
-  });
+  const opts: jwt.SignOptions = {
+    expiresIn: (process.env.REFRESH_TOKEN_EXPIRES_IN || '30d') as jwt.SignOptions['expiresIn'],
+  };
+  return jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET!, opts);
 };
 
 export const sendOTP = async (req: Request, res: Response) => {
@@ -57,9 +59,15 @@ export const sendOTP = async (req: Request, res: Response) => {
     console.log(`📱 OTP for ${normalizedPhone}: ${code}`);
   }
 
+  // DEMO_MODE: return the OTP in the response so anyone opening the
+  // deployed demo (e.g. on an iPhone, with no access to server logs)
+  // can log in. NEVER enable this in a real production deployment.
+  const demoMode = process.env.DEMO_MODE === 'true';
+
   res.status(200).json({
     message: 'OTP sent successfully',
     phoneNumber: normalizedPhone,
+    ...(demoMode ? { demoOtp: code } : {}),
   });
 };
 
