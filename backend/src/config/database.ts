@@ -92,6 +92,8 @@ const tablesWithUuidPk = new Set<string>([
   'ticket_comments',
   'announcements',
   'announcement_reads',
+  'polls',
+  'poll_votes',
 ]);
 
 const injectId = (

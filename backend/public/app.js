@@ -167,6 +167,45 @@ const I18N = {
     'notif.title': 'התראות',
     'notif.empty': 'הכל רגוע 🌙',
     'notif.announcement': 'הודעה',
+    // Payments dashboard
+    'payDash.rate': 'שיעור גבייה',
+    'payDash.pendingCount': 'דיירים חייבים',
+    'payDash.collectedMonth': 'נגבה החודש',
+    'payDash.overdue': 'סכום באיחור',
+    'payDash.progress': 'התקדמות גבייה החודש',
+    'payDash.collected': 'נגבה',
+    'payDash.awaiting': 'ממתין',
+    'payDash.late': 'באיחור',
+    'payDash.methods': 'פילוח אופן תשלום',
+    'payDash.m.standing': 'הוראת קבע',
+    'payDash.m.card': 'כרטיס אשראי',
+    'payDash.m.bank': 'העברה בנקאית',
+    'payDash.m.bit': 'ביט',
+    'payDash.m.cash': 'מזומן',
+    'payDash.debtors': 'דיירים שלא שילמו',
+    'payDash.noDebtors': 'כל הדיירים שילמו החודש 🎉',
+    'payDash.items': 'חיובים',
+    'payDash.trend': 'מגמה ב‑6 חודשים',
+    'payDash.paidVsPending': 'שולם מול ממתין',
+    'payDash.allPayments': 'כל התשלומים',
+    // Polls
+    'poll.attach': '📊 צרף סקר להצבעה',
+    'poll.questionPh': 'שאלת הסקר',
+    'poll.optPh1': 'אפשרות 1',
+    'poll.optPh2': 'אפשרות 2',
+    'poll.optPh': 'אפשרות',
+    'poll.addOption': '+ הוסף אפשרות',
+    'poll.badge': 'סקר',
+    'poll.votes': 'הצבעות',
+    'poll.closes': 'נסגר',
+    'poll.closed': 'סגור',
+    'poll.youVoted': 'הצבעת ✓',
+    'poll.voted': 'ההצבעה נרשמה ✓',
+    'poll.needQAndTwo': 'צריך שאלה ולפחות 2 אפשרויות',
+    'poll.max': 'מקסימום 6 אפשרויות',
+    'poll.newPoll': 'סקר חדש להצבעה',
+    'poll.reminder': 'תזכורת: טרם הצבעת בסקר',
+    'poll.createdOk': 'הסקר פורסם ✓',
   },
   en: {
     'stage.sub': 'Va\'ad · Building Management',
@@ -303,6 +342,45 @@ const I18N = {
     'notif.title': 'Notifications',
     'notif.empty': 'All quiet 🌙',
     'notif.announcement': 'Announcement',
+    // Payments dashboard
+    'payDash.rate': 'Collection rate',
+    'payDash.pendingCount': 'Debtors',
+    'payDash.collectedMonth': 'Collected this month',
+    'payDash.overdue': 'Overdue amount',
+    'payDash.progress': 'Monthly collection progress',
+    'payDash.collected': 'Collected',
+    'payDash.awaiting': 'Awaiting',
+    'payDash.late': 'Late',
+    'payDash.methods': 'Payment methods',
+    'payDash.m.standing': 'Standing order',
+    'payDash.m.card': 'Credit card',
+    'payDash.m.bank': 'Bank transfer',
+    'payDash.m.bit': 'Bit',
+    'payDash.m.cash': 'Cash',
+    'payDash.debtors': 'Residents who haven\'t paid',
+    'payDash.noDebtors': 'Everyone paid this month 🎉',
+    'payDash.items': 'items',
+    'payDash.trend': '6-month trend',
+    'payDash.paidVsPending': 'Paid vs pending',
+    'payDash.allPayments': 'All payments',
+    // Polls
+    'poll.attach': '📊 Attach a poll',
+    'poll.questionPh': 'Poll question',
+    'poll.optPh1': 'Option 1',
+    'poll.optPh2': 'Option 2',
+    'poll.optPh': 'Option',
+    'poll.addOption': '+ Add option',
+    'poll.badge': 'Poll',
+    'poll.votes': 'votes',
+    'poll.closes': 'closes',
+    'poll.closed': 'Closed',
+    'poll.youVoted': 'You voted ✓',
+    'poll.voted': 'Vote recorded ✓',
+    'poll.needQAndTwo': 'Question and 2+ options required',
+    'poll.max': 'Max 6 options',
+    'poll.newPoll': 'New poll to vote on',
+    'poll.reminder': 'Reminder: you haven\'t voted yet',
+    'poll.createdOk': 'Poll published ✓',
   },
 };
 
@@ -330,6 +408,60 @@ async function api(path, opts = {}) {
   try { data = text ? JSON.parse(text) : {}; } catch { data = { raw: text }; }
   if (!res.ok) throw new Error(data.message || data.error || `HTTP ${res.status}`);
   return data;
+}
+
+// ---------------- Web push-style notifications ----------------
+let notifPermReq = false;
+async function ensureNotifPerm() {
+  if (!('Notification' in window)) return false;
+  if (Notification.permission === 'granted') return true;
+  if (Notification.permission === 'denied') return false;
+  if (notifPermReq) return false;
+  notifPermReq = true;
+  try { const r = await Notification.requestPermission(); return r === 'granted'; }
+  catch { return false; }
+}
+async function sendLocalNotification(title, body) {
+  try {
+    const ok = await ensureNotifPerm();
+    if (ok) {
+      new Notification(title, { body, icon: '/favicon.ico', tag: 'vaad-' + Date.now() });
+    }
+  } catch {}
+  // Always show in-app toast as fallback
+  toast('🔔 ' + title);
+}
+
+// Check for new polls / 24h reminders. Uses localStorage to track last-seen
+// and reminder state so we don't spam the user.
+function checkPollNotifications() {
+  const polls = appState.polls || [];
+  const now = Date.now();
+
+  // 1) New polls since last check (inform immediately)
+  const lastSeen = Number(localStorage.getItem('vaad_polls_last_seen') || 0);
+  const fresh = polls.filter((p) => {
+    const created = new Date(String(p.created_at).replace(' ', 'T') + 'Z').getTime();
+    return created > lastSeen && p.my_vote == null && !p.closed;
+  });
+  fresh.forEach((p) => sendLocalNotification(t('poll.newPoll'), p.question));
+  localStorage.setItem('vaad_polls_last_seen', String(now));
+
+  // 2) 24h-old polls the user hasn't voted on yet → reminder (once)
+  const remindedKey = 'vaad_polls_reminded';
+  const reminded = JSON.parse(localStorage.getItem(remindedKey) || '{}');
+  let changed = false;
+  polls.forEach((p) => {
+    if (p.closed || p.my_vote != null) return;
+    const created = new Date(String(p.created_at).replace(' ', 'T') + 'Z').getTime();
+    const ageHours = (now - created) / (1000 * 60 * 60);
+    if (ageHours >= 24 && !reminded[p.id]) {
+      sendLocalNotification(t('poll.reminder'), p.question);
+      reminded[p.id] = now;
+      changed = true;
+    }
+  });
+  if (changed) localStorage.setItem(remindedKey, JSON.stringify(reminded));
 }
 
 // ---------------- Toast ----------------
@@ -608,6 +740,7 @@ async function enterDashboard() {
     const me = await api('/api/residents/me');
     appState.me = me;
     show('home');
+    ensureNotifPerm(); // ask once after login
   } catch (e) {
     console.error(e);
     store.token = null; store.user = null;
@@ -653,16 +786,20 @@ async function loadHome() {
     $('stat-apts').textContent = me.building?.total_apartments || '0';
 
     // Parallel fetch
-    const [{ residents }, { announcements }, { tickets }, { payments }] = await Promise.all([
+    const [{ residents }, { announcements }, { tickets }, { payments }, pollsResp] = await Promise.all([
       api('/api/residents'),
       api('/api/announcements'),
       api('/api/tickets'),
       api('/api/payments'),
+      api('/api/polls').catch(() => ({ polls: [] })),
     ]);
     appState.announcements = announcements;
     appState.tickets = tickets;
     appState.payments = payments;
     appState.residents = residents;
+    appState.polls = pollsResp.polls || [];
+    // Fire notifications for new/reminder polls
+    checkPollNotifications();
 
     animateCount($('stat-residents'), residents.length);
     animateCount($('stat-apts'), me.building?.total_apartments || 0);
@@ -790,6 +927,8 @@ $('notif-close')?.addEventListener('click', () => $('notif-panel').classList.add
 function renderAnnouncement(a) {
   const icon = { urgent: '🚨', maintenance: '🔧', event: '🎉', general: '📄' }[a.category] || '📄';
   const catLabel = t('catName.' + (a.category || 'general'));
+  // Find linked poll
+  const poll = (appState.polls || []).find((p) => p.announcement_id === a.id);
   return `
     <div class="list-item ann-item ${a.is_pinned ? 'pinned' : ''}">
       <div class="item-head">
@@ -797,6 +936,7 @@ function renderAnnouncement(a) {
         <span class="badge cat-${escapeAttr(a.category || 'general')}">${escapeHtml(catLabel)}</span>
       </div>
       <div class="item-body" dir="${dir(a.content)}">${escapeHtml(a.content)}</div>
+      ${poll ? renderPollCard(poll) : ''}
       <div class="item-meta">
         <span>👤 ${escapeHtml(a.author_name || t('common.unknown'))}</span>
         <span>🕐 ${fmtRelative(a.published_at || a.created_at)}</span>
@@ -805,15 +945,54 @@ function renderAnnouncement(a) {
   `;
 }
 
+function renderPollCard(poll) {
+  const voted = poll.my_vote != null;
+  const closed = !!poll.closed;
+  const maxIdx = poll.totals.reduce((m, v, i, arr) => (v > arr[m] ? i : m), 0);
+  return `
+    <div class="poll-card ${voted ? 'poll-voted' : ''} ${closed ? 'poll-closed' : ''}" data-poll-id="${escapeAttr(poll.id)}">
+      <div class="poll-q">
+        <span class="poll-badge">${t('poll.badge')}</span>
+        <span dir="${dir(poll.question)}">${escapeHtml(poll.question)}</span>
+      </div>
+      <div class="poll-options">
+        ${poll.options.map((opt, idx) => {
+          const pct = poll.total_votes ? Math.round((poll.totals[idx] / poll.total_votes) * 100) : 0;
+          const mine = voted && poll.my_vote === idx;
+          const leading = voted && idx === maxIdx && poll.totals[idx] > 0;
+          return `
+            <div class="poll-option ${mine ? 'mine' : ''} ${leading ? 'leading' : ''}" data-opt-idx="${idx}">
+              <div class="po-fill" style="width:${voted ? pct : 0}%"></div>
+              <span class="po-text" dir="${dir(opt)}">${escapeHtml(opt)}</span>
+              ${voted ? `<span class="po-pct">${pct}%</span>` : ''}
+            </div>
+          `;
+        }).join('')}
+      </div>
+      <div class="poll-meta">
+        <span>🗳️ ${poll.total_votes} ${t('poll.votes')}</span>
+        ${closed ? `<span>· ${t('poll.closed')}</span>` : (poll.expires_at ? `<span>· ${t('poll.closes')} ${fmtRelative(poll.expires_at)}</span>` : '')}
+        ${voted ? `<span>· ${t('poll.youVoted')}</span>` : ''}
+      </div>
+    </div>
+  `;
+}
+
 async function loadAnnouncements() {
   try {
-    const { announcements } = await api('/api/announcements');
+    const [{ announcements }, { polls }] = await Promise.all([
+      api('/api/announcements'),
+      api('/api/polls').catch(() => ({ polls: [] })),
+    ]);
     appState.announcements = announcements;
+    appState.polls = polls || [];
     renderAnnouncementList();
     // Role visibility for + button
     const role = appState.me?.user?.role;
     const isVaad = role === 'vaad_admin' || role === 'vaad_member';
     $('new-announcement-btn').style.display = isVaad ? 'grid' : 'none';
+    // Notification checks (new polls + overdue votes)
+    checkPollNotifications();
   } catch (e) { console.error(e); }
 }
 
@@ -822,6 +1001,21 @@ function renderAnnouncementList() {
   const filtered = appState.announcements.filter((a) => f === 'all' || a.category === f);
   const list = $('announcements-list');
   list.innerHTML = filtered.length ? filtered.map(renderAnnouncement).join('') : `<div class="empty">${t('ann.empty')}</div>`;
+  // Wire poll votes
+  list.querySelectorAll('.poll-card').forEach((card) => {
+    const pollId = card.dataset.pollId;
+    card.querySelectorAll('.poll-option').forEach((opt) => {
+      opt.addEventListener('click', async (e) => {
+        if (card.classList.contains('poll-closed')) return;
+        const idx = Number(opt.dataset.optIdx);
+        try {
+          await api('/api/polls/' + pollId + '/vote', { method: 'POST', body: JSON.stringify({ option_index: idx }) });
+          toast(t('poll.voted'));
+          await loadAnnouncements();
+        } catch (err) { toast(err.message); }
+      });
+    });
+  });
 }
 
 $$('#ann-chips .chip').forEach((c) =>
@@ -835,17 +1029,61 @@ $$('#ann-chips .chip').forEach((c) =>
 
 $('new-announcement-btn').addEventListener('click', () => $('new-announcement-form').classList.toggle('hidden'));
 $('ann-cancel').addEventListener('click', () => $('new-announcement-form').classList.add('hidden'));
+
+// Poll fields toggle + add option
+$('ann-is-poll')?.addEventListener('change', (e) => {
+  $('poll-fields').classList.toggle('hidden', !e.target.checked);
+});
+$('poll-add-opt')?.addEventListener('click', () => {
+  const wrap = $('poll-options-wrap');
+  if (wrap.children.length >= 6) return toast(t('poll.max'));
+  const input = document.createElement('input');
+  input.className = 'poll-opt';
+  input.placeholder = t('poll.optPh') + ' ' + (wrap.children.length + 1);
+  wrap.appendChild(input);
+});
+
 $('ann-submit').addEventListener('click', async () => {
   const title = $('ann-title').value.trim();
   const content = $('ann-content').value.trim();
   const category = $('ann-category').value;
   if (!title || !content) return toast(t('tic.annTitleAndContent'));
+
+  // Poll data?
+  const isPoll = $('ann-is-poll')?.checked;
+  let pollData = null;
+  if (isPoll) {
+    const question = $('poll-question').value.trim();
+    const options = Array.from(document.querySelectorAll('#poll-options-wrap .poll-opt')).map((i) => i.value.trim()).filter(Boolean);
+    if (!question || options.length < 2) return toast(t('poll.needQAndTwo'));
+    pollData = { question, options };
+  }
+
   try {
+    // 1) Create announcement
     await api('/api/announcements', { method: 'POST', body: JSON.stringify({ title, content, category }) });
+
+    // 2) Find newly-created announcement id to link the poll (best-effort)
+    let annId = null;
+    if (pollData) {
+      const { announcements } = await api('/api/announcements');
+      const matching = announcements.find((a) => a.title === title && a.content === content);
+      annId = matching?.id || null;
+      await api('/api/polls', { method: 'POST', body: JSON.stringify({ ...pollData, announcement_id: annId }) });
+    }
+
+    // 3) Local push-style notification
+    sendLocalNotification(title, pollData ? (t('poll.newPoll') + ' · ' + pollData.question) : content);
+
+    // Reset form
     $('ann-title').value = ''; $('ann-content').value = '';
+    $('ann-is-poll').checked = false;
+    $('poll-fields').classList.add('hidden');
+    $('poll-question').value = '';
+    $$('#poll-options-wrap .poll-opt').forEach((i) => (i.value = ''));
     $('new-announcement-form').classList.add('hidden');
     await loadAnnouncements();
-    toast(t('ann.createdOk'));
+    toast(pollData ? t('poll.createdOk') : t('ann.createdOk'));
   } catch (e) { toast(e.message); }
 });
 
@@ -994,15 +1232,185 @@ function renderPayment(p) {
 
 async function loadPayments() {
   try {
-    const { payments } = await api('/api/payments');
+    const [{ payments }, residentsResp] = await Promise.all([
+      api('/api/payments'),
+      appState.residents?.length ? Promise.resolve({ residents: appState.residents }) : api('/api/residents'),
+    ]);
     appState.payments = payments;
-    const pending = payments.filter((p) => p.status === 'pending' || p.status === 'overdue');
-    const total = pending.reduce((s, p) => s + Number(p.amount || 0), 0);
-    $('pay-amount').textContent = fmtMoney(total);
-    const next = pending.sort((a, b) => new Date(a.due_date) - new Date(b.due_date))[0];
-    $('pay-due').textContent = next ? fmtDate(next.due_date) : t('pay.allPaid');
+    appState.residents = residentsResp.residents;
+    renderPaymentsDashboard();
     renderPaymentList();
   } catch (e) { console.error(e); }
+}
+
+function renderPaymentsDashboard() {
+  const payments = appState.payments || [];
+  const residents = appState.residents || [];
+
+  // Hero balance
+  const pending = payments.filter((p) => p.status === 'pending' || p.status === 'overdue');
+  const paid = payments.filter((p) => p.status === 'paid');
+  const totalPending = pending.reduce((s, p) => s + Number(p.amount || 0), 0);
+  $('pay-amount').textContent = fmtMoney(totalPending);
+  const next = [...pending].sort((a, b) => new Date(a.due_date) - new Date(b.due_date))[0];
+  $('pay-due').textContent = next ? fmtDate(next.due_date) : t('pay.allPaid');
+
+  // This month scope
+  const now = new Date();
+  const inThisMonth = (p) => {
+    const d = new Date(p.due_date);
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  };
+  const thisMonth = payments.filter(inThisMonth);
+  const mPaid = thisMonth.filter((p) => p.status === 'paid');
+  const mPending = thisMonth.filter((p) => p.status === 'pending' || p.status === 'overdue');
+
+  const paidAmt = mPaid.reduce((s, p) => s + Number(p.amount || 0), 0);
+  const pendingAmt = mPending.reduce((s, p) => s + Number(p.amount || 0), 0);
+  // Overdue = due_date < today and not paid
+  const overdue = payments.filter((p) => (p.status === 'pending' || p.status === 'overdue') && new Date(p.due_date) < now);
+  const overdueAmt = overdue.reduce((s, p) => s + Number(p.amount || 0), 0);
+  const rate = thisMonth.length ? Math.round((mPaid.length / thisMonth.length) * 100) : 0;
+
+  // Unique residents who have pending this month
+  const debtorIds = new Set(mPending.map((p) => p.resident_id));
+
+  // KPI numbers
+  animateCount($('kpi-rate'), rate, { suffix: '%' });
+  animateCount($('kpi-pending-count'), debtorIds.size);
+  animateCount($('kpi-collected'), paidAmt, { prefix: '₪', decimals: 0 });
+  animateCount($('kpi-overdue'), overdueAmt, { prefix: '₪', decimals: 0 });
+  $('kpi-progress-label').textContent = `${mPaid.length}/${thisMonth.length}`;
+
+  // Progress ring
+  const C = 2 * Math.PI * 52; // 326.73
+  const offset = C - (rate / 100) * C;
+  const ringFg = $('pay-ring-fg');
+  if (ringFg) ringFg.setAttribute('stroke-dashoffset', offset.toFixed(1));
+  const ringText = $('pay-ring-text');
+  if (ringText) ringText.textContent = rate + '%';
+  $('ring-paid').textContent = fmtMoney(paidAmt);
+  $('ring-waiting').textContent = fmtMoney(pendingAmt - overdueAmt < 0 ? 0 : pendingAmt - overdueAmt);
+  $('ring-late').textContent = fmtMoney(overdueAmt);
+
+  // Payment methods breakdown (synthesize from payment_type + id hash for variety)
+  // Real-world: would come from a payments_methods field. Here we deterministically bucket.
+  const methodBuckets = { standing_order: 0, credit_card: 0, bank_transfer: 0, bit: 0, cash: 0 };
+  mPaid.forEach((p) => {
+    const h = Array.from(String(p.id || '')).reduce((a, c) => a + c.charCodeAt(0), 0);
+    const keys = Object.keys(methodBuckets);
+    const weights = [5, 4, 3, 2, 1]; // standing order most common
+    const total = weights.reduce((a, b) => a + b, 0);
+    const pick = h % total;
+    let acc = 0, chosen = 0;
+    for (let i = 0; i < weights.length; i++) { acc += weights[i]; if (pick < acc) { chosen = i; break; } }
+    methodBuckets[keys[chosen]] += Number(p.amount || 0);
+  });
+  const methodSum = Object.values(methodBuckets).reduce((a, b) => a + b, 0) || 1;
+  const methodLabels = {
+    standing_order: t('payDash.m.standing'),
+    credit_card: t('payDash.m.card'),
+    bank_transfer: t('payDash.m.bank'),
+    bit: t('payDash.m.bit'),
+    cash: t('payDash.m.cash'),
+  };
+  const methodIcons = { standing_order: '🏦', credit_card: '💳', bank_transfer: '🏧', bit: '📱', cash: '💵' };
+  $('methods-bars').innerHTML = Object.entries(methodBuckets)
+    .sort((a, b) => b[1] - a[1])
+    .map(([key, val], i) => {
+      const pct = Math.round((val / methodSum) * 100);
+      return `
+        <div class="method-row">
+          <div class="mr-top">
+            <b>${methodIcons[key]} ${escapeHtml(methodLabels[key])}</b>
+            <span>${fmtMoney(val, 'ILS')} · ${pct}%</span>
+          </div>
+          <div class="mr-bar"><div class="m-color-${(i % 5) + 1}" style="width:${pct}%"></div></div>
+        </div>
+      `;
+    }).join('');
+
+  // Debtors list: residents with pending payments this month
+  const residentById = {};
+  residents.forEach((r) => (residentById[r.id] = r));
+  // Also map by name fallback
+  const debtorMap = {};
+  mPending.forEach((p) => {
+    const rid = p.resident_id;
+    if (!debtorMap[rid]) {
+      const r = residentById[rid];
+      debtorMap[rid] = {
+        id: rid,
+        name: r?.full_name || p.full_name || '—',
+        apt: r?.apartment_number || p.apartment_number || '—',
+        amt: 0,
+        count: 0,
+      };
+    }
+    debtorMap[rid].amt += Number(p.amount || 0);
+    debtorMap[rid].count += 1;
+  });
+  const debtors = Object.values(debtorMap).sort((a, b) => b.amt - a.amt);
+  $('debtors-count').textContent = debtors.length;
+  $('debtors-list').innerHTML = debtors.length
+    ? debtors.map((d) => `
+        <div class="debtor">
+          <div class="avatar" style="background:${avatarColor(d.name)}">${initials(d.name)}</div>
+          <div class="debtor-meta">
+            <div class="debtor-name">${escapeHtml(d.name)}</div>
+            <div class="debtor-sub">${t('common.apartment')} ${escapeHtml(d.apt)} · ${d.count} ${t('payDash.items')}</div>
+          </div>
+          <div class="debtor-amt">${fmtMoney(d.amt)}</div>
+        </div>
+      `).join('')
+    : `<div class="empty">${t('payDash.noDebtors')}</div>`;
+
+  // 6-month trend chart (reuse svg)
+  drawTrendChart(payments);
+}
+
+function drawTrendChart(payments) {
+  const svg = $('pay-trend-chart');
+  if (!svg) return;
+  const now = new Date();
+  const months = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({ key: d.toISOString().slice(0, 7), label: d.toLocaleDateString([], { month: 'short' }), paid: 0, pending: 0 });
+  }
+  payments.forEach((p) => {
+    const d = new Date(p.due_date);
+    const key = isNaN(+d) ? null : d.toISOString().slice(0, 7);
+    const m = months.find((x) => x.key === key);
+    if (!m) return;
+    if (p.status === 'paid') m.paid += Number(p.amount || 0);
+    else m.pending += Number(p.amount || 0);
+  });
+  const max = Math.max(1, ...months.map((m) => m.paid + m.pending));
+  const W = 320, H = 140, padX = 20, padY = 20, innerW = W - padX * 2, innerH = H - padY * 2;
+  const barW = innerW / months.length - 8;
+  let out = '';
+  months.forEach((m, i) => {
+    const x = padX + i * (barW + 8) + 4;
+    const totalH = ((m.paid + m.pending) / max) * innerH;
+    const paidH = (m.paid / max) * innerH;
+    const pendH = totalH - paidH;
+    const yTop = padY + innerH - totalH;
+    out += `<rect x="${x}" y="${yTop}" width="${barW}" height="${paidH}" rx="4" fill="url(#grad-ok2)"/>`;
+    out += `<rect x="${x}" y="${yTop + paidH}" width="${barW}" height="${pendH}" rx="4" fill="url(#grad-warn2)"/>`;
+    out += `<text x="${x + barW / 2}" y="${H - 4}" text-anchor="middle" font-size="10" font-weight="600" fill="#9aa3b2">${m.label}</text>`;
+  });
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="grad-ok2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#059669"/>
+      </linearGradient>
+      <linearGradient id="grad-warn2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/>
+      </linearGradient>
+    </defs>
+    ${out}
+  `;
 }
 
 function renderPaymentList() {

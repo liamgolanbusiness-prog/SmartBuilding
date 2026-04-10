@@ -15,6 +15,7 @@ import residentRoutes from './routes/resident.routes';
 import paymentRoutes from './routes/payment.routes';
 import ticketRoutes from './routes/ticket.routes';
 import announcementRoutes from './routes/announcement.routes';
+import pollRoutes from './routes/poll.routes';
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler';
@@ -56,6 +57,7 @@ app.use('/api/residents', residentRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/announcements', announcementRoutes);
+app.use('/api/polls', pollRoutes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {

@@ -236,3 +236,29 @@ CREATE TABLE IF NOT EXISTS announcement_reads (
 
 CREATE INDEX IF NOT EXISTS idx_announcement_reads_announcement ON announcement_reads(announcement_id);
 CREATE INDEX IF NOT EXISTS idx_announcement_reads_resident ON announcement_reads(resident_id);
+
+CREATE TABLE IF NOT EXISTS polls (
+  id TEXT PRIMARY KEY,
+  building_id TEXT REFERENCES buildings(id) ON DELETE CASCADE,
+  announcement_id TEXT REFERENCES announcements(id) ON DELETE SET NULL,
+  created_by_id TEXT REFERENCES residents(id),
+  question TEXT NOT NULL,
+  options TEXT NOT NULL, -- JSON array of strings
+  expires_at TEXT,
+  closed INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_polls_building ON polls(building_id);
+
+CREATE TABLE IF NOT EXISTS poll_votes (
+  id TEXT PRIMARY KEY,
+  poll_id TEXT REFERENCES polls(id) ON DELETE CASCADE,
+  resident_id TEXT REFERENCES residents(id) ON DELETE CASCADE,
+  option_index INTEGER NOT NULL,
+  created_at TEXT DEFAULT (datetime('now')),
+  UNIQUE(poll_id, resident_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_poll_votes_poll ON poll_votes(poll_id);
+CREATE INDEX IF NOT EXISTS idx_poll_votes_resident ON poll_votes(resident_id);

@@ -260,6 +260,18 @@
                     <option value="event" data-i18n="cat.event">🎉 אירוע</option>
                   </select>
                   <textarea id="ann-content" data-i18n-placeholder="ann.contentPh" placeholder="מה תרצו לפרסם?" rows="4"></textarea>
+                  <label class="inline-toggle">
+                    <input type="checkbox" id="ann-is-poll" class="switch" />
+                    <span data-i18n="poll.attach">📊 צרף סקר להצבעה</span>
+                  </label>
+                  <div id="poll-fields" class="poll-fields hidden">
+                    <input id="poll-question" data-i18n-placeholder="poll.questionPh" placeholder="שאלת הסקר" />
+                    <div id="poll-options-wrap">
+                      <input class="poll-opt" data-i18n-placeholder="poll.optPh1" placeholder="אפשרות 1" />
+                      <input class="poll-opt" data-i18n-placeholder="poll.optPh2" placeholder="אפשרות 2" />
+                    </div>
+                    <button type="button" class="btn-ghost btn-sm" id="poll-add-opt" data-i18n="poll.addOption">+ הוסף אפשרות</button>
+                  </div>
                   <div class="sheet-actions">
                     <button class="btn-ghost" id="ann-cancel" data-i18n="common.cancel">ביטול</button>
                     <button class="btn-primary" id="ann-submit" data-i18n="ann.publish">פרסם</button>
@@ -317,7 +329,7 @@
                 <div class="h-spacer"></div>
               </section>
 
-              <!-- PAYMENTS -->
+              <!-- PAYMENTS (professional dashboard) -->
               <section id="view-payments" class="view hidden">
                 <header class="app-header">
                   <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
@@ -325,6 +337,7 @@
                   <span class="spacer"></span>
                 </header>
 
+                <!-- Hero balance card -->
                 <div class="pay-card">
                   <div class="pay-gradient"></div>
                   <div class="pay-top">
@@ -341,13 +354,101 @@
                   </div>
                 </div>
 
-                <div class="chips" id="pay-chips">
-                  <button class="chip active" data-filter="all" data-i18n="filter.all">הכל</button>
-                  <button class="chip" data-filter="pending" data-i18n="status.pending">⏳ ממתין</button>
-                  <button class="chip" data-filter="paid" data-i18n="status.paid">✓ שולם</button>
+                <!-- KPI cards row -->
+                <div class="kpi-grid">
+                  <div class="kpi kpi-ok">
+                    <div class="kpi-icon">✓</div>
+                    <div>
+                      <div class="kpi-val" id="kpi-rate">0%</div>
+                      <div class="kpi-lbl" data-i18n="payDash.rate">שיעור גבייה</div>
+                    </div>
+                  </div>
+                  <div class="kpi kpi-warn">
+                    <div class="kpi-icon">⏳</div>
+                    <div>
+                      <div class="kpi-val" id="kpi-pending-count">0</div>
+                      <div class="kpi-lbl" data-i18n="payDash.pendingCount">דיירים חייבים</div>
+                    </div>
+                  </div>
+                  <div class="kpi kpi-info">
+                    <div class="kpi-icon">💰</div>
+                    <div>
+                      <div class="kpi-val" id="kpi-collected">₪0</div>
+                      <div class="kpi-lbl" data-i18n="payDash.collectedMonth">נגבה החודש</div>
+                    </div>
+                  </div>
+                  <div class="kpi kpi-danger">
+                    <div class="kpi-icon">⚠️</div>
+                    <div>
+                      <div class="kpi-val" id="kpi-overdue">₪0</div>
+                      <div class="kpi-lbl" data-i18n="payDash.overdue">סכום באיחור</div>
+                    </div>
+                  </div>
                 </div>
 
-                <div id="payments-list" class="list"></div>
+                <!-- Collection progress ring -->
+                <div class="dash-card">
+                  <div class="dash-head">
+                    <h3 data-i18n="payDash.progress">התקדמות גבייה החודש</h3>
+                    <span class="muted small" id="kpi-progress-label">0/0</span>
+                  </div>
+                  <div class="ring-row">
+                    <svg class="ring" id="pay-ring" viewBox="0 0 120 120" width="120" height="120">
+                      <circle cx="60" cy="60" r="52" stroke="var(--bg-3)" stroke-width="12" fill="none"/>
+                      <circle id="pay-ring-fg" cx="60" cy="60" r="52" stroke="url(#ringGrad)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)"/>
+                      <defs>
+                        <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stop-color="#10b981"/>
+                          <stop offset="100%" stop-color="#06b6d4"/>
+                        </linearGradient>
+                      </defs>
+                      <text id="pay-ring-text" x="60" y="65" text-anchor="middle" font-size="22" font-weight="800" fill="var(--ink-1)">0%</text>
+                    </svg>
+                    <div class="ring-legend">
+                      <div><span class="dot" style="background:var(--ok)"></span><span data-i18n="payDash.collected">נגבה</span> <b id="ring-paid">₪0</b></div>
+                      <div><span class="dot" style="background:var(--warn)"></span><span data-i18n="payDash.awaiting">ממתין</span> <b id="ring-waiting">₪0</b></div>
+                      <div><span class="dot" style="background:var(--danger)"></span><span data-i18n="payDash.late">באיחור</span> <b id="ring-late">₪0</b></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Payment methods breakdown -->
+                <div class="dash-card">
+                  <div class="dash-head">
+                    <h3 data-i18n="payDash.methods">פילוח אופן תשלום</h3>
+                  </div>
+                  <div id="methods-bars" class="methods-bars"></div>
+                </div>
+
+                <!-- Debtors list -->
+                <div class="dash-card">
+                  <div class="dash-head">
+                    <h3 data-i18n="payDash.debtors">דיירים שלא שילמו</h3>
+                    <span class="badge status-overdue" id="debtors-count">0</span>
+                  </div>
+                  <div id="debtors-list" class="debtors-list"></div>
+                </div>
+
+                <!-- 6-month trend -->
+                <div class="dash-card">
+                  <div class="dash-head">
+                    <h3 data-i18n="payDash.trend">מגמה ב‑6 חודשים</h3>
+                    <span class="muted small" data-i18n="payDash.paidVsPending">שולם מול ממתין</span>
+                  </div>
+                  <svg id="pay-trend-chart" viewBox="0 0 320 140" width="100%" height="140"></svg>
+                </div>
+
+                <!-- Collapsible all payments -->
+                <details class="dash-details">
+                  <summary data-i18n="payDash.allPayments">כל התשלומים</summary>
+                  <div class="chips" id="pay-chips">
+                    <button class="chip active" data-filter="all" data-i18n="filter.all">הכל</button>
+                    <button class="chip" data-filter="pending" data-i18n="status.pending">⏳ ממתין</button>
+                    <button class="chip" data-filter="paid" data-i18n="status.paid">✓ שולם</button>
+                  </div>
+                  <div id="payments-list" class="list"></div>
+                </details>
+
                 <div class="h-spacer"></div>
               </section>
 
