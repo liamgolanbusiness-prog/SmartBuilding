@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS buildings (
   address TEXT NOT NULL,
   city TEXT NOT NULL,
   total_apartments INTEGER NOT NULL,
+  total_floors INTEGER DEFAULT 1,
 
   bank_name TEXT,
   bank_account_number TEXT,
@@ -37,6 +38,7 @@ CREATE TABLE IF NOT EXISTS residents (
   preferred_language TEXT DEFAULT 'he',
 
   apartment_number TEXT,
+  floor INTEGER,
   is_owner INTEGER DEFAULT 1,
   is_tenant INTEGER DEFAULT 0,
 
@@ -263,3 +265,52 @@ CREATE TABLE IF NOT EXISTS poll_votes (
 
 CREATE INDEX IF NOT EXISTS idx_poll_votes_poll ON poll_votes(poll_id);
 CREATE INDEX IF NOT EXISTS idx_poll_votes_resident ON poll_votes(resident_id);
+
+-- Tables also created lazily by routes/finance.routes.ts and
+-- routes/maintenance.routes.ts; mirrored here so bootstrap.js can seed
+-- them before the server starts.
+CREATE TABLE IF NOT EXISTS payment_rules (
+  id TEXT PRIMARY KEY,
+  building_id TEXT,
+  name TEXT NOT NULL,
+  description TEXT,
+  amount REAL NOT NULL,
+  currency TEXT DEFAULT 'ILS',
+  frequency TEXT NOT NULL,
+  day_of_month INTEGER,
+  start_date TEXT,
+  applies_to TEXT DEFAULT 'all',
+  active INTEGER DEFAULT 1,
+  created_by_id TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS expenses (
+  id TEXT PRIMARY KEY,
+  building_id TEXT,
+  title TEXT NOT NULL,
+  amount REAL NOT NULL,
+  currency TEXT DEFAULT 'ILS',
+  category TEXT,
+  expense_date TEXT,
+  receipt_data TEXT,
+  notes TEXT,
+  created_by_id TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS maintenance_tasks (
+  id TEXT PRIMARY KEY,
+  building_id TEXT,
+  title TEXT NOT NULL,
+  description TEXT,
+  category TEXT,
+  frequency TEXT NOT NULL,
+  interval_days INTEGER,
+  next_due TEXT,
+  last_done TEXT,
+  reminder_days_before INTEGER DEFAULT 3,
+  active INTEGER DEFAULT 1,
+  created_by_id TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);

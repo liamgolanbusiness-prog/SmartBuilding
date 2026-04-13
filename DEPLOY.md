@@ -31,12 +31,19 @@ That's it.
    full-screen native look).
 2. Tap **Send verification code**. Because `DEMO_MODE=true` is set, the backend
    returns the 6-digit code directly in the API response; the frontend
-   auto-fills it and logs you in. A toast shows the code too.
-3. Test phone numbers (all pre-seeded):
-   - **`+972501234567`** — Va'ad admin (full UI)
-   - **`+972502345678`** — Va'ad member
-   - **`+972503456789`** — Regular resident
-4. Add it to the Home Screen (Share → Add to Home Screen) for a true app feel.
+   auto-fills it and logs you in. A toast shows the code too. (As an extra
+   fallback the seed also pre-installs the OTP `123456` for every account,
+   valid for 7 days.)
+3. Demo building: **מגדלי הים התיכון** — 10 floors, 38 apartments, invite
+   code **`SEA2026`**, fully populated with 8 announcements, 12 tickets,
+   76 payments, 7 expenses, 5 maintenance tasks and 1 active poll.
+4. Test phone numbers (all 38 are pre-seeded with Israeli names):
+   - **`+972501000000`** — Va'ad admin / super admin (full UI, can manage
+     everything)
+   - **`+972501000001`** — Va'ad member
+   - **`+972501000002`** — Regular resident
+   - …pattern continues `+972501000003` … `+972501000037`
+5. Add it to the Home Screen (Share → Add to Home Screen) for a true app feel.
 
 ## What's running
 

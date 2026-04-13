@@ -1,15 +1,14 @@
 // Runs once at container startup BEFORE the server.
 // - Ensures the SQLite schema is applied
-// - Seeds a fresh database with demo data (building + 3 core users + the
-//   rich mock content from extra-seed.js) so the deployed instance is
-//   immediately usable from a phone.
+// - Adds any new columns that may be missing on an existing DB (idempotent)
+// - Seeds the latest full demo dataset via scripts/reset-seed.js so the
+//   deployed instance is immediately usable from a phone.
 //
 // Idempotent: if the `buildings` table already has rows, nothing is re-seeded.
 
 const Database = require('better-sqlite3');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 
 const dbDir = path.join(__dirname, '..', 'data');
 if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
@@ -25,6 +24,20 @@ const schema = fs.readFileSync(schemaPath, 'utf8');
 db.exec(schema);
 console.log('✅ Schema applied');
 
+// ---- Safety migrations for older on-disk databases ----
+// SQLite ALTER TABLE ADD COLUMN errors if the column already exists; we
+// swallow those so the script stays idempotent across deploys.
+const safeAddColumn = (table, column, type) => {
+  try {
+    db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${type}`);
+    console.log(`  + ${table}.${column}`);
+  } catch (e) {
+    // duplicate column — nothing to do
+  }
+};
+safeAddColumn('buildings', 'total_floors', 'INTEGER DEFAULT 1');
+safeAddColumn('residents', 'floor', 'INTEGER');
+
 // ---- Seed (only if empty) ----
 const { c: buildingCount } = db.prepare('SELECT COUNT(*) c FROM buildings').get();
 if (buildingCount > 0) {
@@ -33,68 +46,23 @@ if (buildingCount > 0) {
   return;
 }
 
-console.log('🌱 Empty database — seeding core data...');
-const uuid = () => crypto.randomUUID();
-
-const buildingId = uuid();
-db.prepare(
-  `INSERT INTO buildings (id, name, address, city, total_apartments, invite_code, bank_name, bank_account_number)
-   VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-).run(
-  buildingId,
-  'בניין הדקלים',
-  'רחוב הרצל 15',
-  'תל אביב',
-  50,
-  'DEKEL2024',
-  'בנק הפועלים',
-  '12-345-678901'
-);
-
-const insertResident = db.prepare(
-  `INSERT INTO residents (id, building_id, phone_number, phone_verified, full_name, apartment_number, role)
-   VALUES (?, ?, ?, 1, ?, ?, ?)`
-);
-
-// Core users — matches src/db/seed.ts
-const coreResidents = [
-  { phone: '+972501234567', name: 'דוד כהן',      apt: '1',  role: 'vaad_admin' },
-  { phone: '+972502345678', name: 'שרה לוי',      apt: '5',  role: 'vaad_member' },
-  { phone: '+972503456789', name: 'משה אברהם',    apt: '10', role: 'resident' },
-  { phone: '+972504567890', name: 'רחל ישראלי',   apt: '15', role: 'resident' },
-  { phone: '+972505678901', name: 'יוסף דוידוב',  apt: '20', role: 'resident' },
-];
-for (const r of coreResidents) {
-  insertResident.run(uuid(), buildingId, r.phone, r.name, r.apt, r.role);
-}
-console.log(`✅ Created ${coreResidents.length} core residents`);
-
-// A few starter payments for every plain resident
-const plainResidents = db
-  .prepare("SELECT id FROM residents WHERE building_id = ? AND role = 'resident'")
-  .all(buildingId);
-const insertPayment = db.prepare(
-  `INSERT INTO payments (id, building_id, resident_id, payment_type, description, amount, due_date, status)
-   VALUES (?, ?, ?, 'monthly_fee', ?, 450.00, date('now'), 'pending')`
-);
-for (const r of plainResidents) {
-  insertPayment.run(uuid(), buildingId, r.id, 'דמי ניהול - חודש נוכחי');
-}
-
-// Close our handle before extra-seed opens its own
+console.log('🌱 Empty database — running full reset-seed...');
 db.close();
 
-// Delegate to the existing rich seed script
-console.log('🌱 Running extra-seed.js for rich mock data...');
+// reset-seed.js opens its own connection to data/vaad.sqlite (relative to
+// cwd, which is the backend/ workdir). It wipes any existing rows and
+// creates the full test building "מגדלי הים התיכון".
 try {
-  require('./extra-seed.js');
-  console.log('✅ Rich seed complete');
+  require('./reset-seed.js');
+  console.log('\n🎉 Bootstrap finished. Demo credentials:');
+  console.log('  Building: מגדלי הים התיכון  (invite code: SEA2026)');
+  console.log('  Admin:    +972501000000  (vaad_admin, super admin)');
+  console.log('  Member:   +972501000001  (vaad_member)');
+  console.log('  Resident: +972501000002  (regular resident)');
+  console.log('  …38 residents total. Any +97250100000N (N = 0-9) or');
+  console.log('  +9725010000NN (NN = 10-37) works.');
+  console.log('  Pre-seeded OTP: 123456 (also returned in DEMO_MODE response)\n');
 } catch (err) {
-  console.error('⚠️  extra-seed failed (continuing anyway):', err && err.message);
+  console.error('❌ reset-seed failed:', err && err.message);
+  process.exit(1);
 }
-
-console.log('\n🎉 Bootstrap finished. Demo credentials:');
-console.log('  Admin:    +972501234567');
-console.log('  Member:   +972502345678');
-console.log('  Resident: +972503456789');
-console.log('  Invite:   DEKEL2024\n');
