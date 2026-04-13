@@ -376,121 +376,103 @@
               <section id="view-payments" class="view hidden">
                 <header class="app-header">
                   <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
-                  <h2 data-i18n="nav.payments">תשלומים</h2>
+                  <h2 data-i18n="nav.payments">כספים</h2>
                   <span class="spacer"></span>
                 </header>
 
-                <!-- Hero balance card -->
-                <div class="pay-card">
-                  <div class="pay-gradient"></div>
-                  <div class="pay-top">
-                    <div class="pay-chip" data-i18n="pay.balance">יתרת ועד</div>
-                    <div class="pay-logo">◆</div>
-                  </div>
-                  <div class="pay-amount" id="pay-amount">₪0</div>
-                  <div class="pay-foot">
-                    <div>
-                      <small data-i18n="pay.nextDue">תשלום הבא</small>
-                      <b id="pay-due">—</b>
+                <div class="fin-tabs">
+                  <button class="fin-tab active" data-ft="overview" data-i18n="fin.overview">💰 סקירה</button>
+                  <button class="fin-tab" data-ft="payments" data-i18n="fin.payments">📋 תשלומים</button>
+                  <button class="fin-tab" data-ft="expenses" data-i18n="fin.expenses">🧾 הוצאות</button>
+                </div>
+
+                <!-- TAB 1: OVERVIEW -->
+                <div class="fin-panel" id="fin-overview">
+                  <!-- Financial health hero -->
+                  <div class="fin-hero">
+                    <div class="fin-hero-row">
+                      <div>
+                        <div class="fin-hero-label" data-i18n="fin.fundBalance">קרן בניין</div>
+                        <div class="fin-hero-amount" id="fin-fund">₪0</div>
+                      </div>
+                      <div class="fin-hero-badge" id="fin-net-badge">—</div>
                     </div>
-                    <button class="btn-primary btn-sm" id="pay-now-btn" data-i18n="pay.now">שלם עכשיו</button>
+                    <div class="fin-hero-grid">
+                      <div><small data-i18n="fin.incomeMonth">הכנסות החודש</small><b id="fin-income" class="clr-ok">₪0</b></div>
+                      <div><small data-i18n="fin.expenseMonth">הוצאות החודש</small><b id="fin-expense" class="clr-danger">₪0</b></div>
+                      <div><small data-i18n="fin.netMonth">נטו החודש</small><b id="fin-net">₪0</b></div>
+                      <div><small data-i18n="fin.outstanding">חוב פתוח</small><b id="fin-outstanding" class="clr-warn">₪0</b></div>
+                    </div>
+                  </div>
+
+                  <!-- KPI row -->
+                  <div class="kpi-grid">
+                    <div class="kpi kpi-ok"><div class="kpi-icon">✓</div><div><div class="kpi-val" id="kpi-rate">0%</div><div class="kpi-lbl" data-i18n="fin.collectionRate">שיעור גבייה</div></div></div>
+                    <div class="kpi kpi-info"><div class="kpi-icon">👥</div><div><div class="kpi-val" id="kpi-paid-count">0/0</div><div class="kpi-lbl" data-i18n="fin.paidOf">שילמו</div></div></div>
+                    <div class="kpi kpi-warn"><div class="kpi-icon">⏳</div><div><div class="kpi-val" id="kpi-pending-count">0</div><div class="kpi-lbl" data-i18n="fin.pendingRes">ממתינים</div></div></div>
+                    <div class="kpi kpi-danger"><div class="kpi-icon">📊</div><div><div class="kpi-val" id="kpi-exp-month">₪0</div><div class="kpi-lbl" data-i18n="fin.expensesTotal">הוצאות</div></div></div>
+                  </div>
+
+                  <!-- 6-month income vs expenses chart -->
+                  <div class="dash-card">
+                    <div class="dash-head">
+                      <h3 data-i18n="fin.trendTitle">הכנסות מול הוצאות — 6 חודשים</h3>
+                    </div>
+                    <div class="trend-legend">
+                      <span><span class="dot" style="background:#10b981"></span> <span data-i18n="fin.income">הכנסות</span></span>
+                      <span><span class="dot" style="background:#ef4444"></span> <span data-i18n="fin.expensesWord">הוצאות</span></span>
+                    </div>
+                    <svg id="fin-trend-chart" viewBox="0 0 320 140" width="100%" height="140"></svg>
+                  </div>
+
+                  <!-- Expense breakdown by category -->
+                  <div class="dash-card">
+                    <div class="dash-head">
+                      <h3 data-i18n="fin.expBreakdown">פילוח הוצאות לפי קטגוריה</h3>
+                    </div>
+                    <div id="fin-exp-bars" class="methods-bars"></div>
                   </div>
                 </div>
 
-                <!-- KPI cards row -->
-                <div class="kpi-grid">
-                  <div class="kpi kpi-ok">
-                    <div class="kpi-icon">✓</div>
-                    <div>
-                      <div class="kpi-val" id="kpi-rate">0%</div>
-                      <div class="kpi-lbl" data-i18n="payDash.rate">שיעור גבייה</div>
-                    </div>
-                  </div>
-                  <div class="kpi kpi-warn">
-                    <div class="kpi-icon">⏳</div>
-                    <div>
-                      <div class="kpi-val" id="kpi-pending-count">0</div>
-                      <div class="kpi-lbl" data-i18n="payDash.pendingCount">דיירים חייבים</div>
-                    </div>
-                  </div>
-                  <div class="kpi kpi-info">
-                    <div class="kpi-icon">💰</div>
-                    <div>
-                      <div class="kpi-val" id="kpi-collected">₪0</div>
-                      <div class="kpi-lbl" data-i18n="payDash.collectedMonth">נגבה החודש</div>
-                    </div>
-                  </div>
-                  <div class="kpi kpi-danger">
-                    <div class="kpi-icon">⚠️</div>
-                    <div>
-                      <div class="kpi-val" id="kpi-overdue">₪0</div>
-                      <div class="kpi-lbl" data-i18n="payDash.overdue">סכום באיחור</div>
-                    </div>
-                  </div>
-                </div>
+                <!-- TAB 2: PAYMENTS -->
+                <div class="fin-panel hidden" id="fin-payments">
+                  <!-- Personal status card (for residents) -->
+                  <div id="fin-my-status" class="hidden"></div>
 
-                <!-- Collection progress ring -->
-                <div class="dash-card">
-                  <div class="dash-head">
-                    <h3 data-i18n="payDash.progress">התקדמות גבייה החודש</h3>
-                    <span class="muted small" id="kpi-progress-label">0/0</span>
-                  </div>
-                  <div class="ring-row">
-                    <svg class="ring" id="pay-ring" viewBox="0 0 120 120" width="120" height="120">
-                      <circle cx="60" cy="60" r="52" stroke="var(--bg-3)" stroke-width="12" fill="none"/>
-                      <circle id="pay-ring-fg" cx="60" cy="60" r="52" stroke="url(#ringGrad)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)"/>
-                      <defs>
-                        <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
-                          <stop offset="0%" stop-color="#10b981"/>
-                          <stop offset="100%" stop-color="#06b6d4"/>
-                        </linearGradient>
-                      </defs>
-                      <text id="pay-ring-text" x="60" y="65" text-anchor="middle" font-size="22" font-weight="800" fill="var(--ink-1)">0%</text>
-                    </svg>
-                    <div class="ring-legend">
-                      <div><span class="dot" style="background:var(--ok)"></span><span data-i18n="payDash.collected">נגבה</span> <b id="ring-paid">₪0</b></div>
-                      <div><span class="dot" style="background:var(--warn)"></span><span data-i18n="payDash.awaiting">ממתין</span> <b id="ring-waiting">₪0</b></div>
-                      <div><span class="dot" style="background:var(--danger)"></span><span data-i18n="payDash.late">באיחור</span> <b id="ring-late">₪0</b></div>
-                    </div>
-                  </div>
-                </div>
+                  <!-- Building collection bar -->
+                  <div class="fin-collection-bar" id="fin-collection-bar"></div>
 
-                <!-- Payment methods breakdown -->
-                <div class="dash-card">
-                  <div class="dash-head">
-                    <h3 data-i18n="payDash.methods">פילוח אופן תשלום</h3>
-                  </div>
-                  <div id="methods-bars" class="methods-bars"></div>
-                </div>
-
-                <!-- Debtors list -->
-                <div class="dash-card">
-                  <div class="dash-head">
-                    <h3 data-i18n="payDash.debtors">דיירים שלא שילמו</h3>
-                    <span class="badge status-overdue" id="debtors-count">0</span>
-                  </div>
-                  <div id="debtors-list" class="debtors-list"></div>
-                </div>
-
-                <!-- 6-month trend -->
-                <div class="dash-card">
-                  <div class="dash-head">
-                    <h3 data-i18n="payDash.trend">מגמה ב‑6 חודשים</h3>
-                    <span class="muted small" data-i18n="payDash.paidVsPending">שולם מול ממתין</span>
-                  </div>
-                  <svg id="pay-trend-chart" viewBox="0 0 320 140" width="100%" height="140"></svg>
-                </div>
-
-                <!-- Collapsible all payments -->
-                <details class="dash-details">
-                  <summary data-i18n="payDash.allPayments">כל התשלומים</summary>
+                  <!-- Filter chips -->
                   <div class="chips" id="pay-chips">
                     <button class="chip active" data-filter="all" data-i18n="filter.all">הכל</button>
                     <button class="chip" data-filter="pending" data-i18n="status.pending">⏳ ממתין</button>
                     <button class="chip" data-filter="paid" data-i18n="status.paid">✓ שולם</button>
                   </div>
+
+                  <!-- Payment list -->
                   <div id="payments-list" class="list"></div>
-                </details>
+                </div>
+
+                <!-- TAB 3: EXPENSES -->
+                <div class="fin-panel hidden" id="fin-expenses">
+                  <div class="exp-summary">
+                    <div><small data-i18n="expense.totalMonth">סה״כ החודש</small><b id="fin-exp-month">₪0</b></div>
+                    <div><small data-i18n="expense.totalYear">סה״כ השנה</small><b id="fin-exp-year">₪0</b></div>
+                  </div>
+                  <div class="exp-summary" style="margin-top:0">
+                    <div><small data-i18n="fin.avgMonthly">ממוצע חודשי</small><b id="fin-exp-avg">₪0</b></div>
+                    <div><small data-i18n="fin.expCount">מספר הוצאות</small><b id="fin-exp-count">0</b></div>
+                  </div>
+
+                  <!-- Category breakdown -->
+                  <div class="dash-card">
+                    <div class="dash-head"><h3 data-i18n="fin.expByCategory">לפי קטגוריה</h3></div>
+                    <div id="fin-exp-cat-bars" class="methods-bars"></div>
+                  </div>
+
+                  <!-- Expense list -->
+                  <div id="fin-expenses-list" class="list"></div>
+                </div>
 
                 <div class="h-spacer"></div>
               </section>
