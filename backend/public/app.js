@@ -2082,11 +2082,10 @@ function initAudiencePicker() {
   updateAudSummary();
 
   const residents = appState.residents || [];
-  // Build floor chips
-  const floors = [...new Set(residents.map((r) => {
-    const apt = Number(r.apartment_number || 0);
-    return apt > 0 ? Math.floor(apt / (apt >= 100 ? 100 : 10)) : 0;
-  }).filter(Boolean))].sort((a, b) => a - b);
+  // Build floor chips from building total_floors
+  const totalFloors = appState.me?.building?.total_floors || 10;
+  const floors = [];
+  for (let i = 1; i <= totalFloors; i++) floors.push(i);
   $('aud-floor-chips').innerHTML = floors.map((f) => `<div class="aud-chip" data-floor="${f}">${t('rule.floor')} ${f}</div>`).join('');
   $('aud-floor-chips').querySelectorAll('.aud-chip').forEach((c) => {
     c.addEventListener('click', () => {
@@ -2163,11 +2162,10 @@ function updateAudSummary() {
 function getAudiencePayload() {
   if (audState.mode === 'all') return 'all';
   if (audState.mode === 'floors') {
-    // Resolve floor numbers to resident IDs
+    // Resolve floor numbers to resident IDs using resident.floor or computed from apt
     const ids = (appState.residents || [])
       .filter((r) => {
-        const apt = Number(r.apartment_number || 0);
-        const floor = apt > 0 ? Math.floor(apt / (apt >= 100 ? 100 : 10)) : 0;
+        const floor = r.floor || Math.ceil(Number(r.apartment_number || 0) / 4);
         return audState.selectedFloors.has(floor);
       })
       .map((r) => r.id);
@@ -2433,6 +2431,7 @@ $('adm-submit')?.addEventListener('click', async () => {
     name: $('adm-name').value.trim(),
     address: $('adm-address').value.trim(),
     city: $('adm-city').value.trim(),
+    total_floors: Number($('adm-floors').value || 0),
     total_apartments: Number($('adm-apts').value || 0),
     invite_code: $('adm-code').value.trim().toUpperCase(),
     admin_name: $('adm-admin-name').value.trim(),
@@ -2451,7 +2450,7 @@ $('adm-submit')?.addEventListener('click', async () => {
     $('onb-admin-phone').textContent = res.admin.phone;
     appState.lastCreatedAdminPhone = res.admin.phone;
     // Reset form
-    ['adm-name', 'adm-address', 'adm-city', 'adm-apts', 'adm-code', 'adm-admin-name', 'adm-admin-phone', 'adm-admin-apt'].forEach((id) => ($(id).value = ''));
+    ['adm-name', 'adm-address', 'adm-city', 'adm-floors', 'adm-apts', 'adm-code', 'adm-admin-name', 'adm-admin-phone', 'adm-admin-apt'].forEach((id) => ($(id).value = ''));
     $('admin-new-form').classList.add('hidden');
     show('onboarded');
   } catch (e) { toast(e.message); }
@@ -2548,6 +2547,10 @@ async function loadProfile() {
     $('profile-sub').textContent = user?.phone_number || '—';
     $('profile-role').textContent = t('role.' + (user?.role || 'resident'));
     $('profile-role').className = 'badge role-' + (user?.role || 'resident');
+    const aptNum = Number(user?.apartment_number || 0);
+    const floorNum = user?.floor || (aptNum > 0 ? Math.ceil(aptNum / 4) : null);
+    $('profile-floor').textContent = floorNum ? t('rule.floor') + ' ' + floorNum : '';
+    $('profile-floor').style.display = floorNum ? '' : 'none';
     $('profile-apt').textContent = t('common.apartment') + ' ' + (user?.apartment_number || '—');
     // Show super-admin group if applicable
     $('super-admin-group').classList.toggle('hidden', !user?.is_super_admin);

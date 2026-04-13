@@ -13,7 +13,7 @@ router.get(
   authorize('vaad_member', 'vaad_admin', 'treasurer', 'resident'),
   asyncHandler(async (req: AuthRequest, res: Response) => {
     const result = await query(
-      `SELECT id, full_name, apartment_number, phone_number, role, email
+      `SELECT id, full_name, apartment_number, floor, phone_number, role, email
        FROM residents
        WHERE building_id = $1
        ORDER BY CAST(apartment_number AS INTEGER)`,
@@ -28,12 +28,12 @@ router.get(
   '/me',
   asyncHandler(async (req: AuthRequest, res: Response) => {
     const u = await query(
-      `SELECT id, full_name, apartment_number, phone_number, email, role, building_id, is_super_admin
+      `SELECT id, full_name, apartment_number, floor, phone_number, email, role, building_id, is_super_admin
        FROM residents WHERE id = $1`,
       [req.user!.id]
     );
     const b = await query(
-      `SELECT id, name, address, city, total_apartments, invite_code
+      `SELECT id, name, address, city, total_apartments, total_floors, invite_code
        FROM buildings WHERE id = $1`,
       [req.user!.buildingId]
     );

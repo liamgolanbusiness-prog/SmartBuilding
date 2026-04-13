@@ -44,6 +44,7 @@ router.post(
       name,
       address,
       city,
+      total_floors,
       total_apartments,
       invite_code,
       admin_phone,
@@ -80,9 +81,9 @@ router.post(
 
     // Insert building
     await query(
-      `INSERT INTO buildings (name, address, city, total_apartments, invite_code)
-       VALUES ($1, $2, $3, $4, $5)`,
-      [name, address, city, Number(total_apartments), invite_code]
+      `INSERT INTO buildings (name, address, city, total_floors, total_apartments, invite_code)
+       VALUES ($1, $2, $3, $4, $5, $6)`,
+      [name, address, city, Number(total_floors || 1), Number(total_apartments), invite_code]
     );
     // Fetch it
     const bldRow = await query(
