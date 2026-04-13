@@ -359,6 +359,30 @@ const I18N = {
     'common.deleted': 'נמחק ✓',
     'common.confirmDelete': 'אתם בטוחים שברצונכם למחוק?',
     'poll.attachSub': 'דיירים יוכלו להצביע ישירות מההודעה',
+    'fin.overview': '💰 סקירה',
+    'fin.payments': '📋 תשלומים',
+    'fin.expenses': '🧾 הוצאות',
+    'fin.fundBalance': 'קרן בניין',
+    'fin.incomeMonth': 'הכנסות החודש',
+    'fin.expenseMonth': 'הוצאות החודש',
+    'fin.netMonth': 'נטו החודש',
+    'fin.outstanding': 'חוב פתוח',
+    'fin.collectionRate': 'שיעור גבייה',
+    'fin.paidOf': 'שילמו',
+    'fin.pendingRes': 'ממתינים',
+    'fin.expensesTotal': 'הוצאות',
+    'fin.trendTitle': 'הכנסות מול הוצאות — 6 חודשים',
+    'fin.income': 'הכנסות',
+    'fin.expensesWord': 'הוצאות',
+    'fin.expBreakdown': 'פילוח הוצאות לפי קטגוריה',
+    'fin.paid': 'שילמו',
+    'fin.waiting': 'ממתינים',
+    'fin.owed': 'חוב',
+    'fin.youOwe': 'יתרה לתשלום',
+    'fin.youPaid': 'שולם — אין חוב!',
+    'fin.avgMonthly': 'ממוצע חודשי',
+    'fin.expCount': 'מספר הוצאות',
+    'fin.expByCategory': 'לפי קטגוריה',
     'ann.detail': 'פרטי הודעה',
     'ann.pinned': 'הודעה מוצמדת',
     'rule.audience': '🎯 קהל יעד',
@@ -704,6 +728,30 @@ const I18N = {
     'common.deleted': 'Deleted ✓',
     'common.confirmDelete': 'Are you sure you want to delete?',
     'poll.attachSub': 'Residents can vote directly from the announcement',
+    'fin.overview': '💰 Overview',
+    'fin.payments': '📋 Payments',
+    'fin.expenses': '🧾 Expenses',
+    'fin.fundBalance': 'Building fund',
+    'fin.incomeMonth': 'Income this month',
+    'fin.expenseMonth': 'Expenses this month',
+    'fin.netMonth': 'Net this month',
+    'fin.outstanding': 'Outstanding',
+    'fin.collectionRate': 'Collection rate',
+    'fin.paidOf': 'Paid',
+    'fin.pendingRes': 'Pending',
+    'fin.expensesTotal': 'Expenses',
+    'fin.trendTitle': 'Income vs Expenses — 6 months',
+    'fin.income': 'Income',
+    'fin.expensesWord': 'Expenses',
+    'fin.expBreakdown': 'Expense breakdown by category',
+    'fin.paid': 'paid',
+    'fin.waiting': 'waiting',
+    'fin.owed': 'owed',
+    'fin.youOwe': 'Balance due',
+    'fin.youPaid': 'All paid — no balance!',
+    'fin.avgMonthly': 'Monthly average',
+    'fin.expCount': 'Total expenses',
+    'fin.expByCategory': 'By category',
     'ann.detail': 'Announcement details',
     'ann.pinned': 'Pinned',
     'rule.audience': '🎯 Audience',
@@ -1704,8 +1752,23 @@ function openTicket(id) {
 }
 
 // ---------------- Payments ----------------
+// ================ FINANCE DASHBOARD (3 tabs) ================
+let finTab = 'overview';
+
+function setFinTab(tab) {
+  finTab = tab;
+  document.querySelectorAll('.fin-tab').forEach((b) => b.classList.toggle('active', b.dataset.ft === tab));
+  ['overview', 'payments', 'expenses'].forEach((k) => {
+    $('fin-' + k)?.classList.toggle('hidden', k !== tab);
+  });
+  if (tab === 'overview') renderFinanceOverview();
+  if (tab === 'payments') renderPaymentsTab();
+  if (tab === 'expenses') renderExpensesPublic();
+}
+document.querySelectorAll('.fin-tab').forEach((b) => b.addEventListener('click', () => setFinTab(b.dataset.ft)));
+
 function renderPayment(p) {
-  const icon = { vaad_monthly: '🏢', utility: '💡', repair: '🔧', insurance: '🛡️', other: '📦' }[p.payment_type] || '💰';
+  const icon = { vaad_monthly: '🏢', monthly: '🏢', utility: '💡', repair: '🔧', insurance: '🛡️', rule: '📋', other: '📦' }[p.payment_type] || '💰';
   const statusName = t('statusName.' + p.status) || p.status;
   return `
     <div class="list-item payment-item">
@@ -1731,190 +1794,181 @@ function renderPayment(p) {
 
 async function loadPayments() {
   try {
-    const [{ payments }, residentsResp] = await Promise.all([
+    const [{ payments }, { expenses }, resData] = await Promise.all([
       api('/api/payments'),
-      appState.residents?.length ? Promise.resolve({ residents: appState.residents }) : api('/api/residents'),
+      api('/api/finance/expenses').catch(() => ({ expenses: [] })),
+      appState.residents?.length ? { residents: appState.residents } : api('/api/residents'),
     ]);
     appState.payments = payments;
-    appState.residents = residentsResp.residents;
-    renderPaymentsDashboard();
-    renderPaymentList();
+    appState.publicExpenses = expenses || [];
+    appState.residents = resData.residents || appState.residents;
+    setFinTab(finTab);
   } catch (e) { console.error(e); }
 }
 
-function renderPaymentsDashboard() {
+// ---- Tab 1: Financial Overview ----
+function renderFinanceOverview() {
   const payments = appState.payments || [];
-  const residents = appState.residents || [];
-
-  // Hero balance
-  const pending = payments.filter((p) => p.status === 'pending' || p.status === 'overdue');
-  const paid = payments.filter((p) => p.status === 'paid');
-  const totalPending = pending.reduce((s, p) => s + Number(p.amount || 0), 0);
-  $('pay-amount').textContent = fmtMoney(totalPending);
-  const next = [...pending].sort((a, b) => new Date(a.due_date) - new Date(b.due_date))[0];
-  $('pay-due').textContent = next ? fmtDate(next.due_date) : t('pay.allPaid');
-
-  // This month scope
+  const expenses = appState.publicExpenses || [];
   const now = new Date();
-  const inThisMonth = (p) => {
-    const d = new Date(p.due_date);
-    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
-  };
-  const thisMonth = payments.filter(inThisMonth);
-  const mPaid = thisMonth.filter((p) => p.status === 'paid');
-  const mPending = thisMonth.filter((p) => p.status === 'pending' || p.status === 'overdue');
 
-  const paidAmt = mPaid.reduce((s, p) => s + Number(p.amount || 0), 0);
-  const pendingAmt = mPending.reduce((s, p) => s + Number(p.amount || 0), 0);
-  // Overdue = due_date < today and not paid
-  const overdue = payments.filter((p) => (p.status === 'pending' || p.status === 'overdue') && new Date(p.due_date) < now);
-  const overdueAmt = overdue.reduce((s, p) => s + Number(p.amount || 0), 0);
-  const rate = thisMonth.length ? Math.round((mPaid.length / thisMonth.length) * 100) : 0;
+  const inMonth = (dateStr, m, y) => { const d = new Date(dateStr); return d.getFullYear() === y && d.getMonth() === m; };
+  const thisMonthPayments = payments.filter((p) => inMonth(p.due_date, now.getMonth(), now.getFullYear()));
+  const thisMonthExpenses = expenses.filter((e) => inMonth(e.expense_date, now.getMonth(), now.getFullYear()));
 
-  // Unique residents who have pending this month
+  const mPaid = thisMonthPayments.filter((p) => p.status === 'paid');
+  const mPending = thisMonthPayments.filter((p) => p.status !== 'paid');
+  const incomeMonth = mPaid.reduce((s, p) => s + Number(p.amount || 0), 0);
+  const expenseMonth = thisMonthExpenses.reduce((s, e) => s + Number(e.amount || 0), 0);
+  const netMonth = incomeMonth - expenseMonth;
+  const outstanding = mPending.reduce((s, p) => s + Number(p.amount || 0), 0);
+
+  // All-time fund: total paid - total expenses
+  const totalCollected = payments.filter((p) => p.status === 'paid').reduce((s, p) => s + Number(p.amount || 0), 0);
+  const totalExpenses = expenses.reduce((s, e) => s + Number(e.amount || 0), 0);
+  const fundBalance = totalCollected - totalExpenses;
+
+  $('fin-fund').textContent = fmtMoney(fundBalance);
+  const netBadge = $('fin-net-badge');
+  netBadge.textContent = (netMonth >= 0 ? '+' : '') + fmtMoney(netMonth);
+  netBadge.className = 'fin-hero-badge ' + (netMonth >= 0 ? 'positive' : 'negative');
+  $('fin-income').textContent = fmtMoney(incomeMonth);
+  $('fin-expense').textContent = fmtMoney(expenseMonth);
+  $('fin-net').textContent = (netMonth >= 0 ? '+' : '') + fmtMoney(netMonth);
+  $('fin-net').style.color = netMonth >= 0 ? '#6ee7b7' : '#fca5a5';
+  $('fin-outstanding').textContent = fmtMoney(outstanding);
+
+  // KPI
+  const rate = thisMonthPayments.length ? Math.round((mPaid.length / thisMonthPayments.length) * 100) : 0;
   const debtorIds = new Set(mPending.map((p) => p.resident_id));
-
-  // KPI numbers
   animateCount($('kpi-rate'), rate, { suffix: '%' });
+  $('kpi-paid-count').textContent = mPaid.length + '/' + thisMonthPayments.length;
   animateCount($('kpi-pending-count'), debtorIds.size);
-  animateCount($('kpi-collected'), paidAmt, { prefix: '₪', decimals: 0 });
-  animateCount($('kpi-overdue'), overdueAmt, { prefix: '₪', decimals: 0 });
-  $('kpi-progress-label').textContent = `${mPaid.length}/${thisMonth.length}`;
+  $('kpi-exp-month').textContent = fmtMoney(expenseMonth);
 
-  // Progress ring
-  const C = 2 * Math.PI * 52; // 326.73
-  const offset = C - (rate / 100) * C;
-  const ringFg = $('pay-ring-fg');
-  if (ringFg) ringFg.setAttribute('stroke-dashoffset', offset.toFixed(1));
-  const ringText = $('pay-ring-text');
-  if (ringText) ringText.textContent = rate + '%';
-  $('ring-paid').textContent = fmtMoney(paidAmt);
-  $('ring-waiting').textContent = fmtMoney(pendingAmt - overdueAmt < 0 ? 0 : pendingAmt - overdueAmt);
-  $('ring-late').textContent = fmtMoney(overdueAmt);
+  // 6-month income vs expenses chart
+  drawDualTrendChart(payments, expenses);
 
-  // Payment methods breakdown (synthesize from payment_type + id hash for variety)
-  // Real-world: would come from a payments_methods field. Here we deterministically bucket.
-  const methodBuckets = { standing_order: 0, credit_card: 0, bank_transfer: 0, bit: 0, cash: 0 };
-  mPaid.forEach((p) => {
-    const h = Array.from(String(p.id || '')).reduce((a, c) => a + c.charCodeAt(0), 0);
-    const keys = Object.keys(methodBuckets);
-    const weights = [5, 4, 3, 2, 1]; // standing order most common
-    const total = weights.reduce((a, b) => a + b, 0);
-    const pick = h % total;
-    let acc = 0, chosen = 0;
-    for (let i = 0; i < weights.length; i++) { acc += weights[i]; if (pick < acc) { chosen = i; break; } }
-    methodBuckets[keys[chosen]] += Number(p.amount || 0);
-  });
-  const methodSum = Object.values(methodBuckets).reduce((a, b) => a + b, 0) || 1;
-  const methodLabels = {
-    standing_order: t('payDash.m.standing'),
-    credit_card: t('payDash.m.card'),
-    bank_transfer: t('payDash.m.bank'),
-    bit: t('payDash.m.bit'),
-    cash: t('payDash.m.cash'),
-  };
-  const methodIcons = { standing_order: '🏦', credit_card: '💳', bank_transfer: '🏧', bit: '📱', cash: '💵' };
-  $('methods-bars').innerHTML = Object.entries(methodBuckets)
-    .sort((a, b) => b[1] - a[1])
-    .map(([key, val], i) => {
-      const pct = Math.round((val / methodSum) * 100);
-      return `
-        <div class="method-row">
-          <div class="mr-top">
-            <b>${methodIcons[key]} ${escapeHtml(methodLabels[key])}</b>
-            <span>${fmtMoney(val, 'ILS')} · ${pct}%</span>
-          </div>
-          <div class="mr-bar"><div class="m-color-${(i % 5) + 1}" style="width:${pct}%"></div></div>
-        </div>
-      `;
-    }).join('');
-
-  // Debtors list: residents with pending payments this month
-  const residentById = {};
-  residents.forEach((r) => (residentById[r.id] = r));
-  // Also map by name fallback
-  const debtorMap = {};
-  mPending.forEach((p) => {
-    const rid = p.resident_id;
-    if (!debtorMap[rid]) {
-      const r = residentById[rid];
-      debtorMap[rid] = {
-        id: rid,
-        name: r?.full_name || p.full_name || '—',
-        apt: r?.apartment_number || p.apartment_number || '—',
-        amt: 0,
-        count: 0,
-      };
-    }
-    debtorMap[rid].amt += Number(p.amount || 0);
-    debtorMap[rid].count += 1;
-  });
-  const debtors = Object.values(debtorMap).sort((a, b) => b.amt - a.amt);
-  $('debtors-count').textContent = debtors.length;
-  $('debtors-list').innerHTML = debtors.length
-    ? debtors.map((d) => `
-        <div class="debtor">
-          <div class="avatar" style="background:${avatarColor(d.name)}">${initials(d.name)}</div>
-          <div class="debtor-meta">
-            <div class="debtor-name">${escapeHtml(d.name)}</div>
-            <div class="debtor-sub">${t('common.apartment')} ${escapeHtml(d.apt)} · ${d.count} ${t('payDash.items')}</div>
-          </div>
-          <div class="debtor-amt">${fmtMoney(d.amt)}</div>
-        </div>
-      `).join('')
-    : `<div class="empty">${t('payDash.noDebtors')}</div>`;
-
-  // 6-month trend chart (reuse svg)
-  drawTrendChart(payments);
+  // Expense breakdown by category
+  renderExpenseBreakdown(expenses, 'fin-exp-bars');
 }
 
-function drawTrendChart(payments) {
-  const svg = $('pay-trend-chart');
+function drawDualTrendChart(payments, expenses) {
+  const svg = $('fin-trend-chart');
   if (!svg) return;
   const now = new Date();
   const months = [];
   for (let i = 5; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    months.push({ key: d.toISOString().slice(0, 7), label: d.toLocaleDateString([], { month: 'short' }), paid: 0, pending: 0 });
+    months.push({ key: d.toISOString().slice(0, 7), y: d.getFullYear(), m: d.getMonth(), label: d.toLocaleDateString([], { month: 'short' }), income: 0, expense: 0 });
   }
   payments.forEach((p) => {
+    if (p.status !== 'paid') return;
     const d = new Date(p.due_date);
     const key = isNaN(+d) ? null : d.toISOString().slice(0, 7);
     const m = months.find((x) => x.key === key);
-    if (!m) return;
-    if (p.status === 'paid') m.paid += Number(p.amount || 0);
-    else m.pending += Number(p.amount || 0);
+    if (m) m.income += Number(p.amount || 0);
   });
-  const max = Math.max(1, ...months.map((m) => m.paid + m.pending));
+  expenses.forEach((e) => {
+    const d = new Date(e.expense_date);
+    const key = isNaN(+d) ? null : d.toISOString().slice(0, 7);
+    const m = months.find((x) => x.key === key);
+    if (m) m.expense += Number(e.amount || 0);
+  });
+  const max = Math.max(1, ...months.map((m) => Math.max(m.income, m.expense)));
   const W = 320, H = 140, padX = 20, padY = 20, innerW = W - padX * 2, innerH = H - padY * 2;
-  const barW = innerW / months.length - 8;
+  const groupW = innerW / months.length;
+  const barW = groupW * 0.35;
   let out = '';
   months.forEach((m, i) => {
-    const x = padX + i * (barW + 8) + 4;
-    const totalH = ((m.paid + m.pending) / max) * innerH;
-    const paidH = (m.paid / max) * innerH;
-    const pendH = totalH - paidH;
-    const yTop = padY + innerH - totalH;
-    out += `<rect x="${x}" y="${yTop}" width="${barW}" height="${paidH}" rx="4" fill="url(#grad-ok2)"/>`;
-    out += `<rect x="${x}" y="${yTop + paidH}" width="${barW}" height="${pendH}" rx="4" fill="url(#grad-warn2)"/>`;
-    out += `<text x="${x + barW / 2}" y="${H - 4}" text-anchor="middle" font-size="10" font-weight="600" fill="#9aa3b2">${m.label}</text>`;
+    const gx = padX + i * groupW;
+    const incH = (m.income / max) * innerH;
+    const expH = (m.expense / max) * innerH;
+    out += `<rect x="${gx + 2}" y="${padY + innerH - incH}" width="${barW}" height="${incH}" rx="3" fill="#10b981" opacity="0.85"/>`;
+    out += `<rect x="${gx + barW + 4}" y="${padY + innerH - expH}" width="${barW}" height="${expH}" rx="3" fill="#ef4444" opacity="0.75"/>`;
+    out += `<text x="${gx + groupW / 2}" y="${H - 4}" text-anchor="middle" font-size="10" font-weight="600" fill="#9aa3b2">${m.label}</text>`;
   });
-  svg.innerHTML = `
-    <defs>
-      <linearGradient id="grad-ok2" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#059669"/>
-      </linearGradient>
-      <linearGradient id="grad-warn2" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/>
-      </linearGradient>
-    </defs>
-    ${out}
+  svg.innerHTML = `${out}`;
+}
+
+function renderExpenseBreakdown(expenses, targetId) {
+  const cats = {};
+  const catIcons = { maintenance: '🔧', cleaning: '🧹', utility: '💡', insurance: '🛡️', supplies: '📦', other: '📎' };
+  (expenses || []).forEach((e) => {
+    const c = e.category || 'other';
+    if (!cats[c]) cats[c] = 0;
+    cats[c] += Number(e.amount || 0);
+  });
+  const total = Object.values(cats).reduce((a, b) => a + b, 0) || 1;
+  const el = $(targetId);
+  if (!el) return;
+  el.innerHTML = Object.entries(cats).sort((a, b) => b[1] - a[1]).map(([key, val], i) => {
+    const pct = Math.round((val / total) * 100);
+    return `<div class="method-row">
+      <div class="mr-top"><b>${catIcons[key] || '💰'} ${t('expCat.' + key)}</b><span>${fmtMoney(val)} · ${pct}%</span></div>
+      <div class="mr-bar"><div class="m-color-${(i % 5) + 1}" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ---- Tab 2: Payments (admin vs resident views) ----
+function renderPaymentsTab() {
+  const payments = appState.payments || [];
+  const isVaad = ['vaad_admin', 'vaad_member', 'treasurer'].includes(appState.me?.user?.role);
+  const myId = appState.me?.user?.id;
+  const now = new Date();
+
+  const inThisMonth = (p) => { const d = new Date(p.due_date); return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth(); };
+  const thisMonth = payments.filter(inThisMonth);
+  const mPaid = thisMonth.filter((p) => p.status === 'paid');
+  const mPending = thisMonth.filter((p) => p.status !== 'paid');
+
+  // Collection bar (everyone sees this)
+  const paidAmt = mPaid.reduce((s, p) => s + Number(p.amount || 0), 0);
+  const totalAmt = thisMonth.reduce((s, p) => s + Number(p.amount || 0), 0);
+  const paidPct = totalAmt ? Math.round((paidAmt / totalAmt) * 100) : 0;
+  const pendPct = 100 - paidPct;
+  $('fin-collection-bar').innerHTML = `
+    <div class="fcb-stats">
+      <span class="ok">✓ ${mPaid.length} ${t('fin.paid')}</span>
+      <span class="warn">⏳ ${mPending.length} ${t('fin.waiting')}</span>
+      <span class="danger">${fmtMoney(mPending.reduce((s, p) => s + Number(p.amount || 0), 0))} ${t('fin.owed')}</span>
+    </div>
+    <div class="fcb-progress">
+      <div class="fcb-fill-paid" style="width:${paidPct}%"></div>
+      <div class="fcb-fill-pending" style="width:${pendPct}%"></div>
+    </div>
   `;
+
+  // Resident personal status
+  if (!isVaad) {
+    const myPayments = thisMonth.filter((p) => p.resident_id === myId);
+    const myPending = myPayments.filter((p) => p.status !== 'paid');
+    const myPendingAmt = myPending.reduce((s, p) => s + Number(p.amount || 0), 0);
+    $('fin-my-status').classList.remove('hidden');
+    $('fin-my-status').innerHTML = `
+      <div class="my-pay-card ${myPendingAmt > 0 ? 'has-pending' : 'all-paid'}">
+        <div>
+          <div class="my-pay-status">${myPendingAmt > 0 ? t('fin.youOwe') : t('fin.youPaid')}</div>
+          <div class="my-pay-amount">${myPendingAmt > 0 ? fmtMoney(myPendingAmt) : '✓'}</div>
+        </div>
+        <div class="my-pay-status-icon">${myPendingAmt > 0 ? '⏳' : '🎉'}</div>
+      </div>
+    `;
+  } else {
+    $('fin-my-status').classList.add('hidden');
+  }
+
+  // Render payment list
+  renderPaymentList();
 }
 
 function renderPaymentList() {
   const f = appState.paymentFilter;
-  const filtered = appState.payments.filter((p) => f === 'all' || p.status === f);
+  const isVaad = ['vaad_admin', 'vaad_member', 'treasurer'].includes(appState.me?.user?.role);
+  let filtered = appState.payments.filter((p) => f === 'all' || p.status === f);
+  // Residents only see their own
+  if (!isVaad) filtered = filtered.filter((p) => p.resident_id === appState.me?.user?.id);
   const list = $('payments-list');
   list.innerHTML = filtered.length ? filtered.map(renderPayment).join('') : `<div class="empty">${t('pay.empty')}</div>`;
 }
@@ -1928,7 +1982,53 @@ $$('#pay-chips .chip').forEach((c) =>
   })
 );
 
-$('pay-now-btn').addEventListener('click', () => toast(t('pay.soon')));
+// ---- Tab 3: Public expenses ----
+function renderExpensesPublic() {
+  const expenses = appState.publicExpenses || [];
+  const now = new Date();
+  const thisMonthExp = expenses.filter((e) => { const d = new Date(e.expense_date); return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth(); });
+  const thisYearExp = expenses.filter((e) => { const d = new Date(e.expense_date); return d.getFullYear() === now.getFullYear(); });
+  const monthTotal = thisMonthExp.reduce((s, e) => s + Number(e.amount || 0), 0);
+  const yearTotal = thisYearExp.reduce((s, e) => s + Number(e.amount || 0), 0);
+  const monthCount = new Set(expenses.map((e) => new Date(e.expense_date).toISOString().slice(0, 7))).size || 1;
+  const avgMonthly = expenses.reduce((s, e) => s + Number(e.amount || 0), 0) / monthCount;
+
+  $('fin-exp-month').textContent = fmtMoney(monthTotal);
+  $('fin-exp-year').textContent = fmtMoney(yearTotal);
+  $('fin-exp-avg').textContent = fmtMoney(avgMonthly);
+  $('fin-exp-count').textContent = String(expenses.length);
+
+  renderExpenseBreakdown(expenses, 'fin-exp-cat-bars');
+
+  const catIcons = { maintenance: '🔧', cleaning: '🧹', utility: '💡', insurance: '🛡️', supplies: '📦', other: '📎' };
+  const list = $('fin-expenses-list');
+  if (!expenses.length) {
+    list.innerHTML = `<div class="empty">${t('expense.emptyTitle')}</div>`;
+    return;
+  }
+  list.innerHTML = expenses.map((e) => {
+    const icon = catIcons[e.category] || '💰';
+    return `
+      <div class="exp-item">
+        <div class="exp-head">
+          <div style="display:flex;gap:10px;align-items:center;flex:1">
+            ${e.receipt_data ? `<div class="exp-receipt-thumb" style="background-image:url('${e.receipt_data}')"></div>` : `<div class="exp-receipt-thumb" style="display:grid;place-items:center;font-size:22px">${icon}</div>`}
+            <div style="flex:1">
+              <div class="exp-title" dir="${dir(e.title)}">${escapeHtml(e.title)}</div>
+              <div class="exp-meta">
+                <span>${t('expCat.' + (e.category || 'other'))}</span>
+                <span>📅 ${fmtDate(e.expense_date)}</span>
+                <span>👤 ${escapeHtml(e.created_by_name || '—')}</span>
+              </div>
+            </div>
+          </div>
+          <div class="exp-amount">${fmtMoney(e.amount, e.currency)}</div>
+        </div>
+        ${e.notes ? `<div class="exp-meta" style="margin-top:6px" dir="${dir(e.notes)}">📝 ${escapeHtml(e.notes)}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
 
 // ---------------- Residents ----------------
 function renderResident(r) {
