@@ -40,7 +40,15 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(helmet({ contentSecurityPolicy: false })); // Security headers (CSP off for inline UI)
 app.use(cors()); // CORS
-app.use(express.static(path.resolve(__dirname, '../public'))); // Web UI
+app.use(express.static(path.resolve(__dirname, '../public'), {
+  etag: false,
+  lastModified: false,
+  setHeaders: (res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  }
+})); // Web UI — no-cache in dev
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(requestLogger); // Log all requests

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
   <meta name="theme-color" content="#0b1020" />
   <title>VaadApp — ניהול בניין</title>
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/style.css?v=20260413b" />
 </head>
 <body>
   <!-- Desktop frame showing phone mockup + copy -->
@@ -47,7 +47,7 @@
     </aside>
 
     <div class="phone-wrap">
-      <div class="phone" id="phone">
+      <div class="phone" id="phone-device">
         <div class="phone-frame">
           <div class="phone-notch"></div>
           <div class="phone-side-btn left"></div>
@@ -314,6 +314,17 @@
                 <div class="h-spacer"></div>
               </section>
 
+              <!-- ANNOUNCEMENT DETAIL -->
+              <section id="view-ann-detail" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="ann.detail">פרטי הודעה</h2>
+                  <span class="spacer"></span>
+                </header>
+                <div id="ann-detail-content"></div>
+                <div class="h-spacer"></div>
+              </section>
+
               <!-- TICKETS -->
               <section id="view-tickets" class="view hidden">
                 <header class="app-header">
@@ -542,6 +553,7 @@
                   <div class="profile-sub" id="profile-sub">—</div>
                   <div class="profile-badges">
                     <span class="badge" id="profile-role">—</span>
+                    <span class="badge" id="profile-floor">—</span>
                     <span class="badge" id="profile-apt">—</span>
                   </div>
                 </div>
@@ -647,6 +659,32 @@
                       <input id="r-dom" type="number" min="1" max="28" data-i18n-placeholder="rule.domPh" placeholder="יום בחודש (1-28)" />
                       <input id="r-start" type="date" />
                     </div>
+
+                    <!-- Audience picker -->
+                    <div class="audience-section">
+                      <div class="audience-label" data-i18n="rule.audience">🎯 קהל יעד</div>
+                      <div class="audience-mode-btns">
+                        <button class="aud-mode active" data-mode="all" data-i18n="rule.audAll">כל הדיירים</button>
+                        <button class="aud-mode" data-mode="floors" data-i18n="rule.audFloors">לפי קומה</button>
+                        <button class="aud-mode" data-mode="apts" data-i18n="rule.audApts">לפי דירות</button>
+                        <button class="aud-mode" data-mode="residents" data-i18n="rule.audResidents">בחירה ידנית</button>
+                      </div>
+                      <div id="aud-floors-picker" class="aud-picker hidden">
+                        <div class="aud-hint" data-i18n="rule.audFloorHint">בחרו קומות (לחיצה לבחירה/ביטול)</div>
+                        <div class="aud-chips" id="aud-floor-chips"></div>
+                      </div>
+                      <div id="aud-apts-picker" class="aud-picker hidden">
+                        <div class="aud-hint" data-i18n="rule.audAptHint">בחרו דירות</div>
+                        <div class="aud-chips" id="aud-apt-chips"></div>
+                      </div>
+                      <div id="aud-residents-picker" class="aud-picker hidden">
+                        <div class="aud-hint" data-i18n="rule.audResHint">בחרו דיירים ספציפיים</div>
+                        <input id="aud-res-search" data-i18n-placeholder="res.searchPh" placeholder="חיפוש..." class="text-input" style="margin-bottom:8px" />
+                        <div class="aud-res-list" id="aud-res-list"></div>
+                      </div>
+                      <div class="aud-summary" id="aud-summary"></div>
+                    </div>
+
                     <div class="sheet-actions">
                       <button class="btn-ghost" id="r-cancel" data-i18n="common.cancel">ביטול</button>
                       <button class="btn-primary" id="r-submit" data-i18n="rule.save">שמור</button>
@@ -760,18 +798,17 @@
                   <input id="adm-address" data-i18n-placeholder="admin.bldAddress" placeholder="כתובת" />
                   <input id="adm-city" data-i18n-placeholder="admin.bldCity" placeholder="עיר" />
                   <div class="row2">
+                    <input id="adm-floors" type="number" min="1" data-i18n-placeholder="admin.totalFloors" placeholder="מספר קומות" />
                     <input id="adm-apts" type="number" min="1" data-i18n-placeholder="admin.totalApts" placeholder="מספר דירות" />
-                    <input id="adm-code" data-i18n-placeholder="admin.inviteCode" placeholder="קוד הזמנה" />
                   </div>
+                  <input id="adm-code" data-i18n-placeholder="admin.inviteCode" placeholder="קוד הזמנה" style="margin-bottom:10px" />
                   <div class="sheet-divider" data-i18n="admin.firstAdmin">מנהל ראשון</div>
                   <input id="adm-admin-name" data-i18n-placeholder="admin.adminName" placeholder="שם המנהל" />
-                  <div class="row2">
-                    <div class="phone-input">
-                      <span class="cc">🇮🇱 +972</span>
-                      <input id="adm-admin-phone" type="tel" placeholder="501111111" />
-                    </div>
-                    <input id="adm-admin-apt" data-i18n-placeholder="admin.adminApt" placeholder="מס׳ דירה" />
+                  <div class="phone-input" style="margin-bottom:10px">
+                    <span class="cc">🇮🇱 +972</span>
+                    <input id="adm-admin-phone" type="tel" placeholder="501111111" />
                   </div>
+                  <input id="adm-admin-apt" data-i18n-placeholder="admin.adminApt" placeholder="מס׳ דירה" style="margin-bottom:10px" />
                   <div class="sheet-actions">
                     <button class="btn-ghost" id="adm-cancel" data-i18n="common.cancel">ביטול</button>
                     <button class="btn-primary" id="adm-submit" data-i18n="admin.create">צור בניין</button>
@@ -883,6 +920,6 @@
     </div>
   </div>
 
-  <script src="/app.js"></script>
+  <script src="/app.js?v=20260413b"></script>
 </body>
 </html>

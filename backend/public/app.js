@@ -359,6 +359,23 @@ const I18N = {
     'common.deleted': 'נמחק ✓',
     'common.confirmDelete': 'אתם בטוחים שברצונכם למחוק?',
     'poll.attachSub': 'דיירים יוכלו להצביע ישירות מההודעה',
+    'ann.detail': 'פרטי הודעה',
+    'ann.pinned': 'הודעה מוצמדת',
+    'rule.audience': '🎯 קהל יעד',
+    'rule.audAll': 'כל הדיירים',
+    'rule.audFloors': 'לפי קומה',
+    'rule.audApts': 'לפי דירות',
+    'rule.audResidents': 'בחירה ידנית',
+    'rule.audFloorHint': 'בחרו קומות (לחיצה לבחירה/ביטול)',
+    'rule.audAptHint': 'בחרו דירות',
+    'rule.audResHint': 'בחרו דיירים ספציפיים',
+    'rule.floor': 'קומה',
+    'rule.apt': 'דירה',
+    'rule.audSummaryAll': '✓ יוחל על כל הדיירים',
+    'rule.audSummaryFloors': '✓ {n} קומות נבחרו',
+    'rule.audSummaryApts': '✓ {n} דירות נבחרו',
+    'rule.audSummaryRes': '✓ {n} דיירים נבחרו',
+    'rule.audSummaryNone': 'לא נבחר קהל — יחול על כולם',
   },
   en: {
     'stage.sub': 'Va\'ad · Building Management',
@@ -687,6 +704,23 @@ const I18N = {
     'common.deleted': 'Deleted ✓',
     'common.confirmDelete': 'Are you sure you want to delete?',
     'poll.attachSub': 'Residents can vote directly from the announcement',
+    'ann.detail': 'Announcement details',
+    'ann.pinned': 'Pinned',
+    'rule.audience': '🎯 Audience',
+    'rule.audAll': 'All residents',
+    'rule.audFloors': 'By floor',
+    'rule.audApts': 'By apartment',
+    'rule.audResidents': 'Manual select',
+    'rule.audFloorHint': 'Select floors (click to toggle)',
+    'rule.audAptHint': 'Select apartments',
+    'rule.audResHint': 'Select specific residents',
+    'rule.floor': 'Floor',
+    'rule.apt': 'Apt',
+    'rule.audSummaryAll': '✓ Applies to all residents',
+    'rule.audSummaryFloors': '✓ {n} floors selected',
+    'rule.audSummaryApts': '✓ {n} apartments selected',
+    'rule.audSummaryRes': '✓ {n} residents selected',
+    'rule.audSummaryNone': 'No audience selected — will apply to all',
   },
 };
 
@@ -905,7 +939,7 @@ function applyPrefs() {
 const applyTheme = applyPrefs;
 
 // ---------------- Routing ----------------
-const views = ['login', 'home', 'announcements', 'tickets', 'payments', 'residents', 'profile', 'ticket-detail', 'admin', 'onboarded', 'management'];
+const views = ['login', 'home', 'announcements', 'tickets', 'payments', 'residents', 'profile', 'ticket-detail', 'ann-detail', 'admin', 'onboarded', 'management'];
 const tabRoutes = ['home', 'announcements', 'tickets', 'payments', 'profile'];
 let currentRoute = 'login';
 let navStack = [];
@@ -1310,7 +1344,7 @@ function renderAnnouncement(a) {
   // Find linked poll
   const poll = (appState.polls || []).find((p) => p.announcement_id === a.id);
   return `
-    <div class="list-item ann-item ${a.is_pinned ? 'pinned' : ''}">
+    <div class="list-item ann-item ${a.is_pinned ? 'pinned' : ''}" data-ann-id="${escapeAttr(a.id)}" style="cursor:pointer">
       <div class="item-head">
         <div class="item-title" dir="${dir(a.title)}">${a.is_pinned ? '📌 ' : ''}${icon} ${escapeHtml(a.title)}</div>
         <span class="badge cat-${escapeAttr(a.category || 'general')}">${escapeHtml(catLabel)}</span>
@@ -1397,6 +1431,16 @@ function renderAnnouncementList() {
     return;
   }
   list.innerHTML = filtered.map(renderAnnouncement).join('');
+  // Wire click-to-detail on announcement items
+  list.querySelectorAll('.ann-item[data-ann-id]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      // Don't navigate if clicking inside a poll option
+      if (e.target.closest('.poll-option')) return;
+      const annId = el.dataset.annId;
+      const ann = appState.announcements.find((a) => a.id === annId);
+      if (ann) openAnnDetail(ann);
+    });
+  });
   // Wire poll votes
   list.querySelectorAll('.poll-card').forEach((card) => {
     const pollId = card.dataset.pollId;
@@ -1408,6 +1452,45 @@ function renderAnnouncementList() {
           await api('/api/polls/' + pollId + '/vote', { method: 'POST', body: JSON.stringify({ option_index: idx }) });
           toast(t('poll.voted'));
           await loadAnnouncements();
+        } catch (err) { toast(err.message); }
+      });
+    });
+  });
+}
+
+function openAnnDetail(a) {
+  const icon = { urgent: '🚨', maintenance: '🔧', event: '🎉', general: '📄' }[a.category] || '📄';
+  const catLabel = t('catName.' + (a.category || 'general'));
+  const poll = (appState.polls || []).find((p) => p.announcement_id === a.id);
+  const contentHtml = escapeHtml(a.content || '').replace(/\n/g, '<br>');
+  $('ann-detail-content').innerHTML = `
+    <div class="ann-detail-hero">
+      <div class="ann-detail-icon">${icon}</div>
+      <span class="badge cat-${escapeAttr(a.category || 'general')}">${escapeHtml(catLabel)}</span>
+    </div>
+    <h3 class="ann-detail-title" dir="${dir(a.title)}">${a.is_pinned ? '📌 ' : ''}${escapeHtml(a.title)}</h3>
+    <div class="ann-detail-meta">
+      <span>👤 ${escapeHtml(a.author_name || t('common.unknown'))}</span>
+      <span>🕐 ${fmtDate(a.published_at || a.created_at)}</span>
+      ${a.is_pinned ? `<span>📌 ${t('ann.pinned')}</span>` : ''}
+    </div>
+    <div class="ann-detail-body" dir="${dir(a.content)}">${contentHtml}</div>
+    ${poll ? `<div class="ann-detail-poll">${renderPollCard(poll)}</div>` : ''}
+  `;
+  show('ann-detail');
+  // Re-wire poll votes inside detail
+  $('ann-detail-content').querySelectorAll('.poll-card').forEach((card) => {
+    const pollId = card.dataset.pollId;
+    card.querySelectorAll('.poll-option').forEach((opt) => {
+      opt.addEventListener('click', async () => {
+        if (card.classList.contains('poll-closed')) return;
+        const idx = Number(opt.dataset.optIdx);
+        try {
+          await api('/api/polls/' + pollId + '/vote', { method: 'POST', body: JSON.stringify({ option_index: idx }) });
+          toast(t('poll.voted'));
+          const { polls } = await api('/api/polls').catch(() => ({ polls: [] }));
+          appState.polls = polls || [];
+          openAnnDetail(a); // re-render detail with updated poll
         } catch (err) { toast(err.message); }
       });
     });
@@ -1958,7 +2041,7 @@ async function loadPaymentRules() {
             <div class="rule-meta">
               <span class="rule-freq">${t('freq.' + (r.frequency === 'one_time' ? 'onetime' : r.frequency))}</span>
               ${r.day_of_month ? `<span>${t('rule.domLabel')} ${r.day_of_month}</span>` : ''}
-              ${r.applies_to === 'all' ? `<span>${t('rule.allResidents')}</span>` : ''}
+              ${r.applies_to === 'all' ? `<span>${t('rule.allResidents')}</span>` : `<span>🎯 ${(() => { try { const ids = JSON.parse(r.applies_to); return t('rule.audSummaryRes', { n: ids.length }); } catch { return ''; } })()}</span>`}
             </div>
           </div>
           <div class="rule-amount">${fmtMoney(r.amount, r.currency)}</div>
@@ -1989,8 +2072,138 @@ async function loadPaymentRules() {
   } catch (e) { console.error(e); }
 }
 
-$('rule-new-btn')?.addEventListener('click', () => $('rule-new-form').classList.toggle('hidden'));
+$('rule-new-btn')?.addEventListener('click', () => {
+  $('rule-new-form').classList.toggle('hidden');
+  if (!$('rule-new-form').classList.contains('hidden')) initAudiencePicker();
+});
 $('r-cancel')?.addEventListener('click', () => $('rule-new-form').classList.add('hidden'));
+
+// ---- Audience picker state ----
+const audState = { mode: 'all', selectedFloors: new Set(), selectedApts: new Set(), selectedResidents: new Set() };
+
+function initAudiencePicker() {
+  audState.mode = 'all';
+  audState.selectedFloors.clear();
+  audState.selectedApts.clear();
+  audState.selectedResidents.clear();
+  document.querySelectorAll('.aud-mode').forEach((b) => b.classList.toggle('active', b.dataset.mode === 'all'));
+  ['aud-floors-picker', 'aud-apts-picker', 'aud-residents-picker'].forEach((id) => $(id)?.classList.add('hidden'));
+  updateAudSummary();
+
+  const residents = appState.residents || [];
+  // Build floor chips from building total_floors
+  const totalFloors = appState.me?.building?.total_floors || 10;
+  const floors = [];
+  for (let i = 1; i <= totalFloors; i++) floors.push(i);
+  $('aud-floor-chips').innerHTML = floors.map((f) => `<div class="aud-chip" data-floor="${f}">${t('rule.floor')} ${f}</div>`).join('');
+  $('aud-floor-chips').querySelectorAll('.aud-chip').forEach((c) => {
+    c.addEventListener('click', () => {
+      const f = Number(c.dataset.floor);
+      if (audState.selectedFloors.has(f)) audState.selectedFloors.delete(f);
+      else audState.selectedFloors.add(f);
+      c.classList.toggle('selected', audState.selectedFloors.has(f));
+      updateAudSummary();
+    });
+  });
+
+  // Build apartment chips
+  const apts = [...new Set(residents.map((r) => r.apartment_number).filter(Boolean))].sort((a, b) => Number(a) - Number(b));
+  $('aud-apt-chips').innerHTML = apts.map((a) => `<div class="aud-chip" data-apt="${escapeAttr(a)}">${t('rule.apt')} ${escapeHtml(a)}</div>`).join('');
+  $('aud-apt-chips').querySelectorAll('.aud-chip').forEach((c) => {
+    c.addEventListener('click', () => {
+      const a = c.dataset.apt;
+      if (audState.selectedApts.has(a)) audState.selectedApts.delete(a);
+      else audState.selectedApts.add(a);
+      c.classList.toggle('selected', audState.selectedApts.has(a));
+      updateAudSummary();
+    });
+  });
+
+  // Build resident list
+  renderAudResidentList('');
+  $('aud-res-search')?.addEventListener('input', (e) => renderAudResidentList(e.target.value));
+}
+
+function renderAudResidentList(query) {
+  const residents = appState.residents || [];
+  const q = (query || '').toLowerCase();
+  const filtered = q ? residents.filter((r) => (r.full_name || '').toLowerCase().includes(q) || String(r.apartment_number || '').includes(q)) : residents;
+  $('aud-res-list').innerHTML = filtered.map((r) => `
+    <div class="aud-res-row ${audState.selectedResidents.has(r.id) ? 'selected' : ''}" data-res-id="${escapeAttr(r.id)}">
+      <div class="aud-check"></div>
+      <div class="aud-res-info">
+        <b>${escapeHtml(r.full_name || '—')}</b>
+        <small>${t('rule.apt')} ${escapeHtml(r.apartment_number || '?')} · ${escapeHtml(r.role || '')}</small>
+      </div>
+    </div>
+  `).join('');
+  $('aud-res-list').querySelectorAll('.aud-res-row').forEach((row) => {
+    row.addEventListener('click', () => {
+      const id = row.dataset.resId;
+      if (audState.selectedResidents.has(id)) audState.selectedResidents.delete(id);
+      else audState.selectedResidents.add(id);
+      row.classList.toggle('selected', audState.selectedResidents.has(id));
+      updateAudSummary();
+    });
+  });
+}
+
+function updateAudSummary() {
+  const el = $('aud-summary');
+  if (audState.mode === 'all') { el.textContent = t('rule.audSummaryAll'); return; }
+  if (audState.mode === 'floors') {
+    const n = audState.selectedFloors.size;
+    el.textContent = n ? t('rule.audSummaryFloors', { n }) : t('rule.audSummaryNone');
+    return;
+  }
+  if (audState.mode === 'apts') {
+    const n = audState.selectedApts.size;
+    el.textContent = n ? t('rule.audSummaryApts', { n }) : t('rule.audSummaryNone');
+    return;
+  }
+  if (audState.mode === 'residents') {
+    const n = audState.selectedResidents.size;
+    el.textContent = n ? t('rule.audSummaryRes', { n }) : t('rule.audSummaryNone');
+    return;
+  }
+}
+
+function getAudiencePayload() {
+  if (audState.mode === 'all') return 'all';
+  if (audState.mode === 'floors') {
+    // Resolve floor numbers to resident IDs using resident.floor or computed from apt
+    const ids = (appState.residents || [])
+      .filter((r) => {
+        const floor = r.floor || Math.ceil(Number(r.apartment_number || 0) / 4);
+        return audState.selectedFloors.has(floor);
+      })
+      .map((r) => r.id);
+    return ids.length ? ids : 'all';
+  }
+  if (audState.mode === 'apts') {
+    const ids = (appState.residents || [])
+      .filter((r) => audState.selectedApts.has(String(r.apartment_number)))
+      .map((r) => r.id);
+    return ids.length ? ids : 'all';
+  }
+  if (audState.mode === 'residents') {
+    return audState.selectedResidents.size ? [...audState.selectedResidents] : 'all';
+  }
+  return 'all';
+}
+
+document.querySelectorAll('.aud-mode').forEach((b) => {
+  b.addEventListener('click', () => {
+    audState.mode = b.dataset.mode;
+    document.querySelectorAll('.aud-mode').forEach((x) => x.classList.toggle('active', x === b));
+    ['aud-floors-picker', 'aud-apts-picker', 'aud-residents-picker'].forEach((id) => $(id)?.classList.add('hidden'));
+    if (audState.mode === 'floors') $('aud-floors-picker').classList.remove('hidden');
+    if (audState.mode === 'apts') $('aud-apts-picker').classList.remove('hidden');
+    if (audState.mode === 'residents') $('aud-residents-picker').classList.remove('hidden');
+    updateAudSummary();
+  });
+});
+
 $('r-submit')?.addEventListener('click', async () => {
   const payload = {
     name: $('r-name').value.trim(),
@@ -1999,6 +2212,7 @@ $('r-submit')?.addEventListener('click', async () => {
     frequency: $('r-freq').value,
     day_of_month: $('r-dom').value ? Number($('r-dom').value) : null,
     start_date: $('r-start').value || null,
+    applies_to: getAudiencePayload(),
   };
   if (!payload.name || !payload.amount || !payload.frequency) return toast(t('admin.needAllFields'));
   try {
@@ -2226,6 +2440,7 @@ $('adm-submit')?.addEventListener('click', async () => {
     name: $('adm-name').value.trim(),
     address: $('adm-address').value.trim(),
     city: $('adm-city').value.trim(),
+    total_floors: Number($('adm-floors').value || 0),
     total_apartments: Number($('adm-apts').value || 0),
     invite_code: $('adm-code').value.trim().toUpperCase(),
     admin_name: $('adm-admin-name').value.trim(),
@@ -2244,7 +2459,7 @@ $('adm-submit')?.addEventListener('click', async () => {
     $('onb-admin-phone').textContent = res.admin.phone;
     appState.lastCreatedAdminPhone = res.admin.phone;
     // Reset form
-    ['adm-name', 'adm-address', 'adm-city', 'adm-apts', 'adm-code', 'adm-admin-name', 'adm-admin-phone', 'adm-admin-apt'].forEach((id) => ($(id).value = ''));
+    ['adm-name', 'adm-address', 'adm-city', 'adm-floors', 'adm-apts', 'adm-code', 'adm-admin-name', 'adm-admin-phone', 'adm-admin-apt'].forEach((id) => ($(id).value = ''));
     $('admin-new-form').classList.add('hidden');
     show('onboarded');
   } catch (e) { toast(e.message); }
@@ -2341,6 +2556,10 @@ async function loadProfile() {
     $('profile-sub').textContent = user?.phone_number || '—';
     $('profile-role').textContent = t('role.' + (user?.role || 'resident'));
     $('profile-role').className = 'badge role-' + (user?.role || 'resident');
+    const aptNum = Number(user?.apartment_number || 0);
+    const floorNum = user?.floor || (aptNum > 0 ? Math.ceil(aptNum / 4) : null);
+    $('profile-floor').textContent = floorNum ? t('rule.floor') + ' ' + floorNum : '';
+    $('profile-floor').style.display = floorNum ? '' : 'none';
     $('profile-apt').textContent = t('common.apartment') + ' ' + (user?.apartment_number || '—');
     // Show super-admin group if applicable
     $('super-admin-group').classList.toggle('hidden', !user?.is_super_admin);
@@ -2402,12 +2621,12 @@ $('theme-toggle-outside').addEventListener('click', () => {
 });
 $('device-iphone').addEventListener('click', () => {
   $('stage').classList.remove('fullscreen');
-  $('phone').style.width = '390px';
+  $('phone-device').style.width = '390px';
   $('screen').style.height = '812px';
 });
 $('device-pixel').addEventListener('click', () => {
   $('stage').classList.remove('fullscreen');
-  $('phone').style.width = '412px';
+  $('phone-device').style.width = '412px';
   $('screen').style.height = '892px';
 });
 $('device-fullscreen').addEventListener('click', () => {
