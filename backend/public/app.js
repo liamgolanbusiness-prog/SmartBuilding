@@ -3471,43 +3471,862 @@ function setupPullToRefresh() {
 }
 
 // ---------------- Profile extras: legal + data export + delete ----------------
+// Legal document metadata
+const LEGAL_VERSION = '1.0';
+const LEGAL_EFFECTIVE = '2026-04-14';
+const LEGAL_COMPANY = '[שם החברה] / [Company Name]';
+const LEGAL_REG = '[ח.פ / Registration Number]';
+const LEGAL_ADDRESS = '[כתובת החברה בישראל / Company Address, Israel]';
+const LEGAL_EMAIL_DPO = 'dpo@vaadapp.co.il';
+const LEGAL_EMAIL_PRIVACY = 'privacy@vaadapp.co.il';
+const LEGAL_EMAIL_LEGAL = 'legal@vaadapp.co.il';
+
 function openLegal(which) {
   const isTerms = which === 'terms';
   $('legal-title').textContent = isTerms ? t('legal.termsTitle') : t('legal.privacyTitle');
-  $('legal-body').innerHTML = isTerms ? renderTermsBody() : renderPrivacyBody();
+  const lang = store.lang || 'he';
+  const body = isTerms ? renderTermsBody(lang) : renderPrivacyBody(lang);
+  $('legal-body').innerHTML = renderLegalHeader(isTerms, lang) + body + renderLegalFooter(lang);
   show('legal');
+  // Scroll to top
+  const scroll = $('app-scroll');
+  if (scroll) scroll.scrollTop = 0;
 }
 window.openLegal = openLegal;
 
-function renderTermsBody() {
+function renderLegalHeader(isTerms, lang) {
+  const isHe = lang === 'he';
+  const label = isHe
+    ? (isTerms ? 'תנאי שימוש' : 'מדיניות פרטיות')
+    : (isTerms ? 'Terms of Service' : 'Privacy Policy');
+  const versionLabel = isHe ? 'גרסה' : 'Version';
+  const effectiveLabel = isHe ? 'בתוקף מיום' : 'Effective from';
+  const printLabel = isHe ? '🖨️ הדפסה' : '🖨️ Print';
+  const disclaimerTitle = isHe ? '⚠️ הערה חשובה' : '⚠️ Important notice';
+  const disclaimerText = isHe
+    ? 'מסמך זה מהווה טיוטת התחלה מקצועית. לפני השקה מסחרית ציבורית מומלץ שעורך דין המתמחה בהגנת הפרטיות ובדיני חוזים יעבור על המסמך ויתאים אותו לפעילות העסקית הספציפית שלך. השדות המסומנים בסוגריים מרובעים כגון [שם החברה] יש להחליף בפרטים האמיתיים של הישות המשפטית.'
+    : 'This document is a professional starting draft. Before a commercial public launch you should have a lawyer specializing in data protection and contract law review and adapt it to your specific business. Fields shown in square brackets such as [Company Name] must be replaced with the real details of your legal entity.';
+
   return `
-    <h3>${t('legal.t1')}</h3>
-    <p>${t('legal.t1p')}</p>
-    <h3>${t('legal.t2')}</h3>
-    <p>${t('legal.t2p')}</p>
-    <h3>${t('legal.t3')}</h3>
-    <p>${t('legal.t3p')}</p>
-    <h3>${t('legal.t4')}</h3>
-    <p>${t('legal.t4p')}</p>
-    <h3>${t('legal.t5')}</h3>
-    <p>${t('legal.t5p')}</p>`;
+    <div class="legal-meta">
+      <div class="legal-meta-row">
+        <span>${label}</span>
+        <button class="btn-ghost legal-print" onclick="window.print()">${printLabel}</button>
+      </div>
+      <div class="legal-meta-sub">
+        ${versionLabel} ${LEGAL_VERSION} · ${effectiveLabel} ${LEGAL_EFFECTIVE}
+      </div>
+    </div>
+    <div class="legal-disclaimer">
+      <b>${disclaimerTitle}</b>
+      <p>${disclaimerText}</p>
+    </div>
+  `;
 }
 
-function renderPrivacyBody() {
+function renderLegalFooter(lang) {
+  const isHe = lang === 'he';
+  const updated = isHe ? 'עודכן לאחרונה' : 'Last updated';
   return `
-    <h3>${t('legal.p1')}</h3>
-    <p>${t('legal.p1p')}</p>
-    <h3>${t('legal.p2')}</h3>
-    <p>${t('legal.p2p')}</p>
+    <div class="legal-footer-meta">
+      <hr>
+      <p class="muted small">${updated}: ${LEGAL_EFFECTIVE} · ${isHe ? 'גרסה' : 'Version'} ${LEGAL_VERSION}</p>
+    </div>
+  `;
+}
+
+// ---------------- Terms of Service ----------------
+function renderTermsBody(lang) {
+  return lang === 'he' ? renderTermsHebrew() : renderTermsEnglish();
+}
+
+function renderTermsHebrew() {
+  return `
+    <h3>1. הקדמה והסכמה לתנאים</h3>
+    <p>תנאי שימוש אלה ("<b>התנאים</b>") מסדירים את השימוש שלך ב-VaadApp ("<b>השירות</b>"), פלטפורמה מקוונת המופעלת על-ידי ${LEGAL_COMPANY} ("<b>אנחנו</b>", "<b>אנו</b>", "<b>שלנו</b>") המאפשרת לוועדי בתים ודיירים לנהל את פעילות הבניין, התקשורת, התשלומים והתחזוקה.</p>
+    <p>עצם יצירת חשבון, גישה לשירות או שימוש בו מהווים הסכמה מלאה לתנאים אלה. אם אינך מסכים, אינך רשאי להשתמש בשירות.</p>
+
+    <h3>2. הגדרות</h3>
     <ul>
-      <li>${t('legal.p2l1')}</li>
-      <li>${t('legal.p2l2')}</li>
-      <li>${t('legal.p2l3')}</li>
+      <li><b>"משתמש"</b> - כל אדם המשתמש בשירות בכל אמצעי.</li>
+      <li><b>"דייר"</b> - משתמש שחשבונו מקושר לבניין ספציפי.</li>
+      <li><b>"חבר ועד"</b> - משתמש בעל הרשאות ניהול לבניין (ועד אדמין, חבר ועד או גזבר).</li>
+      <li><b>"מנהל-על"</b> - עובד VaadApp בעל הרשאות מערכת כלליות.</li>
+      <li><b>"בניין"</b> - בית משותף רשום בשירות כהגדרתו בחוק המקרקעין (בתים משותפים).</li>
+      <li><b>"תוכן"</b> - טקסט, תמונות, מסמכים, הצבעות, הערות וכל חומר אחר שמשתמשים מעלים לשירות.</li>
+      <li><b>"מידע אישי"</b> - כהגדרתו בחוק הגנת הפרטיות, התשמ"א-1981.</li>
     </ul>
-    <h3>${t('legal.p3')}</h3>
-    <p>${t('legal.p3p')}</p>
-    <h3>${t('legal.p4')}</h3>
-    <p>${t('legal.p4p')}</p>`;
+
+    <h3>3. כשירות</h3>
+    <p>עליך להיות בן 16 לפחות כדי להשתמש בשירות. שימוש על-ידי קטינים מתחת לגיל 16 אסור לחלוטין.</p>
+    <p>הנך מצהיר ומתחייב כי (א) הנך בעל הזכות החוקית להתגורר בבניין המקושר לחשבונך או לייצג אותו, (ב) הנך משתמש בשירות למטרתו המיועדת כדייר, חבר ועד או מנהל בניין מוסמך, ו-(ג) המידע שסיפקת במהלך הרישום מדויק ועדכני.</p>
+
+    <h3>4. רישום חשבון</h3>
+    <p>חשבונות נפתחים באחת מהדרכים הבאות:</p>
+    <ul>
+      <li>אימות מספר טלפון באמצעות קוד חד-פעמי (OTP)</li>
+      <li>כניסה עם חשבון Google</li>
+    </ul>
+    <p>אתה אחראי באופן בלעדי לשמירה על סודיות חשבונך ולכל פעולה המבוצעת באמצעותו. עליך:</p>
+    <ul>
+      <li>לספק מידע מדויק, שלם ועדכני ולעדכנו בעת הצורך</li>
+      <li>להודיע לנו מיידית על כל גישה לא מורשית לחשבונך או על חשד לגניבת זהות</li>
+      <li>לא לשתף את פרטי הגישה שלך עם אחרים</li>
+      <li>לשאת באחריות לכל פעולה המתבצעת בחשבונך</li>
+    </ul>
+
+    <h3>5. רישיון שימוש</h3>
+    <p>בכפוף לעמידה בתנאים אלה, אנו מעניקים לך רישיון אישי, מוגבל, לא בלעדי, שאינו ניתן להעברה או להמחאה, ובר-ביטול, להשתמש בשירות למטרות אישיות וניהול בניין. חל עליך איסור מפורש:</p>
+    <ul>
+      <li>לבצע הנדסה הפוכה, לפרק, לפענח, או לנסות לחלץ את קוד המקור של השירות</li>
+      <li>למכור, להשכיר, להחכיר, להעביר זכויות או לתת רישיון משנה בגישה לשירות</li>
+      <li>להשתמש בשירות למטרה בלתי חוקית, מזיקה, מטעה או בלתי מורשית</li>
+      <li>לקצור (scrape), לכרות (mine) או לאסוף נתונים מהשירות באמצעים אוטומטיים</li>
+      <li>להתחזות לאדם אחר או לטעון באופן כוזב לסמכות שאינה בידיך</li>
+      <li>להפריע לפעולתו התקינה של השירות או לאבטחתו</li>
+      <li>לעקוף או לפגוע באמצעי האבטחה של השירות</li>
+    </ul>
+
+    <h3>6. תוכן משתמש והתנהגות</h3>
+    <p>הבעלות בתוכן שאתה מעלה נשארת שלך. בעצם ההעלאה אתה מעניק לנו רישיון עולמי, ללא תמלוגים, לא בלעדי, להעתיק, לאחסן, לשדר, להציג, ולהפיץ את התוכן באופן מוגבל במסגרת הפעלת השירות ולצרכיו בלבד.</p>
+    <p>אתה האחראי הבלעדי לתוכן שאתה מעלה. אתה מתחייב שלא להעלות תוכן אשר:</p>
+    <ul>
+      <li>מפר חוק, תקנה או זכות של צד שלישי (לרבות זכויות יוצרים, פטנטים, סימני מסחר או זכויות פרטיות)</li>
+      <li>משמיץ, פוגעני, גזעני, מאיים, מטריד או מעודד לאלימות</li>
+      <li>מכיל מידע אישי של אחרים ללא הסכמתם המפורשת</li>
+      <li>מכיל וירוסים, תוכנות זדוניות או קוד זדוני כלשהו</li>
+      <li>מהווה ספאם, שיווק רב-רמות או פרסומת מסחרית שאינה קשורה לבניין</li>
+      <li>פוגע בפרטיות או בכבודם של דיירים אחרים</li>
+      <li>מטרתו היא ניהול קמפיין פוליטי או מפלגתי (להבדיל מהצבעות פנימיות של הבניין)</li>
+    </ul>
+    <p>חברי ועד רשאים למתן, להסיר או להגביל תוכן בבניין שלהם לפי שיקול דעתם, בהתאם לתקנון הבית המשותף. אנו שומרים לעצמנו את הזכות להסיר כל תוכן על-פי שיקול דעתנו הבלעדי, ללא הודעה מוקדמת, אם לדעתנו הוא מפר תנאים אלה.</p>
+
+    <h3>7. סמכות הוועד וניטרליות VaadApp</h3>
+    <p>חברי ועד בעלי סמכויות תפעוליות בבניין שלהם, לרבות יצירת חוקי תשלום, רישום הוצאות, שליחת הודעות וניהול גישת דיירים. סמכות זו נובעת מחוק המקרקעין (בתים משותפים), התשכ"ט-1969, ומתקנון הבית המשותף של הבניין, ואינה מוענקת על-ידי VaadApp.</p>
+    <p>VaadApp היא <b>פלטפורמה ניטרלית</b>. איננו אחראים ל:</p>
+    <ul>
+      <li>החלטות הוועד או לתוצאותיהן הכלכליות</li>
+      <li>מחלוקות בין דיירים לוועד או בין דיירים ביניהם</li>
+      <li>דיוק החישובים של חוקי תשלום שהוועד מגדיר</li>
+      <li>תוכן הודעות, הצבעות ומסמכים שהוועד מפרסם</li>
+      <li>התאמת הפעילות של הוועד לתקנון הבית המשותף או לחוק</li>
+    </ul>
+    <p>מחלוקות פנימיות יש ליישב בהתאם לתקנון ולחוק. אנו רשאים לשתף פעולה עם רשויות משפטיות כנדרש בחוק, אך איננו משמשים כמגשרים, שופטים או מפקחים.</p>
+
+    <h3>8. תשלומים ועמלות</h3>
+    <p>אם השירות משמש לגביית תשלומים (דמי ועד, היטלים, הוצאות משותפות וכו'):</p>
+    <ul>
+      <li>התשלומים מעובדים על-ידי ספקי תשלום צד שלישי מורשים (כגון Tranzila, Cardcom). אנו איננו עוסקים בעיבוד תשלומים ישירות ואיננו שומרים פרטי כרטיסי אשראי.</li>
+      <li>אתה מאשר חיובים חוזרים כפי שהוגדרו על-ידי הוועד, בהתאם לחוק כרטיסי חיוב, התשמ"ו-1986, וכתבי ההרשאה שתחתום עליהם.</li>
+      <li>כל הסכומים מוצגים בשקלים חדשים (₪) אלא אם צוין אחרת, וכוללים מע"מ כחוק.</li>
+      <li>חשבוניות מס-קבלה מופקות בהתאם לפקודת מס הכנסה (נוסח חדש) ולחוק מע"מ, התשל"ו-1975.</li>
+      <li>דמי מנוי לפלטפורמה משולמים על-ידי ועד הבית (לא על-ידי דיירים בודדים) ומחויבים חודשית.</li>
+    </ul>
+    <p>במקרה של כשל בחיוב אוטומטי, אנו רשאים לבצע ניסיונות חיוב חוזרים במהלך 7 ימים. לאחר מכן, החוב יסומן כ"באיחור" ותישלח הודעה.</p>
+
+    <h3>9. מדיניות החזרים וביטולים</h3>
+    <p><b>דמי מנוי פלטפורמה:</b></p>
+    <ul>
+      <li>הוועד רשאי לבטל את המנוי בכל עת. הביטול ייכנס לתוקף בסוף תקופת החיוב הנוכחית.</li>
+      <li>לא יינתן החזר חלקי על חלקי חודש שלא נוצלו.</li>
+      <li>בביטול בתוך 14 יום מהמנוי הראשון, בהתאם לחוק הגנת הצרכן, התשמ"א-1981, ניתן לקבל החזר מלא בניכוי דמי ביטול כחוק.</li>
+    </ul>
+    <p><b>חיובים שגויים:</b></p>
+    <ul>
+      <li>אם חויבת בטעות בשל תקלה בשירות, פנה אלינו תוך 30 יום ואנו נחזיר את הסכום במלואו.</li>
+      <li>עמלות עיבוד תשלומים שנגבו על-ידי ספקי צד שלישי אינן ניתנות להחזר על-ידינו.</li>
+    </ul>
+    <p><b>מחלוקות עם הוועד:</b></p>
+    <ul>
+      <li>מחלוקות בנוגע לחיובי הוועד (לא פלטפורמה) יש ליישב מול הוועד ישירות. VaadApp אינה צד למחלוקות אלה.</li>
+      <li>במקרה של חיוב שגוי מטעם הוועד, תוכל לפנות לוועד לבקשת החזר. הוועד יכול לבצע החזר דרך המערכת.</li>
+    </ul>
+
+    <h3>10. קניין רוחני</h3>
+    <p>כל הזכויות, הבעלות וההנאות בשירות, לרבות התוכנה, הקוד, העיצוב, הלוגו, הטקסטים המקוריים, הגרפיקה, הממשק וכל חומר אחר שהופק על-ידינו, שייכים לנו או למעניקי הרישיון שלנו ומוגנים לפי חוקי זכויות היוצרים והקניין הרוחני של מדינת ישראל והדין הבינלאומי.</p>
+    <p>התנאים אינם מעבירים זכויות כלשהן בשירות אליך, למעט הרישיון המוגבל המפורש שבסעיף 5. שימוש בסימני המסחר, לוגואים ושמות מסחריים אסור ללא אישור מראש ובכתב.</p>
+
+    <h3>11. פרטיות</h3>
+    <p>השימוש שלך בשירות כפוף גם ל<b>מדיניות הפרטיות</b> שלנו, המשולבת בתנאים אלה בהפניה. אנו פועלים בהתאם לחוק הגנת הפרטיות, התשמ"א-1981, ולתקנות הגנת הפרטיות (אבטחת מידע), התשע"ז-2017.</p>
+
+    <h3>12. השעיה וסיום</h3>
+    <p><b>סיום מטעמך:</b> אתה רשאי לסיים את חשבונך בכל עת דרך "אזור סכנה" בפרופיל שלך. עם סיום:</p>
+    <ul>
+      <li>חשבונך יושבת ותיחסם הגישה</li>
+      <li>המידע האישי שלך יישמר בהתאם למדיניות הפרטיות</li>
+      <li>רשומות פיננסיות יישמרו למשך 7 שנים כנדרש לפי סעיף 25 לפקודת מס הכנסה ולחוק מע"מ</li>
+      <li>רשומות יומן הפעולות יישמרו בצורה אנונימית כדי לשמר את שקיפות הבניין עבור דיירים אחרים</li>
+    </ul>
+    <p><b>השעיה או סיום מטעמנו:</b> אנו רשאים להשעות או לסיים את חשבונך, עם או בלי הודעה מוקדמת, במקרים הבאים:</p>
+    <ul>
+      <li>הפרת התנאים או הדין</li>
+      <li>פעילות הונאה, שימוש לרעה או ניסיון לפרוץ למערכת</li>
+      <li>אי-תשלום דמי מנוי במשך מעל 30 יום (במקרה של ועדים)</li>
+      <li>נטישה ממושכת של החשבון (מעל 24 חודשים)</li>
+    </ul>
+
+    <h3>13. הסתייגויות (Disclaimers)</h3>
+    <p>השירות מסופק "כפי שהוא" (AS IS) ו"כפי שזמין" (AS AVAILABLE), ללא מצגים או אחריות מכל סוג, במפורש או במשתמע, לרבות אך לא רק: אחריות לסחירות (merchantability), התאמה למטרה מסוימת, אי-הפרה, דיוק, שלמות, אמינות, אבטחה או זמינות בלתי פוסקת.</p>
+    <p>איננו מתחייבים ש: (א) השירות יפעל ללא הפרעות או שגיאות; (ב) פגמים יתוקנו; (ג) השירות יהיה חף מווירוסים או רכיבים מזיקים; או (ד) תוצאות השימוש יעמדו בציפיותיך.</p>
+
+    <h3>14. הגבלת אחריות</h3>
+    <p>במידה המרבית המותרת לפי הדין החל, האחריות הכוללת המצטברת שלנו לכל תביעה או מחלוקת הנובעת או קשורה לשירות לא תעלה על הגדול מבין:</p>
+    <ol>
+      <li>הסכום הכולל ששילמת לנו ב-12 החודשים שקדמו למקור התביעה, או</li>
+      <li>500 ש"ח.</li>
+    </ol>
+    <p>בשום מקרה לא נהיה אחראים לנזקים עקיפים, מיוחדים, מקריים, תוצאתיים או עונשיים, לרבות: אובדן רווחים, אובדן מידע, פגיעה במוניטין, הפרעה לעסקים, אובדן הזדמנויות או כל נזק לא-ממוני אחר, גם אם הודענו לך על אפשרות להתרחשות של נזקים כאלה.</p>
+    <p><b>הגבלה חשובה:</b> שום דבר בתנאים אלה אינו מגביל את אחריותנו ל: (א) מוות או נזק גוף הנובעים מרשלנות; (ב) הונאה או מצג שווא כוזב; או (ג) כל אחריות אחרת שלא ניתן להחריגה או להגבילה כדין.</p>
+
+    <h3>15. שיפוי</h3>
+    <p>אתה מתחייב לשפות, להגן ולפטור אותנו, נושאי המשרה, עובדינו וספקינו, מפני כל תביעה, טענה, הפסד, הוצאה (לרבות שכר טרחת עורך דין סביר) או נזק הנובעים מ: (א) הפרת תנאים אלה על-ידך; (ב) שימושך בשירות; (ג) התוכן שהעלית; או (ד) פגיעה שגרמת בזכויות צד שלישי.</p>
+
+    <h3>16. הודעות</h3>
+    <p>הודעות מטעמנו יישלחו אליך באמצעות: (א) הודעה בתוך השירות; (ב) דוא"ל לכתובת שסיפקת; (ג) SMS למספר שסיפקת; או (ד) פרסום באתר ${LEGAL_EMAIL_LEGAL.split('@')[1]}. הודעות תיראנה כאילו התקבלו 24 שעות לאחר השליחה.</p>
+    <p>הודעות מטעמך אלינו יישלחו לכתובת: ${LEGAL_EMAIL_LEGAL} או ב${LEGAL_ADDRESS}.</p>
+
+    <h3>17. דין ושיפוט</h3>
+    <p>התנאים כפופים אך ורק לדיני מדינת ישראל, ללא התחשבות בכללי ברירת הדין. הנך מסכים באופן בלתי הפיך כי לבתי המשפט המוסמכים בעיר תל אביב-יפו תהא הסמכות הייחודית והבלעדית לדון בכל סכסוך, תביעה או מחלוקת הנובעים מהתנאים או מהשימוש בשירות.</p>
+
+    <h3>18. שינויים בתנאים</h3>
+    <p>אנו רשאים לעדכן את התנאים מעת לעת. שינויים מהותיים יפורסמו באמצעות: (א) הודעה בולטת בשירות; (ב) דוא"ל לכתובתך הרשומה; או (ג) התראת Push. השינויים ייכנסו לתוקף 14 יום לאחר פרסומם, אלא אם הדין מחייב תקופה ארוכה יותר.</p>
+    <p>המשך השימוש בשירות לאחר מועד כניסת השינויים לתוקף מהווה הסכמה מלאה לשינויים. אם אינך מסכים, עליך להפסיק לאלתר את השימוש בשירות ולסיים את חשבונך.</p>
+
+    <h3>19. הוראות שונות</h3>
+    <ul>
+      <li><b>הסכם שלם:</b> התנאים, יחד עם מדיניות הפרטיות, מהווים את ההסכם השלם בינך לבינינו ומחליפים כל הסכם או הסדר קודם.</li>
+      <li><b>ויתור:</b> אי-אכיפה של סעיף מסעיפי התנאים לא תיחשב כוויתור על הזכות לאכפו בעתיד.</li>
+      <li><b>הפרדה:</b> אם סעיף כלשהו ייקבע כבלתי אכיף, שאר הסעיפים יישארו בתוקף מלא.</li>
+      <li><b>המחאה:</b> אינך רשאי להמחות את זכויותיך לפי התנאים ללא אישורנו מראש ובכתב. אנו רשאים להמחות את זכויותינו לפי שיקול דעתנו.</li>
+      <li><b>כוח עליון:</b> לא נהיה אחראים לעיכובים או כשלים שמקורם בנסיבות שמעבר לשליטתנו הסבירה (כגון מלחמה, אסון טבע, שבתת אינטרנט ארצית, מגפה וכו').</li>
+    </ul>
+
+    <h3>20. יצירת קשר</h3>
+    <p>לשאלות או הבהרות בנוגע לתנאים:</p>
+    <ul>
+      <li><b>דוא"ל משפטי:</b> ${LEGAL_EMAIL_LEGAL}</li>
+      <li><b>חברה:</b> ${LEGAL_COMPANY}</li>
+      <li><b>ח.פ:</b> ${LEGAL_REG}</li>
+      <li><b>כתובת:</b> ${LEGAL_ADDRESS}</li>
+    </ul>
+  `;
+}
+
+function renderTermsEnglish() {
+  return `
+    <h3>1. Introduction and Acceptance</h3>
+    <p>These Terms of Service ("<b>Terms</b>") govern your use of VaadApp ("<b>Service</b>"), an online platform operated by ${LEGAL_COMPANY} ("<b>we</b>", "<b>us</b>", "<b>our</b>") that enables building committees (ועד בית) and residents to manage building operations, communications, payments, and maintenance.</p>
+    <p>By creating an account, accessing, or using the Service, you agree to be fully bound by these Terms. If you do not agree, you may not use the Service.</p>
+
+    <h3>2. Definitions</h3>
+    <ul>
+      <li><b>"User"</b> — any individual using the Service by any means.</li>
+      <li><b>"Resident"</b> — a User whose account is associated with a specific Building.</li>
+      <li><b>"Committee Member"</b> — a User with administrative permissions for a Building (Vaad admin, member, or treasurer).</li>
+      <li><b>"Super Admin"</b> — VaadApp staff with system-wide permissions.</li>
+      <li><b>"Building"</b> — a multi-unit residential building registered on the Service, as defined in the Israeli Real Estate Law (Condominiums).</li>
+      <li><b>"Content"</b> — text, images, documents, votes, comments, and any other material Users submit to the Service.</li>
+      <li><b>"Personal Data"</b> — as defined in the Israeli Privacy Protection Law, 5741-1981.</li>
+    </ul>
+
+    <h3>3. Eligibility</h3>
+    <p>You must be at least 16 years old to use the Service. Use by minors under 16 is strictly prohibited.</p>
+    <p>You represent and warrant that (a) you have the legal right to reside in or represent the Building associated with your account, (b) you are using the Service for its intended purpose as a resident, committee member, or authorized building manager, and (c) all information you provided during registration is accurate and current.</p>
+
+    <h3>4. Account Registration</h3>
+    <p>Accounts are created via one of the following methods:</p>
+    <ul>
+      <li>Phone number verification with a one-time code (OTP)</li>
+      <li>Google Sign-in</li>
+    </ul>
+    <p>You are solely responsible for maintaining the confidentiality of your account and for all activities under it. You must:</p>
+    <ul>
+      <li>Provide accurate, complete, and current information and update it as needed</li>
+      <li>Notify us immediately of any unauthorized access or suspected identity theft</li>
+      <li>Not share your access credentials with anyone</li>
+      <li>Bear full responsibility for all actions taken through your account</li>
+    </ul>
+
+    <h3>5. License</h3>
+    <p>Subject to your compliance with these Terms, we grant you a personal, limited, non-exclusive, non-transferable, non-sublicensable, revocable license to use the Service for personal and building-management purposes. You are expressly prohibited from:</p>
+    <ul>
+      <li>Reverse engineering, decompiling, disassembling, or attempting to extract the source code of the Service</li>
+      <li>Selling, renting, leasing, transferring rights, or sublicensing access to the Service</li>
+      <li>Using the Service for any illegal, harmful, misleading, or unauthorized purpose</li>
+      <li>Scraping, mining, or collecting data from the Service by automated means</li>
+      <li>Impersonating another person or falsely claiming authority you do not have</li>
+      <li>Interfering with the proper operation or security of the Service</li>
+      <li>Circumventing or defeating security measures</li>
+    </ul>
+
+    <h3>6. User Content and Conduct</h3>
+    <p>You retain ownership of the Content you submit. By submitting Content, you grant us a worldwide, royalty-free, non-exclusive license to copy, store, transmit, display, and distribute the Content solely as needed to operate the Service.</p>
+    <p>You are solely responsible for your Content. You agree not to submit Content that:</p>
+    <ul>
+      <li>Violates any law, regulation, or third-party right (including copyright, patent, trademark, or privacy rights)</li>
+      <li>Is defamatory, offensive, racist, threatening, harassing, or incites violence</li>
+      <li>Contains personal data of others without their explicit consent</li>
+      <li>Contains viruses, malware, or any malicious code</li>
+      <li>Constitutes spam, multi-level marketing, or commercial advertising unrelated to the Building</li>
+      <li>Harms the privacy or dignity of other residents</li>
+      <li>Conducts political or partisan campaigns (as distinct from internal building polls)</li>
+    </ul>
+    <p>Committee Members may moderate, remove, or restrict Content within their Building at their discretion, in accordance with the Building's bylaws. We reserve the right to remove any Content at our sole discretion, without prior notice, if we believe it violates these Terms.</p>
+
+    <h3>7. Committee Authority and VaadApp Neutrality</h3>
+    <p>Committee Members have operational authority within their Building, including creating payment rules, recording expenses, sending announcements, and managing resident access. This authority is granted by the Israeli Real Estate Law (Condominiums), 5729-1969, and the Building's bylaws — not by VaadApp.</p>
+    <p>VaadApp is a <b>neutral platform</b>. We are not responsible for:</p>
+    <ul>
+      <li>Committee decisions or their financial consequences</li>
+      <li>Disputes between residents and the committee or among residents</li>
+      <li>The accuracy of calculations in payment rules configured by the committee</li>
+      <li>The content of announcements, polls, and documents published by the committee</li>
+      <li>Whether the committee's activities comply with the building bylaws or the law</li>
+    </ul>
+    <p>Internal disputes should be resolved according to the bylaws and the law. We may cooperate with legal authorities as required by law, but we do not act as mediators, judges, or regulators.</p>
+
+    <h3>8. Payments and Fees</h3>
+    <p>If the Service is used to collect payments (Vaad fees, assessments, shared expenses, etc.):</p>
+    <ul>
+      <li>Payments are processed by authorized third-party payment providers (e.g., Tranzila, Cardcom). We do not process payments directly and do not store credit card details.</li>
+      <li>You authorize recurring charges as configured by the committee, subject to the Israeli Debit Cards Law, 5746-1986, and the authorization documents you sign.</li>
+      <li>All amounts are displayed in Israeli New Shekels (₪) unless otherwise specified, and include VAT as required by law.</li>
+      <li>Tax receipts (חשבונית מס-קבלה) are issued in accordance with the Israeli Income Tax Ordinance and VAT Law, 5736-1975.</li>
+      <li>Platform subscription fees are paid by the Building Committee (not individual residents) and are billed monthly.</li>
+    </ul>
+    <p>In case of automatic charge failure, we may retry the charge for up to 7 days. After that, the debt will be marked "overdue" and a notification sent.</p>
+
+    <h3>9. Refunds and Cancellations</h3>
+    <p><b>Platform subscription:</b></p>
+    <ul>
+      <li>The committee may cancel the subscription at any time. Cancellation takes effect at the end of the current billing period.</li>
+      <li>No partial refund for unused portions of a month.</li>
+      <li>For cancellation within 14 days of initial subscription, in accordance with the Israeli Consumer Protection Law, 5741-1981, a full refund is available less statutory cancellation fees.</li>
+    </ul>
+    <p><b>Erroneous charges:</b></p>
+    <ul>
+      <li>If you are charged in error due to a Service malfunction, contact us within 30 days for a full refund of the erroneous amount.</li>
+      <li>Payment processing fees charged by third-party providers are not refundable by us.</li>
+    </ul>
+    <p><b>Disputes with the committee:</b></p>
+    <ul>
+      <li>Disputes regarding committee charges (not platform charges) must be resolved directly with the committee. VaadApp is not a party to such disputes.</li>
+      <li>In case of an incorrect charge by the committee, you may contact the committee to request a refund. The committee can process refunds through the system.</li>
+    </ul>
+
+    <h3>10. Intellectual Property</h3>
+    <p>All rights, title, and interest in the Service, including software, code, design, logo, original text, graphics, interface, and any other material produced by us, are owned by us or our licensors and are protected under the copyright and intellectual property laws of the State of Israel and international law.</p>
+    <p>These Terms do not transfer any rights in the Service to you, except for the limited express license in Section 5. Use of trademarks, logos, and trade names is prohibited without prior written approval.</p>
+
+    <h3>11. Privacy</h3>
+    <p>Your use of the Service is also subject to our <b>Privacy Policy</b>, which is incorporated into these Terms by reference. We operate in accordance with the Israeli Privacy Protection Law, 5741-1981, and the Privacy Protection (Information Security) Regulations, 5777-2017.</p>
+
+    <h3>12. Suspension and Termination</h3>
+    <p><b>Termination by you:</b> You may terminate your account at any time via the "Danger Zone" in your profile. Upon termination:</p>
+    <ul>
+      <li>Your account will be deactivated and access revoked</li>
+      <li>Your personal data will be retained as described in the Privacy Policy</li>
+      <li>Financial records will be retained for 7 years as required by Section 25 of the Israeli Income Tax Ordinance and the VAT Law</li>
+      <li>Audit log entries will be retained in anonymized form to preserve building transparency for other residents</li>
+    </ul>
+    <p><b>Suspension or termination by us:</b> We may suspend or terminate your account, with or without prior notice, in the following cases:</p>
+    <ul>
+      <li>Violation of these Terms or the law</li>
+      <li>Fraud, abuse, or attempted system intrusion</li>
+      <li>Non-payment of subscription fees for more than 30 days (for committees)</li>
+      <li>Prolonged account abandonment (over 24 months)</li>
+    </ul>
+
+    <h3>13. Disclaimers</h3>
+    <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT REPRESENTATIONS OR WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO: WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ACCURACY, COMPLETENESS, RELIABILITY, SECURITY, OR UNINTERRUPTED AVAILABILITY.</p>
+    <p>We do not warrant that: (a) the Service will operate without interruption or error; (b) defects will be corrected; (c) the Service will be free of viruses or harmful components; or (d) the results of using the Service will meet your expectations.</p>
+
+    <h3>14. Limitation of Liability</h3>
+    <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, OUR TOTAL AGGREGATE LIABILITY FOR ANY CLAIM OR DISPUTE ARISING FROM OR RELATED TO THE SERVICE SHALL NOT EXCEED THE GREATER OF:</p>
+    <ol>
+      <li>The total amount you paid to us in the 12 months preceding the origin of the claim, or</li>
+      <li>₪500.</li>
+    </ol>
+    <p>IN NO EVENT SHALL WE BE LIABLE FOR INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING: LOSS OF PROFITS, LOSS OF DATA, REPUTATIONAL HARM, BUSINESS INTERRUPTION, LOSS OF OPPORTUNITIES, OR ANY OTHER NON-PECUNIARY DAMAGE, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+    <p><b>Important limitation:</b> Nothing in these Terms limits our liability for: (a) death or personal injury caused by negligence; (b) fraud or false misrepresentation; or (c) any other liability that cannot be lawfully excluded or limited.</p>
+
+    <h3>15. Indemnification</h3>
+    <p>You agree to indemnify, defend, and hold us, our officers, employees, and suppliers harmless from any claim, demand, loss, expense (including reasonable attorney fees), or damage arising from: (a) your breach of these Terms; (b) your use of the Service; (c) Content you submitted; or (d) infringement of third-party rights caused by you.</p>
+
+    <h3>16. Notices</h3>
+    <p>Notices from us to you will be delivered via: (a) in-service notification; (b) email to the address you provided; (c) SMS to the number you provided; or (d) publication on our website. Notices will be deemed received 24 hours after sending.</p>
+    <p>Notices from you to us should be sent to: ${LEGAL_EMAIL_LEGAL} or ${LEGAL_ADDRESS}.</p>
+
+    <h3>17. Governing Law and Jurisdiction</h3>
+    <p>These Terms are governed solely by the laws of the State of Israel, without regard to conflict-of-law rules. You irrevocably agree that the competent courts in the city of Tel Aviv-Jaffa shall have exclusive jurisdiction over any dispute, claim, or controversy arising from these Terms or your use of the Service.</p>
+
+    <h3>18. Changes to Terms</h3>
+    <p>We may update these Terms from time to time. Material changes will be announced via: (a) a prominent notice in the Service; (b) email to your registered address; or (c) push notification. Changes will take effect 14 days after publication, unless a longer period is required by law.</p>
+    <p>Continued use of the Service after the effective date of changes constitutes full agreement to the changes. If you do not agree, you must immediately cease using the Service and terminate your account.</p>
+
+    <h3>19. Miscellaneous</h3>
+    <ul>
+      <li><b>Entire agreement:</b> These Terms, together with the Privacy Policy, constitute the entire agreement between you and us and supersede any prior agreement or arrangement.</li>
+      <li><b>Waiver:</b> Failure to enforce any provision shall not be deemed a waiver of the right to enforce it in the future.</li>
+      <li><b>Severability:</b> If any provision is found unenforceable, the remaining provisions shall remain in full effect.</li>
+      <li><b>Assignment:</b> You may not assign your rights under these Terms without our prior written approval. We may assign our rights at our discretion.</li>
+      <li><b>Force majeure:</b> We shall not be liable for delays or failures due to circumstances beyond our reasonable control (e.g., war, natural disaster, nationwide internet outage, pandemic, etc.).</li>
+    </ul>
+
+    <h3>20. Contact</h3>
+    <p>For questions or clarifications regarding these Terms:</p>
+    <ul>
+      <li><b>Legal email:</b> ${LEGAL_EMAIL_LEGAL}</li>
+      <li><b>Company:</b> ${LEGAL_COMPANY}</li>
+      <li><b>Registration:</b> ${LEGAL_REG}</li>
+      <li><b>Address:</b> ${LEGAL_ADDRESS}</li>
+    </ul>
+  `;
+}
+
+// ---------------- Privacy Policy ----------------
+function renderPrivacyBody(lang) {
+  return lang === 'he' ? renderPrivacyHebrew() : renderPrivacyEnglish();
+}
+
+function renderPrivacyHebrew() {
+  return `
+    <h3>1. הקדמה</h3>
+    <p>מדיניות פרטיות זו מתארת כיצד VaadApp ("<b>אנחנו</b>", "<b>אנו</b>", "<b>שלנו</b>"), המופעלת על-ידי ${LEGAL_COMPANY}, אוספת, משתמשת, חושפת ומגנה על המידע האישי שלך בעת השימוש בשירות.</p>
+    <p>אנו מחויבים להגנה על פרטיותך ופועלים בהתאם ל:</p>
+    <ul>
+      <li><b>חוק הגנת הפרטיות, התשמ"א-1981</b> ותקנותיו</li>
+      <li><b>תקנות הגנת הפרטיות (אבטחת מידע), התשע"ז-2017</b></li>
+      <li><b>תקנות הגנת הפרטיות (העברת מידע אל מאגרי מידע שמחוץ לגבולות המדינה), התשס"א-2001</b></li>
+      <li><b>תקנת הגנת הנתונים הכללית של האיחוד האירופי (GDPR)</b> במידה שהיא חלה על משתמשים במרחב הכלכלי האירופי</li>
+    </ul>
+
+    <h3>2. ממונה הגנת מידע (DPO)</h3>
+    <p>לכל פנייה בנושאי פרטיות או לממוש זכויותיך לפי החוק, פנה אל ממונה הגנת המידע שלנו:</p>
+    <ul>
+      <li><b>דוא"ל:</b> ${LEGAL_EMAIL_DPO}</li>
+      <li><b>דואר:</b> ${LEGAL_ADDRESS}</li>
+    </ul>
+    <p>אנו נענה לכל פנייה תוך 30 יום (ובמקרים מורכבים — עד 60 יום עם הודעה מוקדמת).</p>
+
+    <h3>3. המידע שאנו אוספים</h3>
+
+    <h3>3.1 מידע שאתה מספק לנו</h3>
+    <ul>
+      <li>שם מלא</li>
+      <li>מספר טלפון (להזדהות ולקבלת קודי OTP)</li>
+      <li>כתובת דוא"ל (אופציונלי, לקבלת הודעות)</li>
+      <li>מספר דירה וקומה</li>
+      <li>בניין בו אתה מתגורר</li>
+      <li>העדפות תשלום (טוקנים של כרטיסי אשראי, <b>לא</b> מספרי כרטיס)</li>
+      <li>תוכן שאתה מעלה לשירות: קריאות שירות, הודעות, הצבעות, הערות, מסמכים, קבלות, תמונות</li>
+    </ul>
+
+    <h3>3.2 מידע הנאסף באופן אוטומטי</h3>
+    <ul>
+      <li>כתובת IP</li>
+      <li>סוג מכשיר, מערכת הפעלה, גרסת דפדפן</li>
+      <li>אסימון התראות Push (רק אם אישרת)</li>
+      <li>יומני שימוש (עמודים שנצפו, פעולות, חותמות זמן)</li>
+      <li>מיקום מקורב הנגזר מכתובת ה-IP (לא GPS)</li>
+      <li>נתוני ביצוע השירות (לצורך אבחון תקלות)</li>
+    </ul>
+
+    <h3>3.3 מידע מצדדים שלישיים</h3>
+    <ul>
+      <li><b>כניסה עם Google:</b> כתובת דוא"ל, שם מלא ותמונת פרופיל (רק אם אתה בוחר להשתמש באפשרות זו)</li>
+      <li><b>ספקי תשלום:</b> מזהי עסקה, סטטוס תשלום וארבע ספרות אחרונות של כרטיס (לא מספר כרטיס מלא)</li>
+    </ul>
+
+    <h3>4. בסיסים חוקיים לעיבוד</h3>
+    <p>לפי GDPR ולפי חוק הגנת הפרטיות, אנו מעבדים מידע על בסיס אחד או יותר מהעילות הבאות:</p>
+    <ul>
+      <li><b>ביצוע חוזה:</b> לספק לך את השירות אליו נרשמת</li>
+      <li><b>אינטרסים לגיטימיים:</b> להפעיל, לשפר ולאבטח את השירות, למנוע הונאה ולהגן על משתמשים אחרים</li>
+      <li><b>הסכמה:</b> לתכונות אופציונליות (כגון התראות Push, הודעות דוא"ל שיווקיות)</li>
+      <li><b>חובה חוקית:</b> לעמוד בחוקי מיסוי, דיני חשבונאות וצווי רשויות אכיפה</li>
+    </ul>
+
+    <h3>5. כיצד אנו משתמשים במידע שלך</h3>
+    <ul>
+      <li>לספק, לתחזק ולשפר את השירות</li>
+      <li>לעבד תשלומים ולהפיק קבלות וחשבוניות מס</li>
+      <li>ליצור איתך קשר לגבי חשבונך, הבניין ועדכוני שירות חיוניים</li>
+      <li>לשלוח התראות (Push, SMS, דוא"ל) כפי שהגדרת בהעדפותיך</li>
+      <li>לאכוף את התנאים ולמנוע הונאה, שימוש לרעה או הפרות אבטחה</li>
+      <li>לעמוד בחובות חוקיות (רשומות מס, דיווחים, צווי בית משפט)</li>
+      <li>לנתח ביצועים ולאבחן תקלות</li>
+      <li>ליצור סטטיסטיקות מצטברות ואנונימיות לצורך פיתוח השירות</li>
+    </ul>
+    <p>אנו <b>לא</b> משתמשים במידע שלך לקבלת החלטות אוטומטיות בעלות השלכות משפטיות עליך.</p>
+
+    <h3>6. עם מי אנו חולקים מידע</h3>
+
+    <h3>6.1 דיירים אחרים בבניין שלך</h3>
+    <p>משתמשים אחרים בבניין שלך עשויים לראות את המידע הבא:</p>
+    <ul>
+      <li>שמך המלא ומספר דירתך (במדריך הדיירים)</li>
+      <li>סטטוס תשלומים מצטבר (למשל "שולם" / "ממתין") — שקיפות בניין</li>
+      <li>הודעות, הצבעות וסקרים שפרסמת בפני הבניין</li>
+      <li>קריאות תחזוקה שפתחת (רק למנהלי הבניין)</li>
+      <li>פעולות שבוצעו על-ידך ביומן הפעולות של הוועד (רק חברי ועד)</li>
+    </ul>
+    <p><b>דיירים לעולם לא יראו:</b></p>
+    <ul>
+      <li>את מספר הטלפון שלך (אלא אם תבחר לפרסמו מרצונך)</li>
+      <li>את כתובת הדוא"ל שלך</li>
+      <li>פרטי כרטיס אשראי או אמצעי תשלום</li>
+      <li>מידע אישי מבניינים אחרים</li>
+      <li>היסטוריית ההתחברויות שלך</li>
+    </ul>
+
+    <h3>6.2 ספקי שירות</h3>
+    <p>אנו חולקים מידע עם ספקים אמינים רק במידה הנדרשת להפעלת השירות:</p>
+    <ul>
+      <li><b>Twilio, Inc.</b> (ארה"ב) — שליחת SMS לאימות OTP</li>
+      <li><b>SendGrid (Twilio, Inc.)</b> (ארה"ב) — שליחת מיילים שירותיים</li>
+      <li><b>Tranzila / Cardcom</b> (ישראל) — עיבוד תשלומים וחיובים חוזרים</li>
+      <li><b>Firebase Cloud Messaging</b> (Google LLC, ארה"ב) — התראות Push לאנדרואיד</li>
+      <li><b>Apple Push Notification Service</b> (Apple Inc., ארה"ב) — התראות Push ל-iOS</li>
+      <li><b>ספק אירוח ענן</b> (כגון Railway, DigitalOcean, Supabase) — תשתית שרתים ומסד נתונים</li>
+      <li><b>Sentry</b> (ארה"ב) — ניטור שגיאות (עם סינון של מידע אישי רגיש)</li>
+      <li><b>EZcount / GreenInvoice</b> (ישראל) — הפקת חשבוניות מס דיגיטליות מורשות</li>
+    </ul>
+    <p>כל הספקים מחויבים חוזית לעבד מידע רק לפי הנחיותינו, לעמוד בתקני אבטחה מתאימים, ולציית לחוקי הגנת הפרטיות הרלוונטיים.</p>
+
+    <h3>6.3 רשויות חוק</h3>
+    <p>אנו עשויים לחשוף מידע אם נדרש לכך: (א) על-פי חוק, צו בית משפט או דרישה חוקית מחייבת של רשות מוסמכת; (ב) לצורך הגנה על זכויותינו, רכושנו או בטיחותנו; (ג) לצורך מניעת הונאה, פשע או פגיעה במשתמשים אחרים.</p>
+
+    <h3>6.4 העברות עסקיות</h3>
+    <p>אם VaadApp תעבור מיזוג, רכישה, מכירת נכסים או פירוק, המידע שלך עשוי להיות מועבר כחלק מהעסקה. נודיע לך לפחות 14 יום לפני שהמידע יהיה כפוף למדיניות פרטיות אחרת.</p>
+
+    <h3>6.5 איננו מוכרים את המידע שלך</h3>
+    <p>אנו <b>לעולם לא</b> מוכרים, משכירים, מעבירים בתמורה או מעניקים רישיון למידע האישי שלך למפרסמים, מתווכי מידע, חברות אנליטיקה או כל צד שלישי למטרותיהם הם. השירות <b>אינו נתמך בפרסומות</b>.</p>
+
+    <h3>7. העברות מידע בינלאומיות</h3>
+    <p>חלק מספקי השירות שלנו ממוקמים מחוץ לישראל (בעיקר ארה"ב ומדינות האיחוד האירופי). כאשר אנו מעבירים את המידע שלך בינלאומית:</p>
+    <ul>
+      <li>אנו פועלים בהתאם לתקנות הגנת הפרטיות (העברת מידע אל מאגרי מידע שמחוץ לגבולות המדינה), התשס"א-2001</li>
+      <li>אנו מסתמכים על סעיפי חוזה סטנדרטיים (Standard Contractual Clauses) של הנציבות האירופית עבור העברות ליעד שאינו בעל "הגנה נאותה"</li>
+      <li>אנו מוודאים שהספקים עומדים בתקני אבטחת מידע מתאימים</li>
+      <li>עבור ספקים בארה"ב, אנו מסתמכים על מסגרת פרטיות הנתונים EU-US (Data Privacy Framework) במידת האפשר</li>
+    </ul>
+
+    <h3>8. שמירת מידע</h3>
+    <table class="legal-table">
+      <tr><td><b>נתוני חשבון</b></td><td>כל עוד החשבון פעיל, ועד 90 יום לאחר מחיקה</td></tr>
+      <tr><td><b>רשומות פיננסיות</b> (תשלומים, קבלות, חשבוניות)</td><td>7 שנים מיום העסקה — כנדרש לפי פקודת מס הכנסה וחוק מע"מ</td></tr>
+      <tr><td><b>יומן פעולות ועד</b></td><td>ללא הגבלת זמן, בצורה אנונימית (ללא שמות אישיים) — לשקיפות מול דיירים אחרים</td></tr>
+      <tr><td><b>אסימוני Push</b></td><td>נמחקים כאשר אתה מסיר את האפליקציה או משבית התראות</td></tr>
+      <tr><td><b>תקשורת תמיכה</b></td><td>3 שנים</td></tr>
+      <tr><td><b>יומני מערכת (לוגים טכניים)</b></td><td>90 יום (למעט אירועי אבטחה — עד 12 חודשים)</td></tr>
+      <tr><td><b>מידע שנדרש לגבי מחלוקת משפטית פעילה</b></td><td>עד סיום ההליך ו-6 שנים נוספות (התיישנות)</td></tr>
+    </table>
+    <p>עם מחיקת החשבון, אנו מבצעים מחיקה רכה של הפרופיל ומסירים גישה פעילה. מחיקה מלאה (hard-delete) מתבצעת לאחר תום תקופות השמירה לעיל.</p>
+
+    <h3>9. זכויותיך</h3>
+    <p><b>לפי חוק הגנת הפרטיות בישראל, יש לך את הזכות:</b></p>
+    <ul>
+      <li><b>לעיין במידע שלך</b> (סעיף 13 לחוק)</li>
+      <li><b>לדרוש תיקון מידע לא מדויק</b> (סעיף 14 לחוק)</li>
+      <li><b>לדרוש מחיקה</b> של מידע בנסיבות המותרות בחוק</li>
+      <li><b>להתנגד לדיוור ישיר</b></li>
+    </ul>
+    <p><b>לפי GDPR (אם חל עליך), יש לך בנוסף את הזכות:</b></p>
+    <ul>
+      <li><b>ניידות נתונים (Data Portability):</b> לקבל את המידע שלך בפורמט מובנה, נפוץ וקריא למכונה (JSON)</li>
+      <li><b>להתנגד (Right to Object)</b> לעיבוד על בסיס אינטרסים לגיטימיים</li>
+      <li><b>להגביל עיבוד (Right to Restriction)</b> בנסיבות מסוימות</li>
+      <li><b>לחזור בך מהסכמה (Withdraw Consent)</b> בכל עת</li>
+      <li>לא להיות כפוף להחלטות המבוססות <b>אך ורק</b> על עיבוד אוטומטי</li>
+      <li><b>להגיש תלונה</b> לרשות פיקוח</li>
+    </ul>
+    <p><b>כיצד לממש את זכויותיך:</b></p>
+    <ul>
+      <li><b>באפליקציה (הדרך המהירה):</b> פרופיל ← אזור סכנה ← "ייצוא הנתונים שלי" או "מחק את חשבוני"</li>
+      <li><b>בדוא"ל:</b> ${LEGAL_EMAIL_DPO} — נענה תוך 30 יום</li>
+      <li><b>אימות זהות:</b> ייתכן שנבקש ממך לאמת את זהותך לפני עיבוד הבקשה, כדי להגן מפני ניסיונות התחזות</li>
+    </ul>
+
+    <h3>10. אבטחת מידע</h3>
+    <p>אנו מיישמים אמצעים טכניים וארגוניים להגנה על המידע שלך, בהתאם לרמת האבטחה "בינונית" המוגדרת בתקנות הגנת הפרטיות (אבטחת מידע), התשע"ז-2017:</p>
+    <ul>
+      <li><b>הצפנת תעבורה:</b> HTTPS/TLS 1.3 בכל התקשורת בין האפליקציה לשרתים</li>
+      <li><b>הצפנת מידע במנוחה:</b> מסד הנתונים מוצפן בדיסק</li>
+      <li><b>אימות ללא סיסמאות:</b> חיבור בקודים חד-פעמיים או OAuth — איננו שומרים סיסמאות</li>
+      <li><b>אסימונים בטוחים:</b> JWT חתומים וקצרי-טווח (שעה), עם refresh token ארוך-טווח</li>
+      <li><b>הגבלת קצב:</b> מנגנוני אנטי-brute-force על נתיבי ההזדהות</li>
+      <li><b>בקרת גישה:</b> רק עובדים מורשים יכולים לגשת למידע אישי, ורק לצרכים מוגדרים</li>
+      <li><b>יומן ביקורת:</b> תיעוד של כל פעולות הוועד בבניין — שקוף לכל דייר</li>
+      <li><b>גיבוי ושחזור:</b> גיבויים יומיים מוצפנים עם אפשרות שחזור לנקודת-זמן</li>
+      <li><b>ביקורות אבטחה:</b> בדיקות תקופתיות והערכות חשיפה</li>
+    </ul>
+    <p>למרות אמצעים אלה, שום מערכת אינה מאובטחת בצורה מושלמת. <b>במקרה של אירוע אבטחה מהותי,</b> נודיע לך ולרשות להגנת הפרטיות כנדרש לפי סעיף 11 לתקנות הגנת הפרטיות (אבטחת מידע), תוך 72 שעות מרגע שהתגלה.</p>
+
+    <h3>11. עוגיות (Cookies) ואחסון מקומי</h3>
+    <p>אנו משתמשים בעוגיות <b>חיוניות</b> ובאחסון מקומי של הדפדפן (localStorage, IndexedDB) אך ורק לצרכים הבאים:</p>
+    <ul>
+      <li><b>שמירת כניסה:</b> אסימוני JWT להישארות מחוברים</li>
+      <li><b>העדפות משתמש:</b> שפה, מצב כהה, הגדרות התראות</li>
+      <li><b>גישה לא מקוונת:</b> Service Worker מאחסן תוכן סטטי כדי שהאפליקציה תעבוד גם בלי אינטרנט</li>
+      <li><b>מצב onboarding:</b> האם סיימת את ההדרכה הראשונית</li>
+    </ul>
+    <p><b>איננו משתמשים</b> בעוגיות פרסום, מעקב בין-אתרי או ניתוחים של צדדים שלישיים. השירות <b>אינו עוקב אחריך באתרים אחרים</b> ואינו משתף מידע עם רשתות פרסום.</p>
+    <p>עוגיות חיוניות אינן דורשות הסכמה לפי הדין הישראלי, אך תוכל למחוק אותן בכל עת מהגדרות הדפדפן או באמצעות "אזור סכנה" באפליקציה.</p>
+
+    <h3>12. פרטיות ילדים</h3>
+    <p>השירות אינו מיועד לילדים מתחת לגיל 16. איננו אוספים במודע מידע אישי מילדים. אם נגלה שאספנו מידע מילד מתחת לגיל 16 ללא אישור הורה או אפוטרופוס חוקי, נמחק אותו מיידית.</p>
+    <p>אם אתה הורה או אפוטרופוס וחושד שילדך מסר לנו מידע, פנה אלינו ב-${LEGAL_EMAIL_DPO}.</p>
+
+    <h3>13. שינויים במדיניות</h3>
+    <p>אנו רשאים לעדכן מדיניות זו מעת לעת כדי לשקף שינויים בפעילותנו, בדין החל, או באמצעים הטכנולוגיים שלנו. שינויים מהותיים יפורסמו באמצעות:</p>
+    <ul>
+      <li>הודעה בולטת בשירות</li>
+      <li>דוא"ל לכתובת הרשומה שלך</li>
+      <li>התראת Push</li>
+    </ul>
+    <p>השינויים ייכנסו לתוקף 14 יום לאחר פרסומם. אנו ממליצים לבדוק דף זה מעת לעת.</p>
+
+    <h3>14. תלונות ופניות לרשויות</h3>
+    <p>אם אתה סבור כי הפרנו את פרטיותך או את הדין החל:</p>
+    <ol>
+      <li><b>פנה אלינו תחילה</b> ב-${LEGAL_EMAIL_DPO}. נעשה כל מאמץ לפתור את הסוגיה במהירות, לרוב תוך 30 יום.</li>
+      <li><b>אם התשובה אינה משביעת רצון,</b> ניתן להגיש תלונה לרשויות הבאות:</li>
+    </ol>
+    <ul>
+      <li><b>הרשות להגנת הפרטיות בישראל</b> — <a href="https://www.gov.il/he/departments/the_privacy_protection_authority" target="_blank" rel="noopener">www.gov.il/he/departments/the_privacy_protection_authority</a></li>
+      <li><b>רשות הגנת הנתונים המקומית באיחוד האירופי</b> (אם אתה תושב EEA) — <a href="https://edpb.europa.eu/about-edpb/about-edpb/members_en" target="_blank" rel="noopener">edpb.europa.eu/about-edpb/about-edpb/members</a></li>
+    </ul>
+
+    <h3>15. יצירת קשר</h3>
+    <ul>
+      <li><b>ממונה הגנת מידע (DPO):</b> ${LEGAL_EMAIL_DPO}</li>
+      <li><b>שאלות פרטיות כלליות:</b> ${LEGAL_EMAIL_PRIVACY}</li>
+      <li><b>דואר:</b> ${LEGAL_ADDRESS}</li>
+      <li><b>חברה:</b> ${LEGAL_COMPANY}</li>
+      <li><b>ח.פ:</b> ${LEGAL_REG}</li>
+    </ul>
+  `;
+}
+
+function renderPrivacyEnglish() {
+  return `
+    <h3>1. Introduction</h3>
+    <p>This Privacy Policy describes how VaadApp ("<b>we</b>", "<b>us</b>", "<b>our</b>"), operated by ${LEGAL_COMPANY}, collects, uses, discloses, and protects your personal information when you use the Service.</p>
+    <p>We are committed to protecting your privacy and operate in accordance with:</p>
+    <ul>
+      <li><b>The Israeli Privacy Protection Law, 5741-1981</b> and its regulations</li>
+      <li><b>The Privacy Protection (Information Security) Regulations, 5777-2017</b></li>
+      <li><b>The Privacy Protection (Transfer of Data to Databases Abroad) Regulations, 5761-2001</b></li>
+      <li><b>The EU General Data Protection Regulation (GDPR)</b> where applicable to users in the European Economic Area</li>
+    </ul>
+
+    <h3>2. Data Protection Officer (DPO)</h3>
+    <p>For any privacy-related inquiry or to exercise your rights under the law, contact our Data Protection Officer:</p>
+    <ul>
+      <li><b>Email:</b> ${LEGAL_EMAIL_DPO}</li>
+      <li><b>Postal:</b> ${LEGAL_ADDRESS}</li>
+    </ul>
+    <p>We will respond to any inquiry within 30 days (in complex cases — up to 60 days with prior notice).</p>
+
+    <h3>3. Information We Collect</h3>
+
+    <h3>3.1 Information you provide to us</h3>
+    <ul>
+      <li>Full name</li>
+      <li>Phone number (for identification and receiving OTP codes)</li>
+      <li>Email address (optional, for notifications)</li>
+      <li>Apartment number and floor</li>
+      <li>Building association</li>
+      <li>Payment preferences (credit card tokens, <b>not</b> card numbers)</li>
+      <li>Content you upload: tickets, announcements, votes, comments, documents, receipts, photos</li>
+    </ul>
+
+    <h3>3.2 Information collected automatically</h3>
+    <ul>
+      <li>IP address</li>
+      <li>Device type, operating system, browser version</li>
+      <li>Push notification token (only if you opted in)</li>
+      <li>Usage logs (pages visited, actions taken, timestamps)</li>
+      <li>Approximate location derived from IP (not GPS)</li>
+      <li>Service performance data (for debugging)</li>
+    </ul>
+
+    <h3>3.3 Information from third parties</h3>
+    <ul>
+      <li><b>Google Sign-in:</b> email address, full name, and profile picture (only if you choose this option)</li>
+      <li><b>Payment providers:</b> transaction IDs, payment status, and last four digits of card (not the full card number)</li>
+    </ul>
+
+    <h3>4. Legal Bases for Processing</h3>
+    <p>Under the GDPR and the Israeli Privacy Protection Law, we process data on one or more of the following bases:</p>
+    <ul>
+      <li><b>Contract:</b> to provide the Service you signed up for</li>
+      <li><b>Legitimate interests:</b> to operate, improve, and secure the Service, prevent fraud, and protect other users</li>
+      <li><b>Consent:</b> for optional features (e.g., push notifications, marketing emails)</li>
+      <li><b>Legal obligation:</b> to comply with tax, accounting, and enforcement authorities' orders</li>
+    </ul>
+
+    <h3>5. How We Use Your Information</h3>
+    <ul>
+      <li>To provide, maintain, and improve the Service</li>
+      <li>To process payments and issue receipts and tax invoices</li>
+      <li>To communicate with you about your account, the Building, and essential service updates</li>
+      <li>To send notifications (Push, SMS, email) as per your preferences</li>
+      <li>To enforce our Terms and prevent fraud, abuse, or security violations</li>
+      <li>To comply with legal obligations (tax records, reporting, court orders)</li>
+      <li>To analyze performance and debug issues</li>
+      <li>To produce aggregated, anonymized statistics for Service development</li>
+    </ul>
+    <p>We <b>do not</b> use your data to make automated decisions with legal or similarly significant effects on you.</p>
+
+    <h3>6. Who We Share With</h3>
+
+    <h3>6.1 Other residents in your Building</h3>
+    <p>Other users in your Building may see the following information:</p>
+    <ul>
+      <li>Your full name and apartment number (in the resident directory)</li>
+      <li>Aggregate payment status (e.g., "paid" / "pending") — for building transparency</li>
+      <li>Announcements, votes, and polls you publish to the Building</li>
+      <li>Maintenance tickets you open (visible only to building managers)</li>
+      <li>Actions you take in the committee audit log (only committee members)</li>
+    </ul>
+    <p><b>Residents will never see:</b></p>
+    <ul>
+      <li>Your phone number (unless you choose to publish it)</li>
+      <li>Your email address</li>
+      <li>Credit card details or payment methods</li>
+      <li>Personal data from other buildings</li>
+      <li>Your login history</li>
+    </ul>
+
+    <h3>6.2 Service Providers</h3>
+    <p>We share data with trusted providers strictly as needed to operate the Service:</p>
+    <ul>
+      <li><b>Twilio, Inc.</b> (USA) — SMS delivery for OTP authentication</li>
+      <li><b>SendGrid (Twilio, Inc.)</b> (USA) — transactional emails</li>
+      <li><b>Tranzila / Cardcom</b> (Israel) — payment processing and recurring charges</li>
+      <li><b>Firebase Cloud Messaging</b> (Google LLC, USA) — Android push notifications</li>
+      <li><b>Apple Push Notification Service</b> (Apple Inc., USA) — iOS push notifications</li>
+      <li><b>Cloud hosting provider</b> (e.g., Railway, DigitalOcean, Supabase) — server infrastructure and database</li>
+      <li><b>Sentry</b> (USA) — error monitoring (with sensitive PII scrubbed)</li>
+      <li><b>EZcount / GreenInvoice</b> (Israel) — authorized digital tax invoice generation</li>
+    </ul>
+    <p>All providers are contractually bound to process data only on our instructions, maintain appropriate security standards, and comply with applicable data protection laws.</p>
+
+    <h3>6.3 Legal Authorities</h3>
+    <p>We may disclose information if required: (a) by law, court order, or binding legal demand from a competent authority; (b) to protect our rights, property, or safety; (c) to prevent fraud, crime, or harm to other users.</p>
+
+    <h3>6.4 Business Transfers</h3>
+    <p>If VaadApp undergoes a merger, acquisition, sale of assets, or dissolution, your data may be transferred as part of the transaction. We will notify you at least 14 days before your data becomes subject to a different privacy policy.</p>
+
+    <h3>6.5 We do not sell your data</h3>
+    <p>We <b>never</b> sell, rent, trade for consideration, or license your personal data to advertisers, data brokers, analytics companies, or any third party for their own purposes. The Service is <b>not ad-supported</b>.</p>
+
+    <h3>7. International Data Transfers</h3>
+    <p>Some of our service providers are located outside Israel (primarily the USA and EU member states). When we transfer your data internationally:</p>
+    <ul>
+      <li>We comply with the Privacy Protection (Transfer of Data to Databases Abroad) Regulations, 5761-2001</li>
+      <li>We rely on the European Commission's Standard Contractual Clauses (SCCs) for transfers to destinations lacking "adequate protection"</li>
+      <li>We ensure providers maintain appropriate information security standards</li>
+      <li>For US-based providers, we rely on the EU-US Data Privacy Framework where available</li>
+    </ul>
+
+    <h3>8. Data Retention</h3>
+    <table class="legal-table">
+      <tr><td><b>Account data</b></td><td>While the account is active, and up to 90 days after deletion</td></tr>
+      <tr><td><b>Financial records</b> (payments, receipts, invoices)</td><td>7 years from the transaction date — as required by the Israeli Income Tax Ordinance and VAT Law</td></tr>
+      <tr><td><b>Committee audit log</b></td><td>Indefinitely, in anonymized form (no personal names) — for transparency to other residents</td></tr>
+      <tr><td><b>Push tokens</b></td><td>Deleted when you uninstall the app or disable notifications</td></tr>
+      <tr><td><b>Support communications</b></td><td>3 years</td></tr>
+      <tr><td><b>System logs (technical)</b></td><td>90 days (security events — up to 12 months)</td></tr>
+      <tr><td><b>Data subject to active legal dispute</b></td><td>Until proceeding ends, plus 6 additional years (limitation period)</td></tr>
+    </table>
+    <p>Upon account deletion, we soft-delete the profile and remove active access. Full hard-delete is performed after the retention periods above expire.</p>
+
+    <h3>9. Your Rights</h3>
+    <p><b>Under the Israeli Privacy Protection Law you have the right to:</b></p>
+    <ul>
+      <li><b>Access your data</b> (Section 13 of the Law)</li>
+      <li><b>Request correction</b> of inaccurate data (Section 14 of the Law)</li>
+      <li><b>Request deletion</b> of data in legally permissible circumstances</li>
+      <li><b>Opt out of direct marketing</b></li>
+    </ul>
+    <p><b>Under the GDPR (if applicable) you additionally have the right to:</b></p>
+    <ul>
+      <li><b>Data Portability:</b> receive your data in a structured, commonly used, machine-readable format (JSON)</li>
+      <li><b>Right to Object</b> to processing based on legitimate interests</li>
+      <li><b>Right to Restriction</b> of processing under certain circumstances</li>
+      <li><b>Withdraw Consent</b> at any time</li>
+      <li>Not be subject to decisions based <b>solely</b> on automated processing</li>
+      <li><b>Lodge a complaint</b> with a supervisory authority</li>
+    </ul>
+    <p><b>How to exercise your rights:</b></p>
+    <ul>
+      <li><b>In-app (fastest):</b> Profile → Danger Zone → "Export my data" or "Delete my account"</li>
+      <li><b>By email:</b> ${LEGAL_EMAIL_DPO} — we respond within 30 days</li>
+      <li><b>Identity verification:</b> we may ask you to verify your identity before processing your request, to guard against impersonation</li>
+    </ul>
+
+    <h3>10. Information Security</h3>
+    <p>We implement technical and organizational measures to protect your data, in accordance with the "medium" security level defined in the Privacy Protection (Information Security) Regulations, 5777-2017:</p>
+    <ul>
+      <li><b>Transport encryption:</b> HTTPS/TLS 1.3 for all communication between the app and servers</li>
+      <li><b>Encryption at rest:</b> the database is encrypted on disk</li>
+      <li><b>Password-less authentication:</b> login via one-time codes or OAuth — we do not store passwords</li>
+      <li><b>Secure tokens:</b> signed, short-lived JWTs (1 hour) with long-lived refresh tokens</li>
+      <li><b>Rate limiting:</b> anti-brute-force mechanisms on authentication endpoints</li>
+      <li><b>Access control:</b> only authorized staff can access personal data, and only for defined purposes</li>
+      <li><b>Audit log:</b> full record of committee actions in the building — transparent to every resident</li>
+      <li><b>Backup and recovery:</b> daily encrypted backups with point-in-time restore capability</li>
+      <li><b>Security reviews:</b> periodic audits and vulnerability assessments</li>
+    </ul>
+    <p>Despite these measures, no system is perfectly secure. <b>In the event of a material security incident,</b> we will notify you and the Israeli Privacy Protection Authority within 72 hours of discovery, as required by Section 11 of the Privacy Protection (Information Security) Regulations.</p>
+
+    <h3>11. Cookies and Local Storage</h3>
+    <p>We use <b>essential</b> cookies and browser local storage (localStorage, IndexedDB) solely for the following purposes:</p>
+    <ul>
+      <li><b>Session persistence:</b> JWT tokens to keep you logged in</li>
+      <li><b>User preferences:</b> language, dark mode, notification settings</li>
+      <li><b>Offline access:</b> Service Worker caches static content so the app works without internet</li>
+      <li><b>Onboarding state:</b> whether you completed the initial tutorial</li>
+    </ul>
+    <p>We <b>do not use</b> advertising cookies, cross-site tracking, or third-party analytics. The Service <b>does not track you across other websites</b> and does not share data with advertising networks.</p>
+    <p>Essential cookies do not require consent under Israeli law, but you can delete them at any time from browser settings or via "Danger Zone" in the app.</p>
+
+    <h3>12. Children's Privacy</h3>
+    <p>The Service is not directed to children under 16. We do not knowingly collect personal information from children. If we learn we have collected data from a child under 16 without parental or legal guardian consent, we will delete it immediately.</p>
+    <p>If you are a parent or guardian and suspect your child has provided us with information, contact us at ${LEGAL_EMAIL_DPO}.</p>
+
+    <h3>13. Changes to this Policy</h3>
+    <p>We may update this Policy from time to time to reflect changes in our operations, applicable law, or technological measures. Material changes will be announced via:</p>
+    <ul>
+      <li>A prominent notice in the Service</li>
+      <li>Email to your registered address</li>
+      <li>Push notification</li>
+    </ul>
+    <p>Changes take effect 14 days after publication. We encourage you to review this page periodically.</p>
+
+    <h3>14. Complaints and Authority Contacts</h3>
+    <p>If you believe we have mishandled your privacy or violated applicable law:</p>
+    <ol>
+      <li><b>Contact us first</b> at ${LEGAL_EMAIL_DPO}. We will make every effort to resolve the issue quickly, usually within 30 days.</li>
+      <li><b>If the response is unsatisfactory,</b> you may file a complaint with the following authorities:</li>
+    </ol>
+    <ul>
+      <li><b>The Israeli Privacy Protection Authority</b> — <a href="https://www.gov.il/he/departments/the_privacy_protection_authority" target="_blank" rel="noopener">www.gov.il/he/departments/the_privacy_protection_authority</a></li>
+      <li><b>Your local EU Data Protection Authority</b> (if you are an EEA resident) — <a href="https://edpb.europa.eu/about-edpb/about-edpb/members_en" target="_blank" rel="noopener">edpb.europa.eu/about-edpb/about-edpb/members</a></li>
+    </ul>
+
+    <h3>15. Contact Us</h3>
+    <ul>
+      <li><b>Data Protection Officer (DPO):</b> ${LEGAL_EMAIL_DPO}</li>
+      <li><b>General privacy inquiries:</b> ${LEGAL_EMAIL_PRIVACY}</li>
+      <li><b>Postal:</b> ${LEGAL_ADDRESS}</li>
+      <li><b>Company:</b> ${LEGAL_COMPANY}</li>
+      <li><b>Registration:</b> ${LEGAL_REG}</li>
+    </ul>
+  `;
 }
 
 async function exportMyData() {
