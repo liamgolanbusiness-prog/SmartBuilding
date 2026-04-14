@@ -2149,6 +2149,10 @@ html[dir="rtl"] .sb-right { flex-direction: row-reverse; }
 html[dir="rtl"] .sheet .row2 { direction: rtl; }
 html[dir="rtl"] code { direction: ltr; unicode-bidi: embed; display: inline-block; }
 
+/* Production mode: hide anything marked as demo-only. Toggled at runtime
+   by index.html via document.body.classList.toggle('demo-mode', demoMode). */
+body:not(.demo-mode) .demo-only { display: none !important; }
+
 /* ============================================================
    v2 production features
    ============================================================ */

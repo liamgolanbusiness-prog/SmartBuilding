@@ -214,7 +214,7 @@ router.get('/payments/:id/receipt.pdf', asyncHandler(async (req: AuthRequest, re
   doc.pipe(res);
 
   // Header
-  doc.fontSize(22).font('Helvetica-Bold').text('VaadApp — Payment Receipt', { align: 'left' });
+  doc.fontSize(22).font('Helvetica-Bold').text('Lobbix — Payment Receipt', { align: 'left' });
   doc.moveDown(0.3);
   doc.fontSize(10).font('Helvetica').fillColor('#666').text(`Generated ${new Date().toLocaleString('en-IL')}`);
   doc.moveDown(1);
@@ -251,7 +251,7 @@ router.get('/payments/:id/receipt.pdf', asyncHandler(async (req: AuthRequest, re
 
   // Footer
   doc.moveDown(2);
-  doc.fontSize(9).fillColor('#999').text('This is an automatically generated receipt from VaadApp. Keep it for your records.', { align: 'center' });
+  doc.fontSize(9).fillColor('#999').text('This is an automatically generated receipt from Lobbix. Keep it for your records. · lobbix.co.il', { align: 'center' });
 
   doc.end();
   audit(req, { action: 'receipt.generate', entity_type: 'payment', entity_id: p.id, summary: `${p.currency} ${p.amount}` });

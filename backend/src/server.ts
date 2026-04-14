@@ -31,7 +31,7 @@ const httpServer = createServer(app);
 const io = new SocketIOServer(httpServer, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
-      ? ['https://vaad-app.co.il'] 
+      ? ['https://lobbix.co.il', 'https://www.lobbix.co.il']
       : ['http://localhost:3000', 'http://localhost:19006'],
     credentials: true
   }
@@ -73,10 +73,22 @@ app.use(requestLogger); // Log all requests
 
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {
-  res.status(200).json({ 
-    status: 'healthy', 
+  res.status(200).json({
+    status: 'healthy',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV 
+    environment: process.env.NODE_ENV
+  });
+});
+
+// Public config — small JSON telling the frontend about environment
+// capabilities. No secrets here; it's served to any client.
+app.get('/api/config', (req: Request, res: Response) => {
+  res.status(200).json({
+    brand: 'Lobbix',
+    version: '1.1.0',
+    demoMode: process.env.DEMO_MODE === 'true',
+    googleOAuthClientId: process.env.GOOGLE_OAUTH_CLIENT_ID || null,
+    environment: process.env.NODE_ENV || 'development',
   });
 });
 

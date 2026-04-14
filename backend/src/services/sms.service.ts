@@ -33,6 +33,6 @@ export const sendSMS = async (to: string, body: string): Promise<void> => {
 };
 
 export const sendOTP = async (phoneNumber: string, code: string): Promise<void> => {
-  const message = `קוד האימות שלך ב-VaadApp: ${code}\nהקוד תקף ל-5 דקות.`;
+  const message = `קוד האימות שלך ב-Lobbix: ${code}\nהקוד תקף ל-5 דקות. https://lobbix.co.il`;
   await sendSMS(phoneNumber, message);
 };

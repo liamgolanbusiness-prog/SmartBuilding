@@ -1,7 +1,7 @@
-// VaadApp service worker — offline-first for static assets, network-first for API.
-const VERSION = 'v1.0.0';
-const STATIC_CACHE = `vaad-static-${VERSION}`;
-const RUNTIME_CACHE = `vaad-runtime-${VERSION}`;
+// Lobbix service worker — offline-first for static assets, network-first for API.
+const VERSION = 'v1.1.0-lobbix';
+const STATIC_CACHE = `lobbix-static-${VERSION}`;
+const RUNTIME_CACHE = `lobbix-runtime-${VERSION}`;
 
 const STATIC_ASSETS = [
   '/',

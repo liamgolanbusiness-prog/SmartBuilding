@@ -1,7 +1,7 @@
 {
-  "name": "vaad-backend",
-  "version": "1.0.0",
-  "description": "Building Management App - Backend API",
+  "name": "lobbix-backend",
+  "version": "1.1.0",
+  "description": "Lobbix — ועד שקוף. בניין רגוע. Transparent building-committee management for Israeli condos.",
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",
@@ -11,12 +11,20 @@
     "db:seed": "node -r ts-node/register src/db/seed.ts"
   },
   "keywords": [
+    "lobbix",
     "vaad",
     "building-management",
-    "api"
+    "israeli-saas",
+    "condominium",
+    "pwa"
   ],
-  "author": "",
+  "author": "Liam Golan <liam@lobbix.co.il>",
   "license": "MIT",
+  "homepage": "https://lobbix.co.il",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liamgolanbusiness-prog/SmartBuilding.git"
+  },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
     "@types/better-sqlite3": "^7.6.13",

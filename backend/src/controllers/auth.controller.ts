@@ -215,7 +215,11 @@ export const refreshToken = async (req: Request, res: Response) => {
 // Demo Google sign-in: accepts {email, name, inviteCode?}, finds or creates
 // a resident using the email, and returns an access token. This is for
 // development/testing only — no actual Google verification is performed.
+// Disabled when DEMO_MODE is not explicitly enabled.
 export const googleDemo = async (req: Request, res: Response) => {
+  if (process.env.DEMO_MODE !== 'true') {
+    throw new AppError('Demo sign-in is disabled in this environment', 404);
+  }
   const { email, name, inviteCode } = req.body;
   if (!email) throw new AppError('email required', 400);
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "🚀 VaadApp Setup Script"
-echo "======================="
+echo "🚀 Lobbix Setup Script"
+echo "======================"
 echo ""
 
 # Check if Docker is installed

@@ -1,6 +1,10 @@
-# VaadApp - Building Management System
+# Lobbix Backend
 
-A comprehensive building management application for Israeli apartment buildings (ועד בית).
+**ועד שקוף. בניין רגוע.**
+
+The Node.js + TypeScript backend for [Lobbix](https://lobbix.co.il), a transparent building-committee management platform for Israeli condominiums.
+
+See the top-level `README.md` for full product overview, features, and tech stack.
 
 ## 🚀 Quick Start
 

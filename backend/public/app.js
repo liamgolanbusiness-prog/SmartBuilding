@@ -1,4 +1,4 @@
-/* VaadApp — modern mobile-first SPA */
+/* Lobbix — modern mobile-first SPA */
 const API = '';
 const $ = (id) => document.getElementById(id);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -18,7 +18,7 @@ const store = {
 const I18N = {
   he: {
     // Stage (desktop marketing)
-    'stage.sub': 'ועד בית · ניהול בניין',
+    'stage.sub': 'ועד שקוף. בניין רגוע.',
     'stage.tagline': 'כל מה שהוועד של הבניין שלך צריך — הודעות, קריאות שירות, תשלומים ודיירים — באפליקציה אחת יפה ונוחה.',
     'stage.marquee': 'עברית 🇮🇱 ואנגלית 🇺🇸 · מצב כהה · תמיכה מלאה ב‑RTL · מותאם לנייד',
     'stage.f1.title': 'הודעות', 'stage.f1.sub': 'הצמדה, קטגוריות, התראות בעברית ובאנגלית',
@@ -30,7 +30,7 @@ const I18N = {
     'stage.seed.tip': 'טיפ: לחצו על משתמש כדי למלא את הטלפון אוטומטית. כפתור שפה בפרופיל.',
     'stage.btn.theme': '🌗 מצב', 'stage.btn.fullscreen': 'מסך מלא', 'stage.btn.lang': '🌐 English',
     // Login
-    'login.sub': 'הבניין שלך, בכיס שלך',
+    'login.sub': 'ועד שקוף. בניין רגוע.',
     'login.phoneLabel': 'מספר טלפון',
     'login.sendCode': 'שלח קוד אימות',
     'login.otpLabel': 'הזינו את הקוד בן 6 הספרות',
@@ -150,19 +150,19 @@ const I18N = {
     'profile.bldAddr': 'כתובת',
     'profile.bldCode': 'קוד הזמנה',
     'profile.account': 'חשבון',
-    'profile.about': 'ℹ️ אודות VaadApp',
+    'profile.about': 'ℹ️ אודות Lobbix',
     'profile.help': '❓ עזרה ותמיכה',
     'profile.share': '🔗 שתף קוד בניין',
     'profile.logout': '⎋ התנתק',
-    'profile.version': 'VaadApp 1.0 · נבנה באהבה',
+    'profile.version': 'Lobbix 1.1 · נבנה באהבה בישראל 🇮🇱',
     'profile.loggedOut': 'התנתקת',
     'profile.darkOn': '🌙 מצב כהה', 'profile.darkOff': '☀️ מצב בהיר',
     'profile.langHe': '🇮🇱 השפה שונתה לעברית', 'profile.langEn': '🇺🇸 Language changed to English',
     'profile.notifOn': '🔔 התראות פעילות', 'profile.notifOff': '🔕 התראות מבוטלות',
     'profile.emailOn': 'התראות מייל פעילות', 'profile.emailOff': 'התראות מייל מבוטלות',
     'profile.copied': '📋 הועתק:',
-    'profile.supportEmail': '✉️ דוא״ל: support@vaad-app.co.il',
-    'profile.aboutToast': 'VaadApp · פלטפורמת ניהול בניין',
+    'profile.supportEmail': '✉️ דוא״ל: liam@lobbix.co.il',
+    'profile.aboutToast': 'Lobbix · ועד שקוף. בניין רגוע.',
     // Notifications
     'notif.title': 'התראות',
     'notif.empty': 'הכל רגוע 🌙',
@@ -253,7 +253,7 @@ const I18N = {
     'tour.skip': 'דלג',
     'tour.next': 'הבא',
     'tour.finish': 'סיום',
-    'tour.s1.t': 'ברוכים הבאים ל‑VaadApp 👋',
+    'tour.s1.t': 'ברוכים הבאים ל‑Lobbix 👋',
     'tour.s1.b': 'בואו נעשה סיור מהיר בתוך האפליקציה. תוכלו לדלג בכל שלב או לחזור על הסיור מאוחר יותר דרך הפרופיל.',
     'tour.s2.t': 'הבית – הדף הראשי',
     'tour.s2.b': 'כאן תראו את הבניין שלכם, יתרה, תשלומים, הודעות וקריאות אחרונות. זו נקודת הכניסה היומיומית שלכם.',
@@ -275,7 +275,7 @@ const I18N = {
     'invite.copy': '📋 העתק קוד',
     'invite.share': '🔗 שתף',
     'invite.copied': 'הועתק:',
-    'invite.shareMsg': 'הצטרפו לבניין {bld} ב‑VaadApp עם קוד ההזמנה: {code}',
+    'invite.shareMsg': 'הצטרפו לבניין {bld} ב‑Lobbix עם קוד ההזמנה: {code}\nhttps://lobbix.co.il',
     'invite.step1': 'שלחו את הקוד לדייר',
     'invite.step2': 'הדייר מתקין את האפליקציה',
     'invite.step3': 'נכנס עם מספר הטלפון + קוד ההזמנה',
@@ -479,8 +479,8 @@ const I18N = {
     'legal.title': 'תנאי שימוש ופרטיות',
     'legal.termsTitle': 'תנאי שימוש',
     'legal.privacyTitle': 'מדיניות פרטיות',
-    'legal.t1': 'מהי VaadApp',
-    'legal.t1p': 'VaadApp היא מערכת לניהול שקוף של ועד בית — הודעות, קריאות תחזוקה, תשלומים, מסמכים ואחסון מידע היסטורי.',
+    'legal.t1': 'מהי Lobbix',
+    'legal.t1p': 'Lobbix היא מערכת לניהול שקוף של ועד בית — הודעות, קריאות תחזוקה, תשלומים, מסמכים ואחסון מידע היסטורי.',
     'legal.t2': 'השימוש באפליקציה',
     'legal.t2p': 'השימוש מותנה במגורים בבניין, הזמנה מוועד או אישור מנהל מערכת. אין להשתמש לרעה, לספק מידע כוזב או להפר זכויות של דיירים אחרים.',
     'legal.t3': 'תוכן משתמש',
@@ -507,10 +507,10 @@ const I18N = {
     'danger.confirmDelete2': 'האם אתם בטוחים לחלוטין?',
     'danger.deleted': 'החשבון נמחק',
     'export.done': 'היצוא הושלם ✓',
-    'install.title': '📲 התקינו את VaadApp',
+    'install.title': '📲 התקינו את Lobbix',
     'install.sub': 'הוסיפו למסך הבית לחוויית אפליקציה מלאה',
     'install.btn': 'התקנה',
-    'install.done': 'VaadApp הותקנה!',
+    'install.done': 'Lobbix הותקנה!',
     'err.loadFailed': 'שגיאה בטעינת הנתונים',
     'err.exportFailed': 'שגיאה בייצוא',
     'common.retry': 'נסה שוב',
@@ -525,7 +525,7 @@ const I18N = {
     'receipt.download': '📄 קבלה',
   },
   en: {
-    'stage.sub': 'Va\'ad · Building Management',
+    'stage.sub': 'Transparent committee. Calm building.',
     'stage.tagline': 'Everything your building\'s committee needs — announcements, tickets, payments, and residents — all in one beautiful mobile app.',
     'stage.marquee': 'Hebrew 🇮🇱 and English 🇺🇸 · Dark mode · Full RTL · Mobile-first',
     'stage.f1.title': 'Announcements', 'stage.f1.sub': 'Pin, categorize, notify in Hebrew & English',
@@ -536,7 +536,7 @@ const I18N = {
     'stage.seed.admin': 'Va\'ad Admin', 'stage.seed.member': 'Va\'ad Member', 'stage.seed.resident': 'Resident',
     'stage.seed.tip': 'Tip: click a user to autofill. Language toggle in the profile tab.',
     'stage.btn.theme': '🌗 Theme', 'stage.btn.fullscreen': 'Fullscreen', 'stage.btn.lang': '🌐 עברית',
-    'login.sub': 'Your building, in your pocket',
+    'login.sub': 'Transparent committee. Calm building.',
     'login.phoneLabel': 'Phone number',
     'login.sendCode': 'Send verification code',
     'login.otpLabel': 'Enter the 6-digit code',
@@ -643,19 +643,19 @@ const I18N = {
     'profile.bldAddr': 'Address',
     'profile.bldCode': 'Invite code',
     'profile.account': 'Account',
-    'profile.about': 'ℹ️ About VaadApp',
+    'profile.about': 'ℹ️ About Lobbix',
     'profile.help': '❓ Help & support',
     'profile.share': '🔗 Share building code',
     'profile.logout': '⎋ Log out',
-    'profile.version': 'VaadApp v1.0 · Built with ♥',
+    'profile.version': 'Lobbix v1.1 · Built with ♥ in Israel 🇮🇱',
     'profile.loggedOut': 'Signed out',
     'profile.darkOn': '🌙 Dark mode', 'profile.darkOff': '☀️ Light mode',
     'profile.langHe': '🇮🇱 השפה שונתה לעברית', 'profile.langEn': '🇺🇸 Language changed to English',
     'profile.notifOn': '🔔 On', 'profile.notifOff': '🔕 Off',
     'profile.emailOn': 'Email alerts on', 'profile.emailOff': 'Email alerts off',
     'profile.copied': '📋 Copied:',
-    'profile.supportEmail': '✉️ Email: support@vaad-app.co.il',
-    'profile.aboutToast': 'VaadApp · Building management platform',
+    'profile.supportEmail': '✉️ Email: liam@lobbix.co.il',
+    'profile.aboutToast': 'Lobbix · Transparent committee. Calm building.',
     'notif.title': 'Notifications',
     'notif.empty': 'All quiet 🌙',
     'notif.announcement': 'Announcement',
@@ -745,7 +745,7 @@ const I18N = {
     'tour.skip': 'Skip',
     'tour.next': 'Next',
     'tour.finish': 'Done',
-    'tour.s1.t': 'Welcome to VaadApp 👋',
+    'tour.s1.t': 'Welcome to Lobbix 👋',
     'tour.s1.b': 'Let\'s take a quick tour. You can skip anytime or replay the tour later from your profile.',
     'tour.s2.t': 'Home — your dashboard',
     'tour.s2.b': 'See your building card, balance, payments, announcements, and recent tickets all in one place. This is your daily entry point.',
@@ -767,7 +767,7 @@ const I18N = {
     'invite.copy': '📋 Copy code',
     'invite.share': '🔗 Share',
     'invite.copied': 'Copied:',
-    'invite.shareMsg': 'Join {bld} on VaadApp with invite code: {code}',
+    'invite.shareMsg': 'Join {bld} on Lobbix with invite code: {code}\nhttps://lobbix.co.il',
     'invite.step1': 'Send the code to the resident',
     'invite.step2': 'They install the app',
     'invite.step3': 'Log in with their phone + invite code',
@@ -971,8 +971,8 @@ const I18N = {
     'legal.title': 'Legal',
     'legal.termsTitle': 'Terms of service',
     'legal.privacyTitle': 'Privacy policy',
-    'legal.t1': 'What is VaadApp',
-    'legal.t1p': 'VaadApp is a transparent building-committee management platform — for announcements, maintenance, payments, documents and history.',
+    'legal.t1': 'What is Lobbix',
+    'legal.t1p': 'Lobbix is a transparent building-committee management platform — for announcements, maintenance, payments, documents and history.',
     'legal.t2': 'Using the app',
     'legal.t2p': 'Use is limited to residents of registered buildings invited by their committee. Do not misuse, provide false information, or violate other residents\' rights.',
     'legal.t3': 'User content',
@@ -999,10 +999,10 @@ const I18N = {
     'danger.confirmDelete2': 'Are you absolutely sure?',
     'danger.deleted': 'Account deleted',
     'export.done': 'Export complete ✓',
-    'install.title': '📲 Install VaadApp',
+    'install.title': '📲 Install Lobbix',
     'install.sub': 'Add to your home screen for a full app experience',
     'install.btn': 'Install',
-    'install.done': 'VaadApp installed!',
+    'install.done': 'Lobbix installed!',
     'err.loadFailed': 'Failed to load data',
     'err.exportFailed': 'Export failed',
     'common.retry': 'Retry',
@@ -1221,7 +1221,7 @@ function applyPrefs() {
   const lang = store.lang;
   document.documentElement.setAttribute('lang', lang);
   document.documentElement.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
-  document.title = lang === 'he' ? 'VaadApp — ניהול בניין' : 'VaadApp — Building Management';
+  document.title = lang === 'he' ? 'Lobbix — ועד שקוף. בניין רגוע.' : 'Lobbix — Transparent committee. Calm building.';
   // Update segmented control
   document.querySelectorAll('#lang-seg button').forEach((b) => b.classList.toggle('active', b.dataset.lang === lang));
   // Translate all static DOM
@@ -3543,7 +3543,7 @@ function renderTermsBody(lang) {
 function renderTermsHebrew() {
   return `
     <h3>1. הקדמה והסכמה לתנאים</h3>
-    <p>תנאי שימוש אלה ("<b>התנאים</b>") מסדירים את השימוש שלך ב-VaadApp ("<b>השירות</b>"), פלטפורמה מקוונת המופעלת על-ידי ${LEGAL_COMPANY} ("<b>אנחנו</b>", "<b>אנו</b>", "<b>שלנו</b>") המאפשרת לוועדי בתים ודיירים לנהל את פעילות הבניין, התקשורת, התשלומים והתחזוקה.</p>
+    <p>תנאי שימוש אלה ("<b>התנאים</b>") מסדירים את השימוש שלך ב-Lobbix ("<b>השירות</b>"), פלטפורמה מקוונת המופעלת על-ידי ${LEGAL_COMPANY} ("<b>אנחנו</b>", "<b>אנו</b>", "<b>שלנו</b>") המאפשרת לוועדי בתים ודיירים לנהל את פעילות הבניין, התקשורת, התשלומים והתחזוקה.</p>
     <p>עצם יצירת חשבון, גישה לשירות או שימוש בו מהווים הסכמה מלאה לתנאים אלה. אם אינך מסכים, אינך רשאי להשתמש בשירות.</p>
 
     <h3>2. הגדרות</h3>
@@ -3551,7 +3551,7 @@ function renderTermsHebrew() {
       <li><b>"משתמש"</b> - כל אדם המשתמש בשירות בכל אמצעי.</li>
       <li><b>"דייר"</b> - משתמש שחשבונו מקושר לבניין ספציפי.</li>
       <li><b>"חבר ועד"</b> - משתמש בעל הרשאות ניהול לבניין (ועד אדמין, חבר ועד או גזבר).</li>
-      <li><b>"מנהל-על"</b> - עובד VaadApp בעל הרשאות מערכת כלליות.</li>
+      <li><b>"מנהל-על"</b> - עובד Lobbix בעל הרשאות מערכת כלליות.</li>
       <li><b>"בניין"</b> - בית משותף רשום בשירות כהגדרתו בחוק המקרקעין (בתים משותפים).</li>
       <li><b>"תוכן"</b> - טקסט, תמונות, מסמכים, הצבעות, הערות וכל חומר אחר שמשתמשים מעלים לשירות.</li>
       <li><b>"מידע אישי"</b> - כהגדרתו בחוק הגנת הפרטיות, התשמ"א-1981.</li>
@@ -3601,9 +3601,9 @@ function renderTermsHebrew() {
     </ul>
     <p>חברי ועד רשאים למתן, להסיר או להגביל תוכן בבניין שלהם לפי שיקול דעתם, בהתאם לתקנון הבית המשותף. אנו שומרים לעצמנו את הזכות להסיר כל תוכן על-פי שיקול דעתנו הבלעדי, ללא הודעה מוקדמת, אם לדעתנו הוא מפר תנאים אלה.</p>
 
-    <h3>7. סמכות הוועד וניטרליות VaadApp</h3>
-    <p>חברי ועד בעלי סמכויות תפעוליות בבניין שלהם, לרבות יצירת חוקי תשלום, רישום הוצאות, שליחת הודעות וניהול גישת דיירים. סמכות זו נובעת מחוק המקרקעין (בתים משותפים), התשכ"ט-1969, ומתקנון הבית המשותף של הבניין, ואינה מוענקת על-ידי VaadApp.</p>
-    <p>VaadApp היא <b>פלטפורמה ניטרלית</b>. איננו אחראים ל:</p>
+    <h3>7. סמכות הוועד וניטרליות Lobbix</h3>
+    <p>חברי ועד בעלי סמכויות תפעוליות בבניין שלהם, לרבות יצירת חוקי תשלום, רישום הוצאות, שליחת הודעות וניהול גישת דיירים. סמכות זו נובעת מחוק המקרקעין (בתים משותפים), התשכ"ט-1969, ומתקנון הבית המשותף של הבניין, ואינה מוענקת על-ידי Lobbix.</p>
+    <p>Lobbix היא <b>פלטפורמה ניטרלית</b>. איננו אחראים ל:</p>
     <ul>
       <li>החלטות הוועד או לתוצאותיהן הכלכליות</li>
       <li>מחלוקות בין דיירים לוועד או בין דיירים ביניהם</li>
@@ -3638,7 +3638,7 @@ function renderTermsHebrew() {
     </ul>
     <p><b>מחלוקות עם הוועד:</b></p>
     <ul>
-      <li>מחלוקות בנוגע לחיובי הוועד (לא פלטפורמה) יש ליישב מול הוועד ישירות. VaadApp אינה צד למחלוקות אלה.</li>
+      <li>מחלוקות בנוגע לחיובי הוועד (לא פלטפורמה) יש ליישב מול הוועד ישירות. Lobbix אינה צד למחלוקות אלה.</li>
       <li>במקרה של חיוב שגוי מטעם הוועד, תוכל לפנות לוועד לבקשת החזר. הוועד יכול לבצע החזר דרך המערכת.</li>
     </ul>
 
@@ -3715,7 +3715,7 @@ function renderTermsHebrew() {
 function renderTermsEnglish() {
   return `
     <h3>1. Introduction and Acceptance</h3>
-    <p>These Terms of Service ("<b>Terms</b>") govern your use of VaadApp ("<b>Service</b>"), an online platform operated by ${LEGAL_COMPANY} ("<b>we</b>", "<b>us</b>", "<b>our</b>") that enables building committees (ועד בית) and residents to manage building operations, communications, payments, and maintenance.</p>
+    <p>These Terms of Service ("<b>Terms</b>") govern your use of Lobbix ("<b>Service</b>"), an online platform operated by ${LEGAL_COMPANY} ("<b>we</b>", "<b>us</b>", "<b>our</b>") that enables building committees (ועד בית) and residents to manage building operations, communications, payments, and maintenance.</p>
     <p>By creating an account, accessing, or using the Service, you agree to be fully bound by these Terms. If you do not agree, you may not use the Service.</p>
 
     <h3>2. Definitions</h3>
@@ -3723,7 +3723,7 @@ function renderTermsEnglish() {
       <li><b>"User"</b> — any individual using the Service by any means.</li>
       <li><b>"Resident"</b> — a User whose account is associated with a specific Building.</li>
       <li><b>"Committee Member"</b> — a User with administrative permissions for a Building (Vaad admin, member, or treasurer).</li>
-      <li><b>"Super Admin"</b> — VaadApp staff with system-wide permissions.</li>
+      <li><b>"Super Admin"</b> — Lobbix staff with system-wide permissions.</li>
       <li><b>"Building"</b> — a multi-unit residential building registered on the Service, as defined in the Israeli Real Estate Law (Condominiums).</li>
       <li><b>"Content"</b> — text, images, documents, votes, comments, and any other material Users submit to the Service.</li>
       <li><b>"Personal Data"</b> — as defined in the Israeli Privacy Protection Law, 5741-1981.</li>
@@ -3773,9 +3773,9 @@ function renderTermsEnglish() {
     </ul>
     <p>Committee Members may moderate, remove, or restrict Content within their Building at their discretion, in accordance with the Building's bylaws. We reserve the right to remove any Content at our sole discretion, without prior notice, if we believe it violates these Terms.</p>
 
-    <h3>7. Committee Authority and VaadApp Neutrality</h3>
-    <p>Committee Members have operational authority within their Building, including creating payment rules, recording expenses, sending announcements, and managing resident access. This authority is granted by the Israeli Real Estate Law (Condominiums), 5729-1969, and the Building's bylaws — not by VaadApp.</p>
-    <p>VaadApp is a <b>neutral platform</b>. We are not responsible for:</p>
+    <h3>7. Committee Authority and Lobbix Neutrality</h3>
+    <p>Committee Members have operational authority within their Building, including creating payment rules, recording expenses, sending announcements, and managing resident access. This authority is granted by the Israeli Real Estate Law (Condominiums), 5729-1969, and the Building's bylaws — not by Lobbix.</p>
+    <p>Lobbix is a <b>neutral platform</b>. We are not responsible for:</p>
     <ul>
       <li>Committee decisions or their financial consequences</li>
       <li>Disputes between residents and the committee or among residents</li>
@@ -3810,7 +3810,7 @@ function renderTermsEnglish() {
     </ul>
     <p><b>Disputes with the committee:</b></p>
     <ul>
-      <li>Disputes regarding committee charges (not platform charges) must be resolved directly with the committee. VaadApp is not a party to such disputes.</li>
+      <li>Disputes regarding committee charges (not platform charges) must be resolved directly with the committee. Lobbix is not a party to such disputes.</li>
       <li>In case of an incorrect charge by the committee, you may contact the committee to request a refund. The committee can process refunds through the system.</li>
     </ul>
 
@@ -3892,7 +3892,7 @@ function renderPrivacyBody(lang) {
 function renderPrivacyHebrew() {
   return `
     <h3>1. הקדמה</h3>
-    <p>מדיניות פרטיות זו מתארת כיצד VaadApp ("<b>אנחנו</b>", "<b>אנו</b>", "<b>שלנו</b>"), המופעלת על-ידי ${LEGAL_COMPANY}, אוספת, משתמשת, חושפת ומגנה על המידע האישי שלך בעת השימוש בשירות.</p>
+    <p>מדיניות פרטיות זו מתארת כיצד Lobbix ("<b>אנחנו</b>", "<b>אנו</b>", "<b>שלנו</b>"), המופעלת על-ידי ${LEGAL_COMPANY}, אוספת, משתמשת, חושפת ומגנה על המידע האישי שלך בעת השימוש בשירות.</p>
     <p>אנו מחויבים להגנה על פרטיותך ופועלים בהתאם ל:</p>
     <ul>
       <li><b>חוק הגנת הפרטיות, התשמ"א-1981</b> ותקנותיו</li>
@@ -3998,7 +3998,7 @@ function renderPrivacyHebrew() {
     <p>אנו עשויים לחשוף מידע אם נדרש לכך: (א) על-פי חוק, צו בית משפט או דרישה חוקית מחייבת של רשות מוסמכת; (ב) לצורך הגנה על זכויותינו, רכושנו או בטיחותנו; (ג) לצורך מניעת הונאה, פשע או פגיעה במשתמשים אחרים.</p>
 
     <h3>6.4 העברות עסקיות</h3>
-    <p>אם VaadApp תעבור מיזוג, רכישה, מכירת נכסים או פירוק, המידע שלך עשוי להיות מועבר כחלק מהעסקה. נודיע לך לפחות 14 יום לפני שהמידע יהיה כפוף למדיניות פרטיות אחרת.</p>
+    <p>אם Lobbix תעבור מיזוג, רכישה, מכירת נכסים או פירוק, המידע שלך עשוי להיות מועבר כחלק מהעסקה. נודיע לך לפחות 14 יום לפני שהמידע יהיה כפוף למדיניות פרטיות אחרת.</p>
 
     <h3>6.5 איננו מוכרים את המידע שלך</h3>
     <p>אנו <b>לעולם לא</b> מוכרים, משכירים, מעבירים בתמורה או מעניקים רישיון למידע האישי שלך למפרסמים, מתווכי מידע, חברות אנליטיקה או כל צד שלישי למטרותיהם הם. השירות <b>אינו נתמך בפרסומות</b>.</p>
@@ -4112,7 +4112,7 @@ function renderPrivacyHebrew() {
 function renderPrivacyEnglish() {
   return `
     <h3>1. Introduction</h3>
-    <p>This Privacy Policy describes how VaadApp ("<b>we</b>", "<b>us</b>", "<b>our</b>"), operated by ${LEGAL_COMPANY}, collects, uses, discloses, and protects your personal information when you use the Service.</p>
+    <p>This Privacy Policy describes how Lobbix ("<b>we</b>", "<b>us</b>", "<b>our</b>"), operated by ${LEGAL_COMPANY}, collects, uses, discloses, and protects your personal information when you use the Service.</p>
     <p>We are committed to protecting your privacy and operate in accordance with:</p>
     <ul>
       <li><b>The Israeli Privacy Protection Law, 5741-1981</b> and its regulations</li>
@@ -4218,7 +4218,7 @@ function renderPrivacyEnglish() {
     <p>We may disclose information if required: (a) by law, court order, or binding legal demand from a competent authority; (b) to protect our rights, property, or safety; (c) to prevent fraud, crime, or harm to other users.</p>
 
     <h3>6.4 Business Transfers</h3>
-    <p>If VaadApp undergoes a merger, acquisition, sale of assets, or dissolution, your data may be transferred as part of the transaction. We will notify you at least 14 days before your data becomes subject to a different privacy policy.</p>
+    <p>If Lobbix undergoes a merger, acquisition, sale of assets, or dissolution, your data may be transferred as part of the transaction. We will notify you at least 14 days before your data becomes subject to a different privacy policy.</p>
 
     <h3>6.5 We do not sell your data</h3>
     <p>We <b>never</b> sell, rent, trade for consideration, or license your personal data to advertisers, data brokers, analytics companies, or any third party for their own purposes. The Service is <b>not ad-supported</b>.</p>
@@ -4372,6 +4372,18 @@ window.enterDashboard = async function() {
 };
 
 // ---------------- Init ----------------
+// Fetch public config and decide whether demo-only UI should render.
+// Defaults to demo mode ON if the endpoint is unreachable (local dev).
+(async () => {
+  let cfg = { demoMode: true, brand: 'Lobbix', version: '1.1.0' };
+  try {
+    const res = await fetch('/api/config', { cache: 'no-store' });
+    if (res.ok) cfg = await res.json();
+  } catch {}
+  window.__lobbix_config = cfg;
+  document.body.classList.toggle('demo-mode', cfg.demoMode !== false);
+})();
+
 applyTheme();
 if (store.token) {
   enterDashboard();

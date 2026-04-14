@@ -1,13 +1,13 @@
 {
-  "name": "VaadApp — ניהול ועד בית",
-  "short_name": "VaadApp",
-  "description": "Transparent, modern building-committee management for Israeli condos",
-  "start_url": "/",
+  "name": "Lobbix — ועד שקוף. בניין רגוע.",
+  "short_name": "Lobbix",
+  "description": "הפלטפורמה השקופה לניהול ועד בית — הודעות, תשלומים, תחזוקה ויומן פעולות גלוי לכל דייר.",
+  "start_url": "/app",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0b1020",
-  "theme_color": "#0b1020",
+  "background_color": "#6366f1",
+  "theme_color": "#6366f1",
   "lang": "he",
   "dir": "rtl",
   "categories": ["productivity", "finance", "lifestyle"],
@@ -27,19 +27,22 @@
   ],
   "shortcuts": [
     {
-      "name": "Announcements",
-      "url": "/#announcements",
-      "description": "Latest building news"
+      "name": "הודעות",
+      "short_name": "הודעות",
+      "url": "/app#announcements",
+      "description": "חדשות הבניין האחרונות"
     },
     {
-      "name": "Report issue",
-      "url": "/#tickets",
-      "description": "Report a maintenance issue"
+      "name": "קריאת שירות",
+      "short_name": "קריאה",
+      "url": "/app#tickets",
+      "description": "דיווח על תקלה"
     },
     {
-      "name": "Payments",
-      "url": "/#payments",
-      "description": "Check your balance"
+      "name": "תשלומים",
+      "short_name": "תשלומים",
+      "url": "/app#payments",
+      "description": "היתרה שלי"
     }
   ]
 }

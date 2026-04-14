@@ -1,4 +1,4 @@
-# VaadApp — How to Run & Test
+# Lobbix — How to Run & Test
 
 ## ✨ What's built
 
