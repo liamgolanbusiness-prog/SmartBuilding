@@ -1,0 +1,45 @@
+{
+  "name": "VaadApp — ניהול ועד בית",
+  "short_name": "VaadApp",
+  "description": "Transparent, modern building-committee management for Israeli condos",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "lang": "he",
+  "dir": "rtl",
+  "categories": ["productivity", "finance", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Announcements",
+      "url": "/#announcements",
+      "description": "Latest building news"
+    },
+    {
+      "name": "Report issue",
+      "url": "/#tickets",
+      "description": "Report a maintenance issue"
+    },
+    {
+      "name": "Payments",
+      "url": "/#payments",
+      "description": "Check your balance"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { Router, Response } from 'express';
 import { authenticate, AuthRequest } from '../middleware/auth';
 import { asyncHandler, AppError } from '../middleware/errorHandler';
+import { audit } from '../middleware/audit';
 import { query } from '../config/database';
 
 const router = Router();
@@ -77,6 +78,7 @@ router.post('/payment-rules', asyncHandler(async (req: AuthRequest, res: Respons
       req.user!.id,
     ]
   );
+  audit(req, { action: 'payment_rule.create', entity_type: 'payment_rule', summary: `${name} — ₪${amount}/${frequency}` });
   res.status(201).json({ message: 'Rule created' });
 }));
 
@@ -156,6 +158,7 @@ router.post('/payment-rules/:id/apply', asyncHandler(async (req: AuthRequest, re
       created++;
     } catch (e) { /* ignore dup */ }
   }
+  audit(req, { action: 'payment_rule.apply', entity_type: 'payment_rule', entity_id: req.params.id, summary: `${rule.name} → ${created} payments created` });
   res.json({ message: 'Rule applied', created });
 }));
 
@@ -193,6 +196,7 @@ router.post('/expenses', asyncHandler(async (req: AuthRequest, res: Response) =>
       req.user!.id,
     ]
   );
+  audit(req, { action: 'expense.create', entity_type: 'expense', summary: `${title} — ₪${amount} (${category || 'other'})` });
   res.status(201).json({ message: 'Expense created' });
 }));
 

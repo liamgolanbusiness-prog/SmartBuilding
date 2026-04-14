@@ -3,6 +3,7 @@ import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import rateLimit from 'express-rate-limit';
 import { createServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 
@@ -19,6 +20,7 @@ import pollRoutes from './routes/poll.routes';
 import adminRoutes from './routes/admin.routes';
 import financeRoutes from './routes/finance.routes';
 import maintenanceRoutes from './routes/maintenance.routes';
+import productionRoutes from './routes/production.routes';
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler';
@@ -62,6 +64,27 @@ app.get('/health', (req: Request, res: Response) => {
   });
 });
 
+// Rate limiters — protect OTP/login from brute force + general abuse
+const otpLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 min
+  max: 10, // 10 OTP requests per IP per 15m
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many OTP requests. Try again in a few minutes.' },
+});
+const apiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 200, // 200 req/min per IP across all API
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use('/api', apiLimiter);
+// Tighter limit on auth write endpoints
+app.use('/api/auth/send-otp', otpLimiter);
+app.use('/api/auth/verify-otp', otpLimiter);
+app.use('/api/auth/google-demo', otpLimiter);
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/residents', residentRoutes);
@@ -72,6 +95,7 @@ app.use('/api/polls', pollRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
+app.use('/api/v1', productionRoutes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {

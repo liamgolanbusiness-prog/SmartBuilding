@@ -33,7 +33,8 @@ router.get(
       [req.user!.id]
     );
     const b = await query(
-      `SELECT id, name, address, city, total_apartments, total_floors, invite_code
+      `SELECT id, name, address, city, total_apartments, total_floors, invite_code,
+              emergency_phone, annual_budget, reserve_fund_balance
        FROM buildings WHERE id = $1`,
       [req.user!.buildingId]
     );

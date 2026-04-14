@@ -400,6 +400,129 @@ const I18N = {
     'rule.audSummaryApts': '✓ {n} דירות נבחרו',
     'rule.audSummaryRes': '✓ {n} דיירים נבחרו',
     'rule.audSummaryNone': 'לא נבחר קהל — יחול על כולם',
+    // v2: docs / contractors / audit / emergency / legal
+    'docs.title': 'מסמכי הבניין',
+    'docs.newTitle': 'העלאת מסמך חדש',
+    'docs.titlePh': 'כותרת (לדוגמה: פוליסת ביטוח 2026)',
+    'docs.notesPh': 'הערות',
+    'docs.searchPh': 'חיפוש מסמך',
+    'docs.uploadFile': '📤 בחירת קובץ (PDF/תמונה)',
+    'docs.save': 'שמור',
+    'docs.uploaded': 'המסמך הועלה בהצלחה',
+    'docs.view': 'צפייה',
+    'docs.emptyTitle': 'אין עדיין מסמכים',
+    'docs.emptySub': 'העלו פוליסות ביטוח, חוזים, תכניות ומסמכים חשובים כדי שכל הדיירים יוכלו לראות',
+    'docs.fileTooLarge': 'קובץ גדול מדי (מקסימום 2MB)',
+    'docs.noData': 'אין תוכן בקובץ',
+    'docs.needFields': 'נא להזין כותרת ולבחור קובץ',
+    'docCat.insurance': '🛡️ ביטוח',
+    'docCat.contract': '📄 חוזה',
+    'docCat.regulations': '📜 תקנון',
+    'docCat.plans': '📐 תוכניות',
+    'docCat.invoice': '🧾 חשבונית',
+    'docCat.legal': '⚖️ משפטי',
+    'docCat.other': '📎 אחר',
+    'cont.title': 'ספקים וקבלנים',
+    'cont.newTitle': 'הוספת ספק חדש',
+    'cont.namePh': 'שם איש קשר',
+    'cont.companyPh': 'שם החברה',
+    'cont.phonePh': 'טלפון',
+    'cont.emailPh': 'אימייל',
+    'cont.notesPh': 'הערות, עבודות שבוצעו, מחירים',
+    'cont.save': 'שמור',
+    'cont.added': 'הספק נוסף',
+    'cont.needName': 'חובה להזין שם',
+    'cont.emptyTitle': 'אין עדיין ספקים',
+    'cont.emptySub': 'נהלו רשימה של אינסטלטורים, חשמלאים וספקי שירות עם מי עבדתם',
+    'cont.gardening': '🌿 גינון',
+    'cont.security': '🔒 אבטחה',
+    'contCat.elevator': '🛗 מעלית',
+    'contCat.plumbing': '🚿 אינסטלציה',
+    'contCat.electrical': '💡 חשמל',
+    'contCat.cleaning': '🧹 ניקיון',
+    'contCat.gardening': '🌿 גינון',
+    'contCat.security': '🔒 אבטחה',
+    'contCat.insurance': '🛡️ ביטוח',
+    'contCat.legal': '⚖️ משפטי',
+    'contCat.other': '📦 אחר',
+    'audit.title': 'יומן פעולות',
+    'audit.why': 'שקיפות מלאה',
+    'audit.whySub': 'כל פעולה חשובה של הוועד מתועדת כאן — גלויה לכל דייר.',
+    'audit.emptyTitle': 'היומן ריק',
+    'audit.emptySub': 'כשוועד יבצעו פעולות הן יירשמו כאן באופן אוטומטי.',
+    'audit.a.ticket.create': 'קריאת שירות נפתחה',
+    'audit.a.ticket.status_change': 'סטטוס קריאה עודכן',
+    'audit.a.payment_rule.create': 'נוצר חוק תשלום חדש',
+    'audit.a.payment_rule.apply': 'חוק תשלום הוחל',
+    'audit.a.expense.create': 'הוצאה נרשמה',
+    'audit.a.document.upload': 'מסמך הועלה',
+    'audit.a.document.delete': 'מסמך נמחק',
+    'audit.a.contractor.create': 'ספק נוסף',
+    'audit.a.contractor.delete': 'ספק הוסר',
+    'audit.a.building.settings_update': 'הגדרות הבניין עודכנו',
+    'audit.a.export.payments_csv': 'יצוא תשלומים ל-CSV',
+    'audit.a.export.expenses_csv': 'יצוא הוצאות ל-CSV',
+    'audit.a.receipt.generate': 'הופקה קבלה',
+    'audit.a.data.export_self': 'הנתונים האישיים יוצאו',
+    'audit.a.account.delete_self': 'חשבון נמחק',
+    'time.now': 'כעת',
+    'time.minAgo': 'לפני {n} דק׳',
+    'time.hourAgo': 'לפני {n} שעות',
+    'time.dayAgo': 'לפני {n} ימים',
+    'emerg.title': 'חירום בבניין',
+    'emerg.sub': 'לחצו על הכפתור המתאים',
+    'emerg.buildingContact': 'איש קשר בבניין',
+    'emerg.mda': 'מגן דוד אדום',
+    'emerg.police': 'משטרה',
+    'emerg.fire': 'כיבוי אש',
+    'emerg.electric': 'חברת חשמל',
+    'legal.title': 'תנאי שימוש ופרטיות',
+    'legal.termsTitle': 'תנאי שימוש',
+    'legal.privacyTitle': 'מדיניות פרטיות',
+    'legal.t1': 'מהי VaadApp',
+    'legal.t1p': 'VaadApp היא מערכת לניהול שקוף של ועד בית — הודעות, קריאות תחזוקה, תשלומים, מסמכים ואחסון מידע היסטורי.',
+    'legal.t2': 'השימוש באפליקציה',
+    'legal.t2p': 'השימוש מותנה במגורים בבניין, הזמנה מוועד או אישור מנהל מערכת. אין להשתמש לרעה, לספק מידע כוזב או להפר זכויות של דיירים אחרים.',
+    'legal.t3': 'תוכן משתמש',
+    'legal.t3p': 'אתם אחראים לתוכן שאתם מפרסמים — הודעות, קבלות ומסמכים. לוועד שמורה הזכות למחוק תוכן לא הולם.',
+    'legal.t4': 'אחריות מוגבלת',
+    'legal.t4p': 'השירות ניתן "כפי שהוא". אין התחייבות לזמינות 100%, והבעלים אינם אחראים לנזקים עקיפים.',
+    'legal.t5': 'שינויים',
+    'legal.t5p': 'אנו עשויים לעדכן את התנאים מעת לעת. המשך שימוש מהווה הסכמה לשינויים.',
+    'legal.p1': 'מה אנו אוספים',
+    'legal.p1p': 'אנו שומרים את המידע הדרוש לפעולת השירות — שם, טלפון, דירה, תשלומים, קריאות שפתחתם, קבצים שהעליתם.',
+    'legal.p2': 'עם מי אנו חולקים',
+    'legal.p2p': 'המידע נשאר בתוך הבניין שלכם. דיירים באותו בניין יכולים לראות:',
+    'legal.p2l1': 'את שמותיכם ומספרי הדירה (מדריך הדיירים)',
+    'legal.p2l2': 'סטטוס תשלומים מצטבר (ללא פרטי כרטיס)',
+    'legal.p2l3': 'הודעות והצבעות שבחרתם לפרסם',
+    'legal.p3': 'הזכויות שלכם',
+    'legal.p3p': 'תוכלו לייצא את כל המידע האישי שלכם, לעדכן פרטים, או למחוק את חשבונכם בכל עת דרך "אני → אזור סכנה".',
+    'legal.p4': 'אבטחה',
+    'legal.p4p': 'סיסמאות לא נשמרות (כניסה בקוד חד-פעמי). המידע מוצפן במאגר. פעולות חשובות נרשמות ביומן שקוף לכל הדיירים.',
+    'danger.title': 'אזור סכנה',
+    'danger.export': '📥 ייצוא הנתונים שלי',
+    'danger.delete': '🗑 מחק את חשבוני',
+    'danger.confirmDelete': 'האם למחוק את החשבון? לא ניתן לשחזר.',
+    'danger.confirmDelete2': 'האם אתם בטוחים לחלוטין?',
+    'danger.deleted': 'החשבון נמחק',
+    'export.done': 'היצוא הושלם ✓',
+    'install.title': '📲 התקינו את VaadApp',
+    'install.sub': 'הוסיפו למסך הבית לחוויית אפליקציה מלאה',
+    'install.btn': 'התקנה',
+    'install.done': 'VaadApp הותקנה!',
+    'err.loadFailed': 'שגיאה בטעינת הנתונים',
+    'err.exportFailed': 'שגיאה בייצוא',
+    'common.retry': 'נסה שוב',
+    'profile.docs': '📁 מסמכי הבניין',
+    'profile.contractors': '🧰 ספקים וקבלנים',
+    'profile.audit': '🔍 יומן פעולות (שקיפות)',
+    'profile.terms': '📜 תנאי שימוש',
+    'profile.privacy': '🛡️ מדיניות פרטיות',
+    'profile.emergency': '🚨 חירום',
+    'profile.exportPayCsv': '📊 ייצוא תשלומים (CSV)',
+    'profile.exportExpCsv': '📊 ייצוא הוצאות (CSV)',
+    'receipt.download': '📄 קבלה',
   },
   en: {
     'stage.sub': 'Va\'ad · Building Management',
@@ -769,13 +892,136 @@ const I18N = {
     'rule.audSummaryApts': '✓ {n} apartments selected',
     'rule.audSummaryRes': '✓ {n} residents selected',
     'rule.audSummaryNone': 'No audience selected — will apply to all',
+    // v2
+    'docs.title': 'Building documents',
+    'docs.newTitle': 'Upload a new document',
+    'docs.titlePh': 'Title (e.g. Insurance policy 2026)',
+    'docs.notesPh': 'Notes',
+    'docs.searchPh': 'Search documents',
+    'docs.uploadFile': '📤 Choose file (PDF/image)',
+    'docs.save': 'Save',
+    'docs.uploaded': 'Document uploaded',
+    'docs.view': 'View',
+    'docs.emptyTitle': 'No documents yet',
+    'docs.emptySub': 'Upload insurance policies, contracts, plans and important documents so all residents can see them',
+    'docs.fileTooLarge': 'File too large (max 2MB)',
+    'docs.noData': 'No file content',
+    'docs.needFields': 'Please provide a title and select a file',
+    'docCat.insurance': '🛡️ Insurance',
+    'docCat.contract': '📄 Contract',
+    'docCat.regulations': '📜 Regulations',
+    'docCat.plans': '📐 Plans',
+    'docCat.invoice': '🧾 Invoice',
+    'docCat.legal': '⚖️ Legal',
+    'docCat.other': '📎 Other',
+    'cont.title': 'Contractors',
+    'cont.newTitle': 'Add a contractor',
+    'cont.namePh': 'Contact name',
+    'cont.companyPh': 'Company name',
+    'cont.phonePh': 'Phone',
+    'cont.emailPh': 'Email',
+    'cont.notesPh': 'Notes, past jobs, prices',
+    'cont.save': 'Save',
+    'cont.added': 'Contractor added',
+    'cont.needName': 'Name is required',
+    'cont.emptyTitle': 'No contractors yet',
+    'cont.emptySub': 'Keep track of plumbers, electricians and service providers you\'ve worked with',
+    'cont.gardening': '🌿 Gardening',
+    'cont.security': '🔒 Security',
+    'contCat.elevator': '🛗 Elevator',
+    'contCat.plumbing': '🚿 Plumbing',
+    'contCat.electrical': '💡 Electrical',
+    'contCat.cleaning': '🧹 Cleaning',
+    'contCat.gardening': '🌿 Gardening',
+    'contCat.security': '🔒 Security',
+    'contCat.insurance': '🛡️ Insurance',
+    'contCat.legal': '⚖️ Legal',
+    'contCat.other': '📦 Other',
+    'audit.title': 'Activity log',
+    'audit.why': 'Full transparency',
+    'audit.whySub': 'Every important Vaad action is logged here — visible to every resident.',
+    'audit.emptyTitle': 'The log is empty',
+    'audit.emptySub': 'When Vaad members take actions they will be recorded here automatically.',
+    'audit.a.ticket.create': 'Ticket opened',
+    'audit.a.ticket.status_change': 'Ticket status updated',
+    'audit.a.payment_rule.create': 'Payment rule created',
+    'audit.a.payment_rule.apply': 'Payment rule applied',
+    'audit.a.expense.create': 'Expense recorded',
+    'audit.a.document.upload': 'Document uploaded',
+    'audit.a.document.delete': 'Document deleted',
+    'audit.a.contractor.create': 'Contractor added',
+    'audit.a.contractor.delete': 'Contractor removed',
+    'audit.a.building.settings_update': 'Building settings updated',
+    'audit.a.export.payments_csv': 'Payments exported to CSV',
+    'audit.a.export.expenses_csv': 'Expenses exported to CSV',
+    'audit.a.receipt.generate': 'Receipt generated',
+    'audit.a.data.export_self': 'Personal data exported',
+    'audit.a.account.delete_self': 'Account deleted',
+    'time.now': 'just now',
+    'time.minAgo': '{n}m ago',
+    'time.hourAgo': '{n}h ago',
+    'time.dayAgo': '{n}d ago',
+    'emerg.title': 'Emergency',
+    'emerg.sub': 'Tap the right contact',
+    'emerg.buildingContact': 'Building contact',
+    'emerg.mda': 'Magen David Adom',
+    'emerg.police': 'Police',
+    'emerg.fire': 'Fire department',
+    'emerg.electric': 'Electric company',
+    'legal.title': 'Legal',
+    'legal.termsTitle': 'Terms of service',
+    'legal.privacyTitle': 'Privacy policy',
+    'legal.t1': 'What is VaadApp',
+    'legal.t1p': 'VaadApp is a transparent building-committee management platform — for announcements, maintenance, payments, documents and history.',
+    'legal.t2': 'Using the app',
+    'legal.t2p': 'Use is limited to residents of registered buildings invited by their committee. Do not misuse, provide false information, or violate other residents\' rights.',
+    'legal.t3': 'User content',
+    'legal.t3p': 'You are responsible for the content you post — messages, receipts and documents. Committee members can remove inappropriate content.',
+    'legal.t4': 'Limited liability',
+    'legal.t4p': 'The service is provided "as is" without warranties. We are not liable for indirect damages.',
+    'legal.t5': 'Changes',
+    'legal.t5p': 'These terms may be updated over time. Continued use implies acceptance.',
+    'legal.p1': 'What we collect',
+    'legal.p1p': 'We store only what the service needs — name, phone, apartment, payments, tickets, uploaded files.',
+    'legal.p2': 'Who we share with',
+    'legal.p2p': 'Data stays inside your building. Other residents in the same building may see:',
+    'legal.p2l1': 'Your name and apartment number (resident directory)',
+    'legal.p2l2': 'Aggregate payment status (never card details)',
+    'legal.p2l3': 'Announcements and polls you publish',
+    'legal.p3': 'Your rights',
+    'legal.p3p': 'You can export all your data, update details, or delete your account anytime under "Me → Danger zone".',
+    'legal.p4': 'Security',
+    'legal.p4p': 'We do not store passwords (one-time codes for login). Data is encrypted at rest. Important actions are written to a transparent log visible to all residents.',
+    'danger.title': 'Danger zone',
+    'danger.export': '📥 Export my data',
+    'danger.delete': '🗑 Delete my account',
+    'danger.confirmDelete': 'Delete your account? This cannot be undone.',
+    'danger.confirmDelete2': 'Are you absolutely sure?',
+    'danger.deleted': 'Account deleted',
+    'export.done': 'Export complete ✓',
+    'install.title': '📲 Install VaadApp',
+    'install.sub': 'Add to your home screen for a full app experience',
+    'install.btn': 'Install',
+    'install.done': 'VaadApp installed!',
+    'err.loadFailed': 'Failed to load data',
+    'err.exportFailed': 'Export failed',
+    'common.retry': 'Retry',
+    'profile.docs': '📁 Building documents',
+    'profile.contractors': '🧰 Contractors',
+    'profile.audit': '🔍 Activity log (transparency)',
+    'profile.terms': '📜 Terms of service',
+    'profile.privacy': '🛡️ Privacy policy',
+    'profile.emergency': '🚨 Emergency',
+    'profile.exportPayCsv': '📊 Export payments (CSV)',
+    'profile.exportExpCsv': '📊 Export expenses (CSV)',
+    'receipt.download': '📄 Receipt',
   },
 };
 
-function t(key, vars) {
+function t(key, vars, fallback) {
   const dict = I18N[store.lang] || I18N.he;
   let s = dict[key];
-  if (s == null) s = (I18N.en[key] != null ? I18N.en[key] : key);
+  if (s == null) s = (I18N.en[key] != null ? I18N.en[key] : (fallback != null ? fallback : key));
   if (vars) Object.keys(vars).forEach((k) => { s = s.replace('{' + k + '}', vars[k]); });
   return s;
 }
@@ -987,7 +1233,7 @@ function applyPrefs() {
 const applyTheme = applyPrefs;
 
 // ---------------- Routing ----------------
-const views = ['login', 'home', 'announcements', 'tickets', 'payments', 'residents', 'profile', 'ticket-detail', 'ann-detail', 'admin', 'onboarded', 'management'];
+const views = ['login', 'home', 'announcements', 'tickets', 'payments', 'residents', 'profile', 'ticket-detail', 'ann-detail', 'admin', 'onboarded', 'management', 'documents', 'contractors', 'audit', 'legal'];
 const tabRoutes = ['home', 'announcements', 'tickets', 'payments', 'profile'];
 let currentRoute = 'login';
 let navStack = [];
@@ -1019,6 +1265,9 @@ function show(route, opts = {}) {
   if (route === 'profile') loadProfile();
   if (route === 'admin') loadAdminBuildings();
   if (route === 'management') loadManagement();
+  if (route === 'documents') loadDocuments();
+  if (route === 'contractors') loadContractors();
+  if (route === 'audit') loadAuditLog();
 }
 
 function back() {
@@ -2112,6 +2361,10 @@ function setMgmtTab(tab) {
 }
 document.querySelectorAll('.mgmt-tab').forEach((b) => b.addEventListener('click', () => setMgmtTab(b.dataset.mt)));
 $('open-mgmt-btn')?.addEventListener('click', () => show('management'));
+$('open-docs-btn')?.addEventListener('click', () => show('documents'));
+$('open-contractors-btn')?.addEventListener('click', () => show('contractors'));
+$('open-audit-btn')?.addEventListener('click', () => show('audit'));
+$('open-emergency-btn')?.addEventListener('click', openEmergencySheet);
 
 // ---- Payment Rules ----
 async function loadPaymentRules() {
@@ -2657,6 +2910,11 @@ async function loadProfile() {
     // Show vaad-mgmt group for vaad members/admin/treasurer
     const isVaad = ['vaad_admin', 'vaad_member', 'treasurer'].includes(user?.role);
     $('vaad-mgmt-group').classList.toggle('hidden', !isVaad);
+    $('vaad-export-group')?.classList.toggle('hidden', !isVaad);
+    // Hide vaad-only icon buttons from non-vaad users
+    document.querySelectorAll('[data-vaad-only]').forEach((el) => {
+      el.style.display = isVaad ? '' : 'none';
+    });
     $('p-bld-name').textContent = building?.name || '—';
     $('p-bld-addr').textContent = (building?.address || '') + ', ' + (building?.city || '');
     $('p-bld-code').textContent = building?.invite_code || '—';
@@ -2755,10 +3013,550 @@ function rerenderAll() {
   } catch (e) { console.error('rerenderAll', e); }
 }
 
+// ============================================================
+// v2 production features: docs, contractors, audit, emergency,
+// skeletons, PTR, haptics, install, offline, legal, danger zone
+// ============================================================
+
+// Haptic helper (uses navigator.vibrate — free on Android, silent on iOS)
+function haptic(ms = 10) {
+  try { if (navigator.vibrate) navigator.vibrate(ms); } catch {}
+}
+
+// Celebratory success animation shown on important actions
+function celebrate(msg) {
+  const burst = document.createElement('div');
+  burst.className = 'success-burst';
+  burst.innerHTML = '<div class="check">✓</div>';
+  document.getElementById('app-scroll')?.appendChild(burst);
+  haptic([30, 40, 30]);
+  setTimeout(() => burst.remove(), 900);
+  if (msg) setTimeout(() => toast(msg), 200);
+}
+
+// Generic skeleton loader. Useful while lists are loading.
+function skeletonList(count = 3) {
+  return Array.from({ length: count }, () =>
+    `<div class="skel-card">
+       <div class="skel skel-line w80"></div>
+       <div class="skel skel-line w60"></div>
+       <div class="skel skel-line w40"></div>
+     </div>`
+  ).join('');
+}
+
+// Offline detection — show a small banner when offline
+function setupOfflineBar() {
+  let bar = document.getElementById('offline-bar');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'offline-bar';
+    bar.className = 'offline-bar';
+    bar.textContent = '⚠️ מצב לא מקוון — חלק מהפעולות לא יהיו זמינות';
+    const screen = document.querySelector('.phone-screen');
+    (screen || document.body).appendChild(bar);
+  }
+  const update = () => bar.classList.toggle('visible', !navigator.onLine);
+  window.addEventListener('online', update);
+  window.addEventListener('offline', update);
+  update();
+}
+
+// PWA install banner
+function setupInstallBanner() {
+  document.addEventListener('pwa-installable', () => {
+    const banner = $('install-banner');
+    if (banner) banner.classList.remove('hidden');
+  });
+  $('install-btn')?.addEventListener('click', async () => {
+    const prompt = window.__installPrompt;
+    if (!prompt) return;
+    prompt.prompt();
+    try {
+      const { outcome } = await prompt.userChoice;
+      if (outcome === 'accepted') {
+        $('install-banner')?.classList.add('hidden');
+        celebrate(t('install.done'));
+      }
+    } catch {}
+    window.__installPrompt = null;
+  });
+}
+
+// ---------------- Documents vault ----------------
+async function loadDocuments() {
+  const list = $('documents-list');
+  list.innerHTML = skeletonList(3);
+  try {
+    const { documents } = await api('/api/v1/documents');
+    appState.documents = documents;
+    renderDocuments();
+  } catch (e) {
+    list.innerHTML = `<div class="empty-cta"><span class="emo">⚠️</span><h4>${t('err.loadFailed')}</h4><p>${escapeHtml(e.message)}</p><button class="btn-primary" onclick="loadDocuments()">${t('common.retry')}</button></div>`;
+  }
+}
+
+function renderDocuments() {
+  const list = $('documents-list');
+  const search = ($('doc-search')?.value || '').toLowerCase().trim();
+  const docs = (appState.documents || []).filter((d) =>
+    !search || d.title.toLowerCase().includes(search) || (d.notes || '').toLowerCase().includes(search)
+  );
+  if (!docs.length) {
+    list.innerHTML = `<div class="empty-cta"><span class="emo">📁</span><h4>${t('docs.emptyTitle')}</h4><p>${t('docs.emptySub')}</p></div>`;
+    return;
+  }
+  const isVaad = ['vaad_admin', 'vaad_member', 'treasurer'].includes(appState.me?.user?.role);
+  const iconFor = { insurance: '🛡️', contract: '📄', regulations: '📜', plans: '📐', invoice: '🧾', legal: '⚖️', other: '📎' };
+  list.innerHTML = docs.map((d) => `
+    <div class="doc-item" data-id="${escapeAttr(d.id)}">
+      <div class="doc-icon">${iconFor[d.category] || '📁'}</div>
+      <div class="doc-body">
+        <div class="doc-title" dir="${dir(d.title)}">${escapeHtml(d.title)}</div>
+        <div class="doc-meta">
+          <span class="doc-cat">${t('docCat.' + (d.category || 'other'))}</span>
+          ${d.size_bytes ? `<span>${Math.round(d.size_bytes / 1024)} KB</span>` : ''}
+          <span>👤 ${escapeHtml(d.uploaded_by_name || '—')}</span>
+        </div>
+      </div>
+      <div class="doc-actions">
+        <button class="doc-act" data-act="view" title="${t('docs.view')}">👁</button>
+        ${isVaad ? `<button class="doc-act danger" data-act="del" title="${t('common.delete')}">🗑</button>` : ''}
+      </div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.doc-item').forEach((el) => {
+    const id = el.dataset.id;
+    el.querySelector('[data-act="view"]')?.addEventListener('click', () => downloadDocument(id));
+    el.querySelector('[data-act="del"]')?.addEventListener('click', async () => {
+      if (!confirm(t('common.confirmDelete'))) return;
+      haptic(20);
+      try {
+        await api('/api/v1/documents/' + id, { method: 'DELETE' });
+        loadDocuments();
+        toast(t('common.deleted'));
+      } catch (e) { toast(e.message); }
+    });
+  });
+}
+
+async function downloadDocument(id) {
+  try {
+    const d = await api('/api/v1/documents/' + id);
+    if (!d.file_data) return toast(t('docs.noData'));
+    // Open in a new window or trigger download
+    const link = document.createElement('a');
+    link.href = d.file_data;
+    link.download = d.file_name || d.title || 'document';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  } catch (e) { toast(e.message); }
+}
+
+// Upload flow
+$('doc-new-btn')?.addEventListener('click', () => {
+  $('doc-new-form').classList.toggle('hidden');
+});
+$('d-cancel')?.addEventListener('click', () => $('doc-new-form').classList.add('hidden'));
+$('d-file')?.addEventListener('change', (e) => {
+  const f = e.target.files?.[0];
+  if (!f) return;
+  if (f.size > 2_000_000) { toast(t('docs.fileTooLarge')); e.target.value = ''; return; }
+  const reader = new FileReader();
+  reader.onload = () => {
+    appState.docFile = { name: f.name, type: f.type, data: reader.result };
+    $('d-file-info').textContent = `${f.name} · ${Math.round(f.size / 1024)} KB`;
+    $('d-file-info').classList.remove('hidden');
+  };
+  reader.readAsDataURL(f);
+});
+$('d-submit')?.addEventListener('click', async () => {
+  const title = $('d-title').value.trim();
+  const category = $('d-category').value;
+  const notes = $('d-notes').value.trim() || null;
+  if (!title || !appState.docFile) return toast(t('docs.needFields'));
+  try {
+    await api('/api/v1/documents', {
+      method: 'POST',
+      body: JSON.stringify({
+        title,
+        category,
+        file_name: appState.docFile.name,
+        file_type: appState.docFile.type,
+        file_data: appState.docFile.data,
+        notes,
+      }),
+    });
+    $('d-title').value = '';
+    $('d-notes').value = '';
+    $('d-file').value = '';
+    $('d-file-info').classList.add('hidden');
+    appState.docFile = null;
+    $('doc-new-form').classList.add('hidden');
+    celebrate(t('docs.uploaded'));
+    loadDocuments();
+  } catch (e) { toast(e.message); }
+});
+$('doc-search')?.addEventListener('input', renderDocuments);
+
+// ---------------- Contractor directory ----------------
+async function loadContractors() {
+  const list = $('contractors-list');
+  list.innerHTML = skeletonList(3);
+  try {
+    const { contractors } = await api('/api/v1/contractors');
+    appState.contractors = contractors;
+    renderContractors();
+  } catch (e) {
+    list.innerHTML = `<div class="empty-cta"><span class="emo">⚠️</span><h4>${t('err.loadFailed')}</h4><p>${escapeHtml(e.message)}</p></div>`;
+  }
+}
+
+function renderContractors() {
+  const list = $('contractors-list');
+  const items = appState.contractors || [];
+  if (!items.length) {
+    list.innerHTML = `<div class="empty-cta"><span class="emo">🧰</span><h4>${t('cont.emptyTitle')}</h4><p>${t('cont.emptySub')}</p></div>`;
+    return;
+  }
+  const isVaad = ['vaad_admin', 'vaad_member', 'treasurer'].includes(appState.me?.user?.role);
+  const iconFor = { elevator: '🛗', plumbing: '🚿', electrical: '💡', cleaning: '🧹', gardening: '🌿', security: '🔒', insurance: '🛡️', legal: '⚖️', other: '📦' };
+  list.innerHTML = items.map((c) => `
+    <div class="cont-item" data-id="${escapeAttr(c.id)}">
+      <div class="cont-icon">${iconFor[c.category] || '🧰'}</div>
+      <div class="cont-body">
+        <div class="cont-title" dir="${dir(c.name)}">${escapeHtml(c.name)}${c.company ? ` <span class="muted">· ${escapeHtml(c.company)}</span>` : ''}</div>
+        <div class="cont-meta">
+          <span class="doc-cat">${t('contCat.' + (c.category || 'other'))}</span>
+          ${c.rating ? `<span class="cont-rating">${'★'.repeat(c.rating)}${'☆'.repeat(5 - c.rating)}</span>` : ''}
+        </div>
+        ${c.notes ? `<div class="cont-meta" dir="${dir(c.notes)}">📝 ${escapeHtml(c.notes)}</div>` : ''}
+      </div>
+      <div class="cont-actions">
+        ${c.phone ? `<a class="cont-act" href="tel:${escapeAttr(c.phone)}" title="${c.phone}">📞</a>` : ''}
+        ${c.email ? `<a class="cont-act" href="mailto:${escapeAttr(c.email)}" title="${c.email}">✉️</a>` : ''}
+        ${isVaad ? `<button class="cont-act danger" data-act="del" title="${t('common.delete')}">🗑</button>` : ''}
+      </div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.cont-item').forEach((el) => {
+    const id = el.dataset.id;
+    el.querySelector('[data-act="del"]')?.addEventListener('click', async () => {
+      if (!confirm(t('common.confirmDelete'))) return;
+      haptic(20);
+      try {
+        await api('/api/v1/contractors/' + id, { method: 'DELETE' });
+        loadContractors();
+        toast(t('common.deleted'));
+      } catch (e) { toast(e.message); }
+    });
+  });
+}
+
+$('cont-new-btn')?.addEventListener('click', () => $('cont-new-form').classList.toggle('hidden'));
+$('c-cancel')?.addEventListener('click', () => $('cont-new-form').classList.add('hidden'));
+$('c-submit')?.addEventListener('click', async () => {
+  const payload = {
+    name: $('c-name').value.trim(),
+    company: $('c-company').value.trim() || null,
+    category: $('c-category').value,
+    phone: $('c-phone').value.trim() || null,
+    email: $('c-email').value.trim() || null,
+    notes: $('c-notes').value.trim() || null,
+  };
+  if (!payload.name) return toast(t('cont.needName'));
+  try {
+    await api('/api/v1/contractors', { method: 'POST', body: JSON.stringify(payload) });
+    ['c-name', 'c-company', 'c-phone', 'c-email', 'c-notes'].forEach((id) => ($(id).value = ''));
+    $('cont-new-form').classList.add('hidden');
+    celebrate(t('cont.added'));
+    loadContractors();
+  } catch (e) { toast(e.message); }
+});
+
+// ---------------- Audit log ----------------
+async function loadAuditLog() {
+  const list = $('audit-list');
+  list.innerHTML = skeletonList(5);
+  try {
+    const { entries } = await api('/api/v1/audit');
+    appState.auditEntries = entries;
+    renderAuditLog();
+  } catch (e) {
+    list.innerHTML = `<div class="empty-cta"><span class="emo">⚠️</span><h4>${t('err.loadFailed')}</h4><p>${escapeHtml(e.message)}</p></div>`;
+  }
+}
+
+function renderAuditLog() {
+  const list = $('audit-list');
+  const entries = appState.auditEntries || [];
+  if (!entries.length) {
+    list.innerHTML = `<div class="empty-cta"><span class="emo">📋</span><h4>${t('audit.emptyTitle')}</h4><p>${t('audit.emptySub')}</p></div>`;
+    return;
+  }
+  const iconFor = {
+    'create': { cls: 'create', icon: '➕' },
+    'upload': { cls: 'create', icon: '📤' },
+    'delete': { cls: 'delete', icon: '🗑' },
+    'apply':  { cls: 'apply',  icon: '🔄' },
+    'update': { cls: 'update', icon: '✏️' },
+    'export': { cls: 'apply',  icon: '📊' },
+    'generate': { cls: 'apply', icon: '🧾' },
+    'status_change': { cls: 'update', icon: '🔀' },
+    'settings_update': { cls: 'update', icon: '⚙️' },
+  };
+  list.innerHTML = entries.map((e) => {
+    const verb = e.action.split('.').pop();
+    const meta = iconFor[verb] || { cls: '', icon: '•' };
+    const label = t('audit.a.' + e.action, {}, e.action);
+    return `
+      <div class="audit-item">
+        <div class="audit-bullet ${meta.cls}">${meta.icon}</div>
+        <div class="audit-body">
+          <b>${escapeHtml(label)}</b>
+          <div class="audit-meta">
+            <span>👤 ${escapeHtml(e.actor_name || '—')}</span>
+            ${e.actor_role ? `<span>· ${t('role.' + e.actor_role, {}, e.actor_role)}</span>` : ''}
+            ${e.summary ? `<span>· ${escapeHtml(e.summary)}</span>` : ''}
+          </div>
+        </div>
+        <div class="audit-time">${fmtRelTime(e.created_at)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function fmtRelTime(iso) {
+  try {
+    const d = new Date(iso.replace(' ', 'T') + (iso.includes('Z') ? '' : 'Z'));
+    const diff = (Date.now() - d.getTime()) / 1000;
+    if (diff < 60) return t('time.now');
+    if (diff < 3600) return t('time.minAgo', { n: Math.round(diff / 60) });
+    if (diff < 86400) return t('time.hourAgo', { n: Math.round(diff / 3600) });
+    if (diff < 86400 * 7) return t('time.dayAgo', { n: Math.round(diff / 86400) });
+    return d.toLocaleDateString();
+  } catch { return iso || ''; }
+}
+
+// ---------------- Emergency ----------------
+function openEmergencySheet() {
+  haptic(30);
+  const phone = appState.me?.building?.emergency_phone;
+  const el = $('emerg-building-call');
+  const label = $('emerg-building-phone');
+  if (phone) {
+    el.href = 'tel:' + phone;
+    label.textContent = phone;
+    el.style.display = '';
+  } else {
+    el.style.display = 'none';
+  }
+  $('emergency-sheet').classList.remove('hidden');
+}
+document.addEventListener('click', (e) => {
+  if (e.target?.id === 'emergency-sheet') e.target.classList.add('hidden');
+});
+$('emerg-close')?.addEventListener('click', () => $('emergency-sheet').classList.add('hidden'));
+
+// SOS FAB — render once into the screen
+function ensureSosFab() {
+  if (document.getElementById('sos-fab')) return;
+  const btn = document.createElement('button');
+  btn.id = 'sos-fab';
+  btn.className = 'sos-fab';
+  btn.innerHTML = '🚨';
+  btn.title = 'חירום';
+  btn.addEventListener('click', openEmergencySheet);
+  document.querySelector('.phone-screen')?.appendChild(btn);
+}
+
+// ---------------- Receipt PDF download ----------------
+async function downloadReceipt(paymentId) {
+  try {
+    const token = store.token;
+    const res = await fetch('/api/v1/payments/' + paymentId + '/receipt.pdf', {
+      headers: { Authorization: 'Bearer ' + token },
+    });
+    if (!res.ok) throw new Error('Failed to generate receipt');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'receipt-' + paymentId.slice(0, 8) + '.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    haptic(20);
+  } catch (e) { toast(e.message); }
+}
+window.downloadReceipt = downloadReceipt;
+
+// ---------------- CSV export ----------------
+async function exportCsv(kind) {
+  try {
+    const token = store.token;
+    const res = await fetch('/api/v1/export/' + kind + '.csv', {
+      headers: { Authorization: 'Bearer ' + token },
+    });
+    if (!res.ok) throw new Error(t('err.exportFailed'));
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = kind + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    celebrate(t('export.done'));
+  } catch (e) { toast(e.message); }
+}
+window.exportCsv = exportCsv;
+
+// ---------------- Pull-to-refresh ----------------
+function setupPullToRefresh() {
+  const scroll = $('app-scroll');
+  if (!scroll) return;
+
+  let indicator = document.getElementById('ptr-indicator');
+  if (!indicator) {
+    indicator = document.createElement('div');
+    indicator.id = 'ptr-indicator';
+    indicator.className = 'ptr-indicator';
+    indicator.innerHTML = '<div class="ptr-spinner"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 4v4m0 8v4m8-8h-4M8 12H4m12.36-6.36-2.83 2.83M8.46 15.54l-2.83 2.83m0-12.73 2.83 2.83m7.07 7.08 2.83 2.83" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>';
+    scroll.appendChild(indicator);
+  }
+
+  let startY = 0, pulling = false, pulled = 0;
+  const threshold = 70;
+
+  scroll.addEventListener('touchstart', (e) => {
+    if (scroll.scrollTop === 0) { startY = e.touches[0].clientY; pulling = true; }
+  }, { passive: true });
+
+  scroll.addEventListener('touchmove', (e) => {
+    if (!pulling) return;
+    pulled = e.touches[0].clientY - startY;
+    if (pulled > 0 && scroll.scrollTop === 0) {
+      const progress = Math.min(pulled / threshold, 1);
+      indicator.classList.toggle('visible', pulled > 10);
+      indicator.style.transform = `translateY(${Math.min(pulled * 0.4, 40)}px)`;
+    }
+  }, { passive: true });
+
+  scroll.addEventListener('touchend', () => {
+    if (!pulling) return;
+    if (pulled > threshold) {
+      indicator.querySelector('.ptr-spinner')?.classList.add('loading');
+      haptic(30);
+      // Reload the current view
+      show(currentRoute, { back: true });
+      setTimeout(() => {
+        indicator.querySelector('.ptr-spinner')?.classList.remove('loading');
+        indicator.classList.remove('visible');
+        indicator.style.transform = '';
+      }, 700);
+    } else {
+      indicator.classList.remove('visible');
+      indicator.style.transform = '';
+    }
+    pulling = false;
+    pulled = 0;
+  });
+}
+
+// ---------------- Profile extras: legal + data export + delete ----------------
+function openLegal(which) {
+  const isTerms = which === 'terms';
+  $('legal-title').textContent = isTerms ? t('legal.termsTitle') : t('legal.privacyTitle');
+  $('legal-body').innerHTML = isTerms ? renderTermsBody() : renderPrivacyBody();
+  show('legal');
+}
+window.openLegal = openLegal;
+
+function renderTermsBody() {
+  return `
+    <h3>${t('legal.t1')}</h3>
+    <p>${t('legal.t1p')}</p>
+    <h3>${t('legal.t2')}</h3>
+    <p>${t('legal.t2p')}</p>
+    <h3>${t('legal.t3')}</h3>
+    <p>${t('legal.t3p')}</p>
+    <h3>${t('legal.t4')}</h3>
+    <p>${t('legal.t4p')}</p>
+    <h3>${t('legal.t5')}</h3>
+    <p>${t('legal.t5p')}</p>`;
+}
+
+function renderPrivacyBody() {
+  return `
+    <h3>${t('legal.p1')}</h3>
+    <p>${t('legal.p1p')}</p>
+    <h3>${t('legal.p2')}</h3>
+    <p>${t('legal.p2p')}</p>
+    <ul>
+      <li>${t('legal.p2l1')}</li>
+      <li>${t('legal.p2l2')}</li>
+      <li>${t('legal.p2l3')}</li>
+    </ul>
+    <h3>${t('legal.p3')}</h3>
+    <p>${t('legal.p3p')}</p>
+    <h3>${t('legal.p4')}</h3>
+    <p>${t('legal.p4p')}</p>`;
+}
+
+async function exportMyData() {
+  try {
+    const data = await api('/api/v1/me/data');
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'vaadapp-my-data.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    celebrate(t('export.done'));
+  } catch (e) { toast(e.message); }
+}
+window.exportMyData = exportMyData;
+
+async function deleteMyAccount() {
+  if (!confirm(t('danger.confirmDelete'))) return;
+  if (!confirm(t('danger.confirmDelete2'))) return;
+  try {
+    await api('/api/v1/me', { method: 'DELETE' });
+    toast(t('danger.deleted'));
+    store.token = null;
+    store.user = null;
+    setTimeout(() => { location.reload(); }, 1200);
+  } catch (e) { toast(e.message); }
+}
+window.deleteMyAccount = deleteMyAccount;
+
+// ---------------- Init hooks (run once on DOMContentLoaded-like) ----------------
+setupOfflineBar();
+setupInstallBanner();
+setupPullToRefresh();
+// Put SOS FAB only once the dashboard is shown
+const origEnterDashboard = enterDashboard;
+window.enterDashboard = async function() {
+  const r = await origEnterDashboard.apply(this, arguments);
+  ensureSosFab();
+  return r;
+};
+
 // ---------------- Init ----------------
 applyTheme();
 if (store.token) {
   enterDashboard();
+  ensureSosFab();
 } else {
   show('login');
 }

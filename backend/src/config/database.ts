@@ -97,6 +97,10 @@ const tablesWithUuidPk = new Set<string>([
   'payment_rules',
   'expenses',
   'maintenance_tasks',
+  'audit_log',
+  'building_documents',
+  'contractors',
+  'ticket_attachments',
 ]);
 
 const injectId = (

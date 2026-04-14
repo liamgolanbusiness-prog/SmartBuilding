@@ -5,7 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
   <meta name="theme-color" content="#0b1020" />
   <title>VaadApp — ניהול בניין</title>
-  <link rel="stylesheet" href="/style.css?v=20260413b" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="/icon-192.svg" />
+  <link rel="apple-touch-icon" href="/icon-192.svg" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="VaadApp" />
+  <link rel="stylesheet" href="/style.css?v=20260414" />
 </head>
 <body>
   <!-- Desktop frame showing phone mockup + copy -->
@@ -572,6 +578,20 @@
                   <div class="sg-row static"><span data-i18n="profile.bldName">שם</span><b id="p-bld-name">—</b></div>
                   <div class="sg-row static"><span data-i18n="profile.bldAddr">כתובת</span><b id="p-bld-addr">—</b></div>
                   <div class="sg-row static"><span data-i18n="profile.bldCode">קוד הזמנה</span><b id="p-bld-code">—</b></div>
+                  <button class="sg-row link" id="open-docs-btn"><span data-i18n="profile.docs">📁 מסמכי הבניין</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                  <button class="sg-row link" id="open-contractors-btn"><span data-i18n="profile.contractors">🧰 ספקים וקבלנים</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                  <button class="sg-row link" id="open-audit-btn"><span data-i18n="profile.audit">🔍 יומן פעולות (שקיפות)</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                  <button class="sg-row link" id="open-emergency-btn"><span data-i18n="profile.emergency">🚨 חירום</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                </div>
+
+                <!-- Install banner (shows when PWA install prompt is available) -->
+                <div class="install-banner hidden" id="install-banner">
+                  <div class="ib-icon">📲</div>
+                  <div class="ib-text">
+                    <b data-i18n="install.title">📲 התקינו את VaadApp</b>
+                    <span data-i18n="install.sub">הוסיפו למסך הבית לחוויית אפליקציה מלאה</span>
+                  </div>
+                  <button id="install-btn" data-i18n="install.btn">התקנה</button>
                 </div>
 
                 <div class="settings-group hidden" id="vaad-mgmt-group">
@@ -585,13 +605,29 @@
                   <button class="sg-row link" id="switch-user-btn"><span data-i18n="profile.switchUser">🔄 החלפת משתמש (בדיקה)</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
                 </div>
 
+                <div class="settings-group hidden" id="vaad-export-group">
+                  <div class="sg-title" data-i18n="profile.vaadTools">כלי ועד</div>
+                  <button class="sg-row link" onclick="exportCsv('payments')"><span data-i18n="profile.exportPayCsv">📊 ייצוא תשלומים (CSV)</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                  <button class="sg-row link" onclick="exportCsv('expenses')"><span data-i18n="profile.exportExpCsv">📊 ייצוא הוצאות (CSV)</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                </div>
+
                 <div class="settings-group">
                   <div class="sg-title" data-i18n="profile.account">חשבון</div>
                   <button class="sg-row link" id="replay-tour-btn"><span data-i18n="profile.replayTour">🎬 הדרכה מחדש</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                  <button class="sg-row link" onclick="openLegal('terms')"><span data-i18n="profile.terms">📜 תנאי שימוש</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                  <button class="sg-row link" onclick="openLegal('privacy')"><span data-i18n="profile.privacy">🛡️ מדיניות פרטיות</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
                   <button class="sg-row link" id="about-btn"><span data-i18n="profile.about">ℹ️ אודות VaadApp</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
                   <button class="sg-row link" id="help-btn"><span data-i18n="profile.help">❓ עזרה ותמיכה</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
                   <button class="sg-row link" id="share-btn"><span data-i18n="profile.share">🔗 שתף קוד בניין</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
                   <button class="sg-row link danger" id="logout-btn-profile"><span data-i18n="profile.logout">⎋ התנתק</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+                </div>
+
+                <div class="danger-zone">
+                  <h4 data-i18n="danger.title">אזור סכנה</h4>
+                  <div class="row">
+                    <button onclick="exportMyData()" data-i18n="danger.export">📥 ייצוא הנתונים שלי</button>
+                    <button class="delete" onclick="deleteMyAccount()" data-i18n="danger.delete">🗑 מחק את חשבוני</button>
+                  </div>
                 </div>
 
                 <!-- Switch user sheet -->
@@ -843,6 +879,148 @@
                 <div class="h-spacer"></div>
               </section>
 
+              <!-- DOCUMENTS VAULT -->
+              <section id="view-documents" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="docs.title">מסמכי הבניין</h2>
+                  <button class="icon-btn" id="doc-new-btn" data-vaad-only>
+                    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                  </button>
+                </header>
+                <div class="search">
+                  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <input id="doc-search" placeholder="חיפוש מסמך" data-i18n-placeholder="docs.searchPh" />
+                </div>
+                <div id="doc-new-form" class="sheet hidden">
+                  <div class="sheet-title" data-i18n="docs.newTitle">העלאת מסמך חדש</div>
+                  <input id="d-title" placeholder="כותרת (לדוגמה: פוליסת ביטוח 2026)" data-i18n-placeholder="docs.titlePh" />
+                  <select id="d-category">
+                    <option value="insurance" data-i18n="docCat.insurance">🛡️ ביטוח</option>
+                    <option value="contract" data-i18n="docCat.contract">📄 חוזה</option>
+                    <option value="regulations" data-i18n="docCat.regulations">📜 תקנון</option>
+                    <option value="plans" data-i18n="docCat.plans">📐 תוכניות</option>
+                    <option value="invoice" data-i18n="docCat.invoice">🧾 חשבונית</option>
+                    <option value="legal" data-i18n="docCat.legal">⚖️ משפטי</option>
+                    <option value="other" data-i18n="docCat.other">📎 אחר</option>
+                  </select>
+                  <label class="file-upload-label">
+                    <span data-i18n="docs.uploadFile">📤 בחירת קובץ (PDF/תמונה)</span>
+                    <input id="d-file" type="file" accept="image/*,application/pdf" hidden />
+                  </label>
+                  <div id="d-file-info" class="muted small hidden"></div>
+                  <textarea id="d-notes" placeholder="הערות" data-i18n-placeholder="docs.notesPh" rows="2"></textarea>
+                  <div class="sheet-actions">
+                    <button class="btn-ghost" id="d-cancel" data-i18n="common.cancel">ביטול</button>
+                    <button class="btn-primary" id="d-submit" data-i18n="docs.save">שמור</button>
+                  </div>
+                </div>
+                <div id="documents-list" class="list"></div>
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- CONTRACTORS -->
+              <section id="view-contractors" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="cont.title">ספקים וקבלנים</h2>
+                  <button class="icon-btn" id="cont-new-btn" data-vaad-only>
+                    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                  </button>
+                </header>
+                <div id="cont-new-form" class="sheet hidden">
+                  <div class="sheet-title" data-i18n="cont.newTitle">הוספת ספק חדש</div>
+                  <input id="c-name" placeholder="שם איש קשר" data-i18n-placeholder="cont.namePh" />
+                  <input id="c-company" placeholder="שם החברה" data-i18n-placeholder="cont.companyPh" />
+                  <select id="c-category">
+                    <option value="elevator" data-i18n="ticCat.elevator">🛗 מעלית</option>
+                    <option value="plumbing" data-i18n="ticCat.plumbing">🚿 אינסטלציה</option>
+                    <option value="electrical" data-i18n="ticCat.electrical">💡 חשמל</option>
+                    <option value="cleaning" data-i18n="ticCat.cleaning">🧹 ניקיון</option>
+                    <option value="gardening" data-i18n="cont.gardening">🌿 גינון</option>
+                    <option value="security" data-i18n="cont.security">🔒 אבטחה</option>
+                    <option value="insurance" data-i18n="docCat.insurance">🛡️ ביטוח</option>
+                    <option value="legal" data-i18n="docCat.legal">⚖️ משפטי</option>
+                    <option value="other" data-i18n="ticCat.other">📦 אחר</option>
+                  </select>
+                  <div class="row2">
+                    <input id="c-phone" type="tel" placeholder="טלפון" data-i18n-placeholder="cont.phonePh" />
+                    <input id="c-email" type="email" placeholder="אימייל" data-i18n-placeholder="cont.emailPh" />
+                  </div>
+                  <textarea id="c-notes" placeholder="הערות" rows="2" data-i18n-placeholder="cont.notesPh"></textarea>
+                  <div class="sheet-actions">
+                    <button class="btn-ghost" id="c-cancel" data-i18n="common.cancel">ביטול</button>
+                    <button class="btn-primary" id="c-submit" data-i18n="cont.save">שמור</button>
+                  </div>
+                </div>
+                <div id="contractors-list" class="list"></div>
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- AUDIT LOG -->
+              <section id="view-audit" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="audit.title">יומן פעולות</h2>
+                  <span class="spacer"></span>
+                </header>
+                <div class="audit-explain">
+                  <div class="audit-explain-icon">🔍</div>
+                  <div>
+                    <b data-i18n="audit.why">שקיפות מלאה</b>
+                    <div class="muted small" data-i18n="audit.whySub">כל פעולה חשובה של הוועד מתועדת כאן — גלויה לכל דייר.</div>
+                  </div>
+                </div>
+                <div id="audit-list" class="list"></div>
+                <div class="h-spacer"></div>
+              </section>
+
+              <!-- EMERGENCY SHEET overlay -->
+              <div id="emergency-sheet" class="modal-overlay hidden">
+                <div class="modal emergency-modal">
+                  <div class="modal-close" id="emerg-close">✕</div>
+                  <div class="emerg-hero">
+                    <div class="emerg-icon">🚨</div>
+                    <h3 data-i18n="emerg.title">חירום בבניין</h3>
+                    <p class="muted small" data-i18n="emerg.sub">לחצו על הכפתור המתאים</p>
+                  </div>
+                  <a id="emerg-building-call" class="emerg-btn primary" href="#">
+                    <div class="emerg-btn-icon">🏢</div>
+                    <div>
+                      <b data-i18n="emerg.buildingContact">איש קשר בבניין</b>
+                      <small id="emerg-building-phone">—</small>
+                    </div>
+                  </a>
+                  <a class="emerg-btn" href="tel:101">
+                    <div class="emerg-btn-icon">🚑</div>
+                    <div><b data-i18n="emerg.mda">מגן דוד אדום</b><small>101</small></div>
+                  </a>
+                  <a class="emerg-btn" href="tel:100">
+                    <div class="emerg-btn-icon">👮</div>
+                    <div><b data-i18n="emerg.police">משטרה</b><small>100</small></div>
+                  </a>
+                  <a class="emerg-btn" href="tel:102">
+                    <div class="emerg-btn-icon">🚒</div>
+                    <div><b data-i18n="emerg.fire">כיבוי אש</b><small>102</small></div>
+                  </a>
+                  <a class="emerg-btn" href="tel:103">
+                    <div class="emerg-btn-icon">⚡</div>
+                    <div><b data-i18n="emerg.electric">חברת חשמל</b><small>103</small></div>
+                  </a>
+                </div>
+              </div>
+
+              <!-- LEGAL (terms + privacy) -->
+              <section id="view-legal" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 id="legal-title" data-i18n="legal.title">תנאי שימוש ופרטיות</h2>
+                  <span class="spacer"></span>
+                </header>
+                <div id="legal-body" class="legal-body"></div>
+                <div class="h-spacer"></div>
+              </section>
+
             </main>
 
             <!-- Bottom tab bar -->
@@ -902,6 +1080,21 @@
     </div>
   </div>
 
-  <script src="/app.js?v=20260413b"></script>
+  <script src="/app.js?v=20260414"></script>
+  <script>
+    // PWA: register service worker (dev-safe: disabled on localhost:3000 non-https but still installs)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('SW register failed', e));
+      });
+    }
+    // PWA: catch install prompt for our custom "Install app" button
+    window.__installPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      window.__installPrompt = e;
+      document.dispatchEvent(new CustomEvent('pwa-installable'));
+    });
+  </script>
 </body>
 </html>
