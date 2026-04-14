@@ -3471,15 +3471,15 @@ function setupPullToRefresh() {
 }
 
 // ---------------- Profile extras: legal + data export + delete ----------------
-// Legal document metadata
-const LEGAL_VERSION = '1.0';
+// Legal document metadata — Lobbix (owned and operated by Liam Golan, עוסק פטור)
+const LEGAL_VERSION = '1.1';
 const LEGAL_EFFECTIVE = '2026-04-14';
-const LEGAL_COMPANY = '[שם החברה] / [Company Name]';
-const LEGAL_REG = '[ח.פ / Registration Number]';
-const LEGAL_ADDRESS = '[כתובת החברה בישראל / Company Address, Israel]';
-const LEGAL_EMAIL_DPO = 'dpo@vaadapp.co.il';
-const LEGAL_EMAIL_PRIVACY = 'privacy@vaadapp.co.il';
-const LEGAL_EMAIL_LEGAL = 'legal@vaadapp.co.il';
+const LEGAL_COMPANY = 'ליאם גולן / Liam Golan';
+const LEGAL_REG = 'עוסק פטור · ת.ז. 325314755';
+const LEGAL_ADDRESS = 'נצח ישראל 21, הוד השרון / Netzach Israel 21, Hod HaSharon, Israel';
+const LEGAL_EMAIL_DPO = 'liam@lobbix.co.il';
+const LEGAL_EMAIL_PRIVACY = 'liam@lobbix.co.il';
+const LEGAL_EMAIL_LEGAL = 'liam@lobbix.co.il';
 
 function openLegal(which) {
   const isTerms = which === 'terms';
@@ -3619,7 +3619,7 @@ function renderTermsHebrew() {
       <li>התשלומים מעובדים על-ידי ספקי תשלום צד שלישי מורשים (כגון Tranzila, Cardcom). אנו איננו עוסקים בעיבוד תשלומים ישירות ואיננו שומרים פרטי כרטיסי אשראי.</li>
       <li>אתה מאשר חיובים חוזרים כפי שהוגדרו על-ידי הוועד, בהתאם לחוק כרטיסי חיוב, התשמ"ו-1986, וכתבי ההרשאה שתחתום עליהם.</li>
       <li>כל הסכומים מוצגים בשקלים חדשים (₪) אלא אם צוין אחרת, וכוללים מע"מ כחוק.</li>
-      <li>חשבוניות מס-קבלה מופקות בהתאם לפקודת מס הכנסה (נוסח חדש) ולחוק מע"מ, התשל"ו-1975.</li>
+      <li>Lobbix מופעלת על-ידי ליאם גולן כ<b>עוסק פטור</b>, ולכן המחירים אינם כוללים מע"מ ולא מופקות חשבוניות מס — מופקות קבלות בלבד, בהתאם לתקנות מס הכנסה וחוק מע"מ, התשל"ו-1975.</li>
       <li>דמי מנוי לפלטפורמה משולמים על-ידי ועד הבית (לא על-ידי דיירים בודדים) ומחויבים חודשית.</li>
     </ul>
     <p>במקרה של כשל בחיוב אוטומטי, אנו רשאים לבצע ניסיונות חיוב חוזרים במהלך 7 ימים. לאחר מכן, החוב יסומן כ"באיחור" ותישלח הודעה.</p>
@@ -3791,7 +3791,7 @@ function renderTermsEnglish() {
       <li>Payments are processed by authorized third-party payment providers (e.g., Tranzila, Cardcom). We do not process payments directly and do not store credit card details.</li>
       <li>You authorize recurring charges as configured by the committee, subject to the Israeli Debit Cards Law, 5746-1986, and the authorization documents you sign.</li>
       <li>All amounts are displayed in Israeli New Shekels (₪) unless otherwise specified, and include VAT as required by law.</li>
-      <li>Tax receipts (חשבונית מס-קבלה) are issued in accordance with the Israeli Income Tax Ordinance and VAT Law, 5736-1975.</li>
+      <li>Lobbix is operated by Liam Golan as a <b>tax-exempt dealer (עוסק פטור)</b>; prices do not include VAT and tax invoices are not issued — only receipts, in accordance with Israeli tax regulations and the VAT Law, 5736-1975.</li>
       <li>Platform subscription fees are paid by the Building Committee (not individual residents) and are billed monthly.</li>
     </ul>
     <p>In case of automatic charge failure, we may retry the charge for up to 7 days. After that, the debt will be marked "overdue" and a notification sent.</p>

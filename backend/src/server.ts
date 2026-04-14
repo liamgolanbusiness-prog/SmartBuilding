@@ -42,9 +42,25 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(helmet({ contentSecurityPolicy: false })); // Security headers (CSP off for inline UI)
 app.use(cors()); // CORS
-app.use(express.static(path.resolve(__dirname, '../public'), {
+
+// Public pages routing:
+//   /         → marketing landing page (landing.html)
+//   /app      → the PWA (backend/public/index.html)
+//   everything else → served by express.static from public/
+const PUBLIC_DIR = path.resolve(__dirname, '../public');
+app.get('/', (req: Request, res: Response) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.sendFile(path.join(PUBLIC_DIR, 'landing.html'));
+});
+app.get(['/app', '/app/'], (req: Request, res: Response) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+});
+
+app.use(express.static(PUBLIC_DIR, {
   etag: false,
   lastModified: false,
+  index: false, // don't auto-serve index.html on /
   setHeaders: (res) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
