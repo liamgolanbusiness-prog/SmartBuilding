@@ -1,0 +1,54 @@
+# Everything Docker does NOT need in the build context.
+# Keep this aggressive — it directly speeds up Railway/Render builds.
+
+# Dependencies — we reinstall inside the image
+**/node_modules
+**/.npm
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# Build outputs — we rebuild inside the image
+**/dist
+**/build
+**/*.tsbuildinfo
+
+# Local env + databases — never send secrets/data to the build server
+**/.env
+**/.env.local
+**/.env.*.local
+**/data/
+**/*.sqlite
+**/*.sqlite-shm
+**/*.sqlite-wal
+
+# Docs + configs not needed at runtime
+docs/
+HOW-TO-RUN.md
+README.md
+setup.sh
+docker-compose.yml
+.gitignore
+.dockerignore
+.github/
+.claude/
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Git
+.git
+.gitattributes
+
+# Tests / coverage
+**/coverage
+**/.nyc_output
+
+# The mobile/ directory is reserved for future Capacitor wrap
+mobile/

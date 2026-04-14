@@ -8,7 +8,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const dbDir = path.resolve(__dirname, '../../data');
+// DATA_DIR env lets production hosts mount a persistent volume (e.g. Railway
+// volume, Fly.io volume) and override the default relative path. Without a
+// persistent mount, SQLite data resets on every deploy — set DATABASE_URL to
+// a managed Postgres instead for real production.
+const dbDir = process.env.DATA_DIR
+  ? path.resolve(process.env.DATA_DIR)
+  : path.resolve(__dirname, '../../data');
 if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
 const dbPath = path.join(dbDir, 'vaad.sqlite');
 
