@@ -24,6 +24,26 @@ db.pragma('foreign_keys = ON');
 
 console.log('✅ Database connected (SQLite at ' + dbPath + ')');
 
+// Auto-apply schema on startup. Every CREATE is `IF NOT EXISTS`, so this is
+// safe to run repeatedly. Needed because Railway/Docker deploys don't run
+// migrations separately, and a fresh SQLite file has no tables.
+try {
+  const schemaCandidates = [
+    path.resolve(__dirname, '../db/schema.sqlite.sql'),          // built: dist/config → dist/db
+    path.resolve(__dirname, '../../src/db/schema.sqlite.sql'),   // source run via ts-node
+  ];
+  const schemaPath = schemaCandidates.find((p) => fs.existsSync(p));
+  if (schemaPath) {
+    const schema = fs.readFileSync(schemaPath, 'utf8');
+    db.exec(schema);
+    console.log('✅ Schema ensured from', schemaPath);
+  } else {
+    console.warn('⚠️  schema.sqlite.sql not found — DB may be missing tables');
+  }
+} catch (err) {
+  console.error('❌ Failed to apply schema on startup:', err);
+}
+
 // Convert a JS value into something better-sqlite3 can bind.
 const bindValue = (v: any): any => {
   if (v === undefined) return null;

@@ -348,6 +348,21 @@ a:hover { opacity: .85; }
 }
 .otp-hint { text-align: center; margin-top: 4px; }
 
+.otp-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-bottom: 10px;
+  background: transparent;
+  border: none;
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: transform .15s, color .15s;
+}
+.otp-back:hover { transform: translateX(3px); color: var(--brand-dark, #4f46e5); }
+.otp-back svg { transform: scaleX(-1); } /* RTL-friendly arrow */
+
 .btn-primary {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%;

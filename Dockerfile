@@ -24,6 +24,10 @@ COPY backend/src ./src
 COPY backend/public ./public
 RUN npm run build
 
+# tsc only emits .ts -> .js; copy non-TS assets (SQL schema) into dist so
+# the runtime auto-migrate in config/database.ts can find the schema file.
+RUN mkdir -p dist/db && cp src/db/schema.sqlite.sql dist/db/schema.sqlite.sql
+
 # Remove dev dependencies for a slimmer final image
 RUN npm prune --omit=dev
 

@@ -99,6 +99,10 @@
                   </div>
 
                   <div id="step-otp" class="hidden">
+                    <button id="back-phone" class="otp-back" type="button" aria-label="חזרה" data-i18n-title="login.back" title="חזרה">
+                      <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <span data-i18n="login.back">חזרה לאפשרויות כניסה</span>
+                    </button>
                     <label data-i18n="login.otpLabel">הזינו את הקוד בן 6 הספרות</label>
                     <div class="otp-input">
                       <input maxlength="1" inputmode="numeric" />
@@ -110,7 +114,6 @@
                     </div>
                     <div class="otp-hint muted small"><span data-i18n="login.otpHint">הקוד מודפס בקונסול של השרת</span> · <a href="#" id="resend-otp" data-i18n="login.resend">שלח מחדש</a></div>
                     <button id="verify-otp" class="btn-primary btn-lg" data-i18n="login.verify">אמת והמשך</button>
-                    <button id="back-phone" class="btn-ghost btn-lg" data-i18n="login.changePhone">← שינוי מספר טלפון</button>
                   </div>
 
                   <div id="login-error" class="error hidden"></div>
