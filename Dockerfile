@@ -45,11 +45,10 @@ COPY --from=builder --chown=lobbix:lobbix /app/public ./public
 COPY --from=builder --chown=lobbix:lobbix /app/package.json ./
 
 # Create the persistent data directory so the SQLite fallback works
-# even if no volume is mounted. For real production you should either
-# mount a volume at /data and set DATA_DIR=/data, or point
-# DATABASE_URL at a managed Postgres instance.
+# even if no volume is mounted. On Railway, attach a volume at /app/data
+# from the service Settings → Volumes tab (the VOLUME directive is banned
+# by Railway — volumes are managed externally).
 RUN mkdir -p /app/data && chown -R lobbix:lobbix /app/data
-VOLUME ["/app/data"]
 
 ENV NODE_ENV=production
 ENV PORT=3000
