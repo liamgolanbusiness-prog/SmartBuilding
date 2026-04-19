@@ -92,23 +92,28 @@ app.get('/api/config', (req: Request, res: Response) => {
   });
 });
 
-// Rate limiters — protect OTP/login from brute force + general abuse
+// Rate limiters — protect OTP/login from brute force + general abuse.
+// In demo / development mode the limits are much looser so you can
+// actually test the app without locking yourself out.
+const isDemoOrDev =
+  process.env.DEMO_MODE === 'true' || process.env.NODE_ENV !== 'production';
+
 const otpLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 min
-  max: 10, // 10 OTP requests per IP per 15m
+  windowMs: isDemoOrDev ? 60 * 1000 : 15 * 60 * 1000,
+  max: isDemoOrDev ? 1000 : 10,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many OTP requests. Try again in a few minutes.' },
 });
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 200, // 200 req/min per IP across all API
+  max: isDemoOrDev ? 5000 : 200,
   standardHeaders: true,
   legacyHeaders: false,
 });
 
 app.use('/api', apiLimiter);
-// Tighter limit on auth write endpoints
+// Tighter limit on auth write endpoints (still permissive in demo)
 app.use('/api/auth/send-otp', otpLimiter);
 app.use('/api/auth/verify-otp', otpLimiter);
 app.use('/api/auth/google-demo', otpLimiter);

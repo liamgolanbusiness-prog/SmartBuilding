@@ -75,6 +75,23 @@
             <!-- Route container -->
             <main class="app-scroll" id="app-scroll">
 
+              <!-- PENDING APPROVAL -->
+              <section id="view-pending" class="view hidden">
+                <div class="pending-wrap">
+                  <div class="pending-ic">⏳</div>
+                  <h2 class="pending-title" data-i18n="pending.title">ממתין לאישור ועד</h2>
+                  <p class="pending-sub" data-i18n="pending.sub">חברי ועד הבית שלך קיבלו את הבקשה שלך. ברגע שיאשרו, יוצגו לך כל הפרטים.</p>
+                  <div class="pending-card">
+                    <div class="pending-row"><span data-i18n="pending.building">בניין</span><b id="pending-building">—</b></div>
+                    <div class="pending-row"><span data-i18n="pending.name">שם</span><b id="pending-name">—</b></div>
+                    <div class="pending-row"><span data-i18n="pending.apt">דירה</span><b id="pending-apt">—</b></div>
+                    <div class="pending-row"><span data-i18n="pending.phone">טלפון</span><b id="pending-phone">—</b></div>
+                  </div>
+                  <button class="btn-ghost btn-lg" id="pending-refresh" data-i18n="pending.refresh">רענון סטטוס</button>
+                  <button class="btn-link" id="pending-logout" data-i18n="pending.logout">התנתק</button>
+                </div>
+              </section>
+
               <!-- LOGIN -->
               <section id="view-login" class="view">
                 <div class="login-hero">
@@ -653,13 +670,113 @@
                 </header>
 
                 <div class="mgmt-tabs">
-                  <button class="mgmt-tab active" data-mt="rules" data-i18n="mgmt.rules">חוקי תשלום</button>
+                  <button class="mgmt-tab active" data-mt="approvals">
+                    <span data-i18n="mgmt.approvals">בקשות</span>
+                    <span class="mgmt-tab-badge hidden" id="mgmt-approvals-badge">0</span>
+                  </button>
+                  <button class="mgmt-tab" data-mt="payments" data-i18n="mgmt.payments">תשלומים</button>
+                  <button class="mgmt-tab" data-mt="rules" data-i18n="mgmt.rules">חוקים</button>
                   <button class="mgmt-tab" data-mt="expenses" data-i18n="mgmt.expenses">הוצאות</button>
-                  <button class="mgmt-tab" data-mt="maintenance" data-i18n="mgmt.maintenance">תחזוקה שוטפת</button>
+                  <button class="mgmt-tab" data-mt="maintenance" data-i18n="mgmt.maintenance">תחזוקה</button>
+                </div>
+
+                <!-- PAYMENTS (vaad-wide management) -->
+                <div class="mgmt-panel hidden" id="mgmt-payments">
+                  <div class="pay-stats">
+                    <div class="pay-stat pay-stat-paid">
+                      <small data-i18n="payAdm.paidThisMonth">נגבה החודש</small>
+                      <b id="pay-stat-paid">₪0</b>
+                      <span id="pay-stat-rate" class="pay-stat-sub">—</span>
+                    </div>
+                    <div class="pay-stat pay-stat-pending">
+                      <small data-i18n="payAdm.pending">ממתין</small>
+                      <b id="pay-stat-pending">₪0</b>
+                      <span id="pay-stat-pending-n" class="pay-stat-sub">0</span>
+                    </div>
+                    <div class="pay-stat pay-stat-overdue">
+                      <small data-i18n="payAdm.overdue">בפיגור</small>
+                      <b id="pay-stat-overdue">₪0</b>
+                      <span id="pay-stat-debtors" class="pay-stat-sub">0</span>
+                    </div>
+                  </div>
+
+                  <div class="pay-adm-tools">
+                    <div class="pay-search-wrap">
+                      <svg viewBox="0 0 24 24" class="pay-search-ic"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                      <input id="pay-adm-search" data-i18n-placeholder="payAdm.searchPh" placeholder="חיפוש לפי שם, דירה, תיאור..." autocomplete="off" />
+                      <button id="pay-adm-clear" class="pay-search-clear hidden" aria-label="נקה">✕</button>
+                    </div>
+                    <div class="pay-adm-chips">
+                      <button class="pay-chip active" data-pst="all" data-i18n="payAdm.all">הכל</button>
+                      <button class="pay-chip" data-pst="pending" data-i18n="payAdm.pendingShort">ממתין</button>
+                      <button class="pay-chip" data-pst="overdue" data-i18n="payAdm.overdueShort">פיגור</button>
+                      <button class="pay-chip" data-pst="paid" data-i18n="payAdm.paidShort">שולם</button>
+                    </div>
+                  </div>
+
+                  <div id="pay-adm-list" class="list"></div>
+                  <div id="pay-adm-empty" class="approvals-empty hidden">
+                    <div class="approvals-empty-ic">💸</div>
+                    <div class="approvals-empty-title" data-i18n="payAdm.emptyTitle">אין תשלומים להצגה</div>
+                    <div class="approvals-empty-sub" data-i18n="payAdm.emptySub">כשיווצרו חיובים (דרך חוקי תשלום או ידנית) הם יופיעו כאן.</div>
+                  </div>
+                </div>
+
+                <!-- Mark-as-paid sheet -->
+                <div id="pay-paid-sheet" class="sheet hidden sheet-floating">
+                  <div class="sheet-title" data-i18n="payAdm.markPaidTitle">סמן כשולם</div>
+                  <div class="pay-paid-target" id="pay-paid-target">—</div>
+                  <label class="field-label" data-i18n="payAdm.method">אמצעי תשלום</label>
+                  <div class="pay-methods">
+                    <button class="pay-method active" data-pm="cash">💵 <span data-i18n="payMethod.cash">מזומן</span></button>
+                    <button class="pay-method" data-pm="check">🧾 <span data-i18n="payMethod.check">צ׳ק</span></button>
+                    <button class="pay-method" data-pm="bank_transfer">🏦 <span data-i18n="payMethod.bank">העברה</span></button>
+                    <button class="pay-method" data-pm="app">📱 <span data-i18n="payMethod.app">אפליקציה</span></button>
+                    <button class="pay-method" data-pm="other">📎 <span data-i18n="payMethod.other">אחר</span></button>
+                  </div>
+                  <label class="field-label" data-i18n="payAdm.dateLabel">תאריך תשלום</label>
+                  <input id="pay-paid-date" type="date" />
+                  <label class="field-label" data-i18n="payAdm.noteLabel">הערה (אופציונלי)</label>
+                  <textarea id="pay-paid-note" rows="2" data-i18n-placeholder="payAdm.notePh" placeholder="מס׳ צ׳ק, פרטים נוספים..."></textarea>
+                  <div class="sheet-actions">
+                    <button class="btn-ghost" id="pay-paid-cancel" data-i18n="common.cancel">ביטול</button>
+                    <button class="btn-primary" id="pay-paid-save" data-i18n="payAdm.markPaidSave">סמן כשולם</button>
+                  </div>
+                </div>
+
+                <!-- Edit payment sheet -->
+                <div id="pay-edit-sheet" class="sheet hidden sheet-floating">
+                  <div class="sheet-title" data-i18n="payAdm.editTitle">עריכת חיוב</div>
+                  <label class="field-label" data-i18n="payAdm.descLabel">תיאור</label>
+                  <input id="pay-edit-desc" />
+                  <div class="row2">
+                    <div>
+                      <label class="field-label" data-i18n="payAdm.amountLabel">סכום</label>
+                      <input id="pay-edit-amount" type="number" step="0.01" min="0" />
+                    </div>
+                    <div>
+                      <label class="field-label" data-i18n="payAdm.dueLabel">תאריך פירעון</label>
+                      <input id="pay-edit-due" type="date" />
+                    </div>
+                  </div>
+                  <div class="sheet-actions">
+                    <button class="btn-ghost" id="pay-edit-cancel" data-i18n="common.cancel">ביטול</button>
+                    <button class="btn-primary" id="pay-edit-save" data-i18n="common.save">שמירה</button>
+                  </div>
+                </div>
+
+                <!-- APPROVALS (new signups awaiting vaad review) -->
+                <div class="mgmt-panel" id="mgmt-approvals">
+                  <div class="approvals-empty hidden" id="approvals-empty">
+                    <div class="approvals-empty-ic">✨</div>
+                    <div class="approvals-empty-title" data-i18n="approvals.emptyTitle">אין בקשות ממתינות</div>
+                    <div class="approvals-empty-sub" data-i18n="approvals.emptySub">כשמישהו מצטרף באמצעות קוד ההזמנה הוא יופיע כאן לאישור.</div>
+                  </div>
+                  <div id="approvals-list" class="list"></div>
                 </div>
 
                 <!-- RULES -->
-                <div class="mgmt-panel" id="mgmt-rules">
+                <div class="mgmt-panel hidden" id="mgmt-rules">
                   <button class="btn-primary btn-sm" id="rule-new-btn" data-i18n="rule.create">+ חוק תשלום חדש</button>
                   <div id="rule-new-form" class="sheet hidden">
                     <div class="sheet-title" data-i18n="rule.newTitle">חוק תשלום חדש</div>
@@ -674,10 +791,7 @@
                         <option value="one_time" data-i18n="freq.onetime">חד פעמי</option>
                       </select>
                     </div>
-                    <div class="row2">
-                      <input id="r-dom" type="number" min="1" max="28" data-i18n-placeholder="rule.domPh" placeholder="יום בחודש (1-28)" />
-                      <input id="r-start" type="date" />
-                    </div>
+                    <input id="r-dom" type="number" min="1" max="28" data-i18n-placeholder="rule.domPh" placeholder="יום בחודש (1-28)" />
 
                     <!-- Audience picker -->
                     <div class="audience-section">
@@ -1042,6 +1156,13 @@
                 <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="13" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 11h20" stroke="currentColor" stroke-width="2"/></svg>
                 <span data-i18n="tab.pay">תשלום</span>
               </button>
+              <button class="tab vaad-only" data-nav="management" id="tab-management">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/><circle cx="19" cy="17" r="2.2" fill="currentColor" stroke="none"/></svg>
+                <span class="tab-label-wrap">
+                  <span data-i18n="tab.management">ניהול</span>
+                  <span class="tab-badge hidden" id="tab-mgmt-badge">0</span>
+                </span>
+              </button>
               <button class="tab" data-nav="profile">
                 <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M4 21c1-5 5-7 8-7s7 2 8 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
                 <span data-i18n="tab.me">אני</span>
@@ -1081,14 +1202,41 @@
     </div>
   </div>
 
-  <script src="/app.js?v=20260414"></script>
+  <script src="/app.js?v=20260419c"></script>
   <script>
-    // PWA: register service worker (dev-safe: disabled on localhost:3000 non-https but still installs)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('SW register failed', e));
-      });
-    }
+    // Service worker strategy:
+    //   - On localhost / non-HTTPS: actively UNREGISTER any existing SW and
+    //     wipe its caches so dev iterations are never haunted by a stale
+    //     cached HTML / JS / 429 response.
+    //   - In production (https): register as normal.
+    (async () => {
+      if (!('serviceWorker' in navigator)) return;
+      const isLocalDev = location.hostname === 'localhost' ||
+                         location.hostname === '127.0.0.1' ||
+                         location.protocol !== 'https:';
+      try {
+        if (isLocalDev) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map((r) => r.unregister()));
+          if (window.caches) {
+            const keys = await caches.keys();
+            await Promise.all(keys.map((k) => caches.delete(k)));
+          }
+          // If we just unregistered an active SW, do a single clean reload
+          // so the page is no longer controlled by the old worker.
+          if (regs.length && navigator.serviceWorker.controller && !sessionStorage.getItem('sw-unreg-reloaded')) {
+            sessionStorage.setItem('sw-unreg-reloaded', '1');
+            location.reload();
+          }
+          return;
+        }
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('SW register failed', e));
+        });
+      } catch (e) {
+        console.warn('SW cleanup failed', e);
+      }
+    })();
     // PWA: catch install prompt for our custom "Install app" button
     window.__installPrompt = null;
     window.addEventListener('beforeinstallprompt', (e) => {

@@ -1,10 +1,11 @@
 // Lobbix service worker — offline-first for static assets, network-first for API.
-const VERSION = 'v1.1.0-lobbix';
+const VERSION = 'v1.3.0-lobbix';
 const STATIC_CACHE = `lobbix-static-${VERSION}`;
 const RUNTIME_CACHE = `lobbix-runtime-${VERSION}`;
 
+// Note: the marketing landing page at "/" is intentionally NOT pre-cached —
+// it updates frequently and we always want the latest from the network.
 const STATIC_ASSETS = [
-  '/',
   '/index.html',
   '/style.css',
   '/app.js',
@@ -38,7 +39,20 @@ self.addEventListener('fetch', (event) => {
   // Never cache non-GET
   if (request.method !== 'GET') return;
 
-  // API: network-first with cache fallback for reads
+  // Landing page ("/" and explicit landing.html): always network — never cached.
+  if (url.pathname === '/' || url.pathname === '/landing.html') {
+    event.respondWith(fetch(request, { cache: 'no-store' }).catch(() => caches.match(request)));
+    return;
+  }
+
+  // API: auth endpoints are always direct from the network — never cached,
+  // so stale 429 "too many OTP" or old JWT responses cannot haunt the user.
+  if (url.pathname.startsWith('/api/auth/')) {
+    event.respondWith(fetch(request, { cache: 'no-store' }));
+    return;
+  }
+
+  // Other API: network-first with cache fallback for reads
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
       fetch(request)

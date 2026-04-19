@@ -218,6 +218,7 @@ const I18N = {
     'admin.bldAddress': 'כתובת',
     'admin.bldCity': 'עיר',
     'admin.totalApts': 'מספר דירות',
+    'admin.totalFloors': 'מספר קומות',
     'admin.inviteCode': 'קוד הזמנה',
     'admin.firstAdmin': 'מנהל ראשון',
     'admin.adminName': 'שם המנהל',
@@ -291,6 +292,78 @@ const I18N = {
     // Profile
     'profile.vaadTools': 'כלי ועד',
     'profile.openMgmt': '💼 ניהול ועד (חוקי תשלום, הוצאות, תחזוקה)',
+    'tab.management': 'ניהול',
+    'mgmt.approvals': 'בקשות הצטרפות',
+    'approvals.emptyTitle': 'אין בקשות ממתינות',
+    'approvals.emptySub': 'כשמישהו מצטרף באמצעות קוד ההזמנה הוא יופיע כאן לאישור.',
+    'approvals.unnamed': 'ללא שם',
+    'approvals.namePh': 'שם מלא',
+    'approvals.aptPh': 'דירה',
+    'approvals.floorPh': 'קומה',
+    'approvals.approve': 'אישור',
+    'approvals.reject': 'דחייה',
+    'approvals.approvedOk': 'דייר אושר ✓',
+    'approvals.rejectedOk': 'הבקשה נדחתה',
+    'approvals.rejectConfirm': 'לדחות את הבקשה?',
+    'pending.title': 'ממתין לאישור ועד',
+    'pending.sub': 'חברי ועד הבית שלך קיבלו את הבקשה שלך. ברגע שיאשרו, יוצגו לך כל הפרטים.',
+    'pending.building': 'בניין',
+    'pending.name': 'שם',
+    'pending.apt': 'דירה',
+    'pending.phone': 'טלפון',
+    'pending.refresh': 'רענון סטטוס',
+    'pending.logout': 'התנתק',
+    'pending.rejected': 'בקשתך נדחתה על ידי ועד הבית',
+    'time.justNow': 'עכשיו',
+    'time.minAbbr': ' דק׳',
+    'time.hrAbbr': ' שע׳',
+    'time.dayAbbr': ' ימים',
+    'common.floor': 'קומה',
+    'common.applying': 'מחיל...',
+    'common.save': 'שמירה',
+    'mgmt.payments': 'תשלומים',
+    'payAdm.paidThisMonth': 'נגבה החודש',
+    'payAdm.pending': 'ממתין',
+    'payAdm.overdue': 'בפיגור',
+    'payAdm.all': 'הכל',
+    'payAdm.pendingShort': 'ממתין',
+    'payAdm.overdueShort': 'פיגור',
+    'payAdm.paidShort': 'שולם',
+    'payAdm.searchPh': 'חיפוש לפי שם, דירה, תיאור...',
+    'payAdm.emptyTitle': 'אין תשלומים להצגה',
+    'payAdm.emptySub': 'כשיווצרו חיובים (דרך חוקי תשלום או ידנית) הם יופיעו כאן.',
+    'payAdm.markPaid': '✓ שולם',
+    'payAdm.markPaidTitle': 'סמן כשולם',
+    'payAdm.markPaidSave': 'סמן כשולם',
+    'payAdm.method': 'אמצעי תשלום',
+    'payAdm.dateLabel': 'תאריך תשלום',
+    'payAdm.noteLabel': 'הערה (אופציונלי)',
+    'payAdm.notePh': 'מס׳ צ׳ק, פרטים נוספים...',
+    'payAdm.editTitle': 'עריכת חיוב',
+    'payAdm.descLabel': 'תיאור',
+    'payAdm.amountLabel': 'סכום',
+    'payAdm.dueLabel': 'תאריך פירעון',
+    'payAdm.revert': '↶ החזר למצב ממתין',
+    'payAdm.edit': 'עריכה',
+    'payAdm.deleteConfirm': 'למחוק את החיוב? פעולה זו לא הפיכה.',
+    'payAdm.deletedOk': 'החיוב נמחק',
+    'payAdm.paidOk': 'סומן כשולם ✓',
+    'payAdm.revertOk': 'הוחזר לסטטוס ממתין',
+    'payAdm.savedOk': 'עודכן',
+    'payAdm.resultsCount': '{n} תוצאות',
+    'payAdm.ruleLabel': 'חוק',
+    'payAdm.oneTimeLabel': 'חד-פעמי',
+    'payAdm.apt': 'דירה',
+    'payAdm.collectRate': '{n}% שיעור גבייה',
+    'payAdm.debtors': '{n} דיירים',
+    'payAdm.countPayments': '{n} חיובים',
+    'payAdm.dueBy': 'פירעון',
+    'payAdm.paidOn': 'שולם',
+    'payMethod.cash': 'מזומן',
+    'payMethod.check': 'צ׳ק',
+    'payMethod.bank': 'העברה',
+    'payMethod.app': 'אפליקציה',
+    'payMethod.other': 'אחר',
     'profile.replayTour': '🎬 הדרכה מחדש',
     // Management
     'mgmt.title': 'ניהול ועד',
@@ -710,6 +783,7 @@ const I18N = {
     'admin.bldAddress': 'Address',
     'admin.bldCity': 'City',
     'admin.totalApts': 'Total apartments',
+    'admin.totalFloors': 'Total floors',
     'admin.inviteCode': 'Invite code',
     'admin.firstAdmin': 'First admin',
     'admin.adminName': 'Admin name',
@@ -783,6 +857,78 @@ const I18N = {
     // Profile
     'profile.vaadTools': 'Vaad tools',
     'profile.openMgmt': '💼 Manage Vaad (rules, expenses, maintenance)',
+    'tab.management': 'Manage',
+    'mgmt.approvals': 'Join requests',
+    'approvals.emptyTitle': 'No pending requests',
+    'approvals.emptySub': 'When someone joins with the invite code they will appear here for approval.',
+    'approvals.unnamed': 'Unnamed',
+    'approvals.namePh': 'Full name',
+    'approvals.aptPh': 'Apt',
+    'approvals.floorPh': 'Floor',
+    'approvals.approve': 'Approve',
+    'approvals.reject': 'Reject',
+    'approvals.approvedOk': 'Resident approved ✓',
+    'approvals.rejectedOk': 'Request rejected',
+    'approvals.rejectConfirm': 'Reject this request?',
+    'pending.title': 'Waiting for committee approval',
+    'pending.sub': 'Your building committee has received your request. Once they approve, you will see the full app.',
+    'pending.building': 'Building',
+    'pending.name': 'Name',
+    'pending.apt': 'Apartment',
+    'pending.phone': 'Phone',
+    'pending.refresh': 'Refresh status',
+    'pending.logout': 'Sign out',
+    'pending.rejected': 'Your request was rejected by the building committee',
+    'time.justNow': 'just now',
+    'time.minAbbr': 'm ago',
+    'time.hrAbbr': 'h ago',
+    'time.dayAbbr': 'd ago',
+    'common.floor': 'Floor',
+    'common.applying': 'Applying...',
+    'common.save': 'Save',
+    'mgmt.payments': 'Payments',
+    'payAdm.paidThisMonth': 'Collected this month',
+    'payAdm.pending': 'Pending',
+    'payAdm.overdue': 'Overdue',
+    'payAdm.all': 'All',
+    'payAdm.pendingShort': 'Pending',
+    'payAdm.overdueShort': 'Overdue',
+    'payAdm.paidShort': 'Paid',
+    'payAdm.searchPh': 'Search by name, apt, description...',
+    'payAdm.emptyTitle': 'No payments to show',
+    'payAdm.emptySub': 'Charges created through rules or manually will appear here.',
+    'payAdm.markPaid': '✓ Mark paid',
+    'payAdm.markPaidTitle': 'Mark as paid',
+    'payAdm.markPaidSave': 'Mark as paid',
+    'payAdm.method': 'Payment method',
+    'payAdm.dateLabel': 'Payment date',
+    'payAdm.noteLabel': 'Note (optional)',
+    'payAdm.notePh': 'Check #, details...',
+    'payAdm.editTitle': 'Edit charge',
+    'payAdm.descLabel': 'Description',
+    'payAdm.amountLabel': 'Amount',
+    'payAdm.dueLabel': 'Due date',
+    'payAdm.revert': '↶ Revert to pending',
+    'payAdm.edit': 'Edit',
+    'payAdm.deleteConfirm': 'Delete this charge? This cannot be undone.',
+    'payAdm.deletedOk': 'Charge deleted',
+    'payAdm.paidOk': 'Marked as paid ✓',
+    'payAdm.revertOk': 'Reverted to pending',
+    'payAdm.savedOk': 'Saved',
+    'payAdm.resultsCount': '{n} results',
+    'payAdm.ruleLabel': 'Rule',
+    'payAdm.oneTimeLabel': 'One-time',
+    'payAdm.apt': 'Apt',
+    'payAdm.collectRate': '{n}% collection rate',
+    'payAdm.debtors': '{n} residents',
+    'payAdm.countPayments': '{n} charges',
+    'payAdm.dueBy': 'Due',
+    'payAdm.paidOn': 'Paid',
+    'payMethod.cash': 'Cash',
+    'payMethod.check': 'Check',
+    'payMethod.bank': 'Transfer',
+    'payMethod.app': 'App',
+    'payMethod.other': 'Other',
     'profile.replayTour': '🎬 Replay tour',
     // Management
     'mgmt.title': 'Vaad management',
@@ -1233,7 +1379,7 @@ function applyPrefs() {
 const applyTheme = applyPrefs;
 
 // ---------------- Routing ----------------
-const views = ['login', 'home', 'announcements', 'tickets', 'payments', 'residents', 'profile', 'ticket-detail', 'ann-detail', 'admin', 'onboarded', 'management', 'documents', 'contractors', 'audit', 'legal'];
+const views = ['login', 'pending', 'home', 'announcements', 'tickets', 'payments', 'residents', 'profile', 'ticket-detail', 'ann-detail', 'admin', 'onboarded', 'management', 'documents', 'contractors', 'audit', 'legal'];
 const tabRoutes = ['home', 'announcements', 'tickets', 'payments', 'profile'];
 let currentRoute = 'login';
 let navStack = [];
@@ -1245,7 +1391,7 @@ function show(route, opts = {}) {
   $('view-' + route)?.classList.remove('hidden');
 
   const tabbar = $('tabbar');
-  if (route === 'login') {
+  if (route === 'login' || route === 'pending') {
     tabbar.classList.add('hidden');
   } else {
     tabbar.classList.remove('hidden');
@@ -1417,9 +1563,17 @@ $('verify-otp').addEventListener('click', async () => {
 });
 
 async function enterDashboard() {
+  // If the logged-in user is still waiting for vaad approval, route them
+  // to the pending screen and skip the dashboard entirely.
+  const storedUser = store.user;
+  if (storedUser && storedUser.approvalStatus === 'pending') {
+    return showPendingScreen();
+  }
   try {
     const me = await api('/api/residents/me');
     appState.me = me;
+    applyVaadClass();
+    refreshApprovalBadges();
     show('home');
     ensureNotifPerm(); // ask once after login
     // First-time tour
@@ -1427,11 +1581,59 @@ async function enterDashboard() {
       setTimeout(() => startTour(), 800);
     }
   } catch (e) {
+    // 403 with ACCOUNT_PENDING_APPROVAL means the account exists but the
+    // vaad hasn't greenlit them yet — show the waiting screen.
+    if (String(e.message || '').includes('PENDING')) {
+      return showPendingScreen();
+    }
     console.error(e);
     store.token = null; store.user = null;
     show('login');
   }
 }
+
+// Toggle body class so .vaad-only elements (management tab, etc.) appear
+function applyVaadClass() {
+  const role = appState.me?.user?.role || '';
+  const isVaad = ['vaad_admin', 'vaad_member', 'treasurer'].includes(role);
+  document.body.classList.toggle('is-vaad', isVaad);
+}
+
+// ---- Pending-approval screen ----
+async function showPendingScreen() {
+  show('pending');
+  try {
+    const { user, building } = await api('/api/residents/me/pending');
+    if (user.approval_status === 'approved') {
+      // Vaad just approved — re-enter dashboard
+      store.user = { ...(store.user || {}), approvalStatus: 'approved' };
+      return enterDashboard();
+    }
+    if (user.approval_status === 'rejected') {
+      toast(t('pending.rejected') || 'בקשתך נדחתה על ידי ועד הבית');
+      store.token = null; store.user = null;
+      return show('login');
+    }
+    $('pending-building').textContent = building?.name || '—';
+    $('pending-name').textContent = user.full_name || '—';
+    $('pending-apt').textContent = user.apartment_number || '—';
+    $('pending-phone').textContent = user.phone_number || '—';
+  } catch (e) {
+    // If /me/pending fails the token is bad — go to login
+    store.token = null; store.user = null;
+    show('login');
+  }
+}
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('#pending-refresh')) { e.preventDefault(); showPendingScreen(); }
+  if (e.target.closest('#pending-logout')) {
+    e.preventDefault();
+    store.token = null; store.user = null; appState.me = null;
+    document.body.classList.remove('is-vaad');
+    show('login');
+  }
+});
 
 // Google demo login
 $('google-login-btn')?.addEventListener('click', () => $('google-sheet').classList.remove('hidden'));
@@ -2345,16 +2547,375 @@ $('invite-share-btn')?.addEventListener('click', async () => {
 // ---------------- Management (payment rules / expenses / maintenance) ----------------
 async function loadManagement() {
   // Default tab: rules
-  if (!appState.mgmtTab) appState.mgmtTab = 'rules';
+  if (!appState.mgmtTab) appState.mgmtTab = 'approvals';
   setMgmtTab(appState.mgmtTab);
+  refreshApprovalBadges();
 }
+
+// ---- Approvals (vaad reviews new signups) ----
+async function refreshApprovalBadges() {
+  if (!isVaadRole()) return;
+  try {
+    const { residents } = await api('/api/residents/pending');
+    const count = residents.length;
+    const tabBadge = $('tab-mgmt-badge');
+    const mgmtBadge = $('mgmt-approvals-badge');
+    [tabBadge, mgmtBadge].forEach((el) => {
+      if (!el) return;
+      if (count > 0) {
+        el.textContent = count > 99 ? '99+' : String(count);
+        el.classList.remove('hidden');
+      } else {
+        el.classList.add('hidden');
+      }
+    });
+  } catch (e) { /* silent */ }
+}
+
+function isVaadRole() {
+  const role = appState.me?.user?.role || '';
+  return ['vaad_admin', 'vaad_member', 'treasurer'].includes(role);
+}
+
+async function loadApprovals() {
+  const list = $('approvals-list');
+  const empty = $('approvals-empty');
+  if (!isVaadRole()) {
+    empty.classList.remove('hidden');
+    list.innerHTML = '';
+    return;
+  }
+  try {
+    const { residents } = await api('/api/residents/pending');
+    if (!residents.length) {
+      empty.classList.remove('hidden');
+      list.innerHTML = '';
+      refreshApprovalBadges();
+      return;
+    }
+    empty.classList.add('hidden');
+    const totalFloors = appState.me?.building?.total_floors || 10;
+    list.innerHTML = residents.map((r) => {
+      const initials = (r.full_name || '?').slice(0, 1);
+      const phone = escapeHtml(r.phone_number || '');
+      const apt = escapeHtml(r.apartment_number || '');
+      const name = escapeHtml(r.full_name || '');
+      const when = r.approval_requested_at ? niceTime(r.approval_requested_at) : '';
+      const floorOpts = Array.from({ length: totalFloors }, (_, i) => `<option value="${i+1}">${t('common.floor') || 'קומה'} ${i+1}</option>`).join('');
+      return `
+        <div class="approval-card" data-id="${r.id}">
+          <div class="approval-head">
+            <div class="approval-avatar">${escapeHtml(initials)}</div>
+            <div class="approval-info">
+              <b>${name || t('approvals.unnamed') || 'ללא שם'}</b>
+              <small>${phone}</small>
+            </div>
+            <div class="approval-time">${escapeHtml(when)}</div>
+          </div>
+          <div class="approval-edit">
+            <input class="ap-name" placeholder="${t('approvals.namePh') || 'שם מלא'}" value="${name}" />
+            <input class="ap-apt" placeholder="${t('approvals.aptPh') || 'דירה'}" value="${apt}" />
+            <select class="ap-floor"><option value="">${t('approvals.floorPh') || 'קומה'}</option>${floorOpts}</select>
+          </div>
+          <div class="approval-actions">
+            <button class="btn-reject" data-act="reject">${t('approvals.reject') || 'דחייה'}</button>
+            <button class="btn-approve" data-act="approve">${t('approvals.approve') || 'אישור'}</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    toast(e.message);
+  }
+  refreshApprovalBadges();
+}
+
+// Minimal relative-time helper for the approvals list
+function niceTime(iso) {
+  try {
+    const d = new Date(iso);
+    const diff = (Date.now() - d.getTime()) / 1000;
+    if (diff < 60) return t('time.justNow') || 'עכשיו';
+    if (diff < 3600) return Math.floor(diff / 60) + (t('time.minAbbr') || ' דק׳');
+    if (diff < 86400) return Math.floor(diff / 3600) + (t('time.hrAbbr') || ' שע׳');
+    return Math.floor(diff / 86400) + (t('time.dayAbbr') || ' ימים');
+  } catch { return ''; }
+}
+
+document.addEventListener('click', async (e) => {
+  const card = e.target.closest('.approval-card');
+  if (!card) return;
+  const actBtn = e.target.closest('[data-act]');
+  if (!actBtn) return;
+  const id = card.dataset.id;
+  const act = actBtn.dataset.act;
+  card.classList.add('saving');
+  try {
+    if (act === 'approve') {
+      const body = {
+        full_name: card.querySelector('.ap-name')?.value.trim() || '',
+        apartment_number: card.querySelector('.ap-apt')?.value.trim() || '',
+        floor: card.querySelector('.ap-floor')?.value || null,
+      };
+      await api('/api/residents/' + id + '/approve', { method: 'POST', body: JSON.stringify(body) });
+      toast(t('approvals.approvedOk') || 'דייר אושר ✓');
+    } else if (act === 'reject') {
+      if (!confirm(t('approvals.rejectConfirm') || 'לדחות את הבקשה?')) {
+        card.classList.remove('saving');
+        return;
+      }
+      await api('/api/residents/' + id + '/reject', { method: 'POST', body: JSON.stringify({}) });
+      toast(t('approvals.rejectedOk') || 'הבקשה נדחתה');
+    }
+    loadApprovals();
+  } catch (err) {
+    toast(err.message);
+    card.classList.remove('saving');
+  }
+});
+
+// ==================== Admin: payments ====================
+const admPay = { status: 'all', search: '', timer: null, selectedMethod: 'cash', currentId: null };
+
+async function loadAdminPayments() {
+  if (!isVaadRole()) return;
+  await Promise.all([loadAdminPaymentsList(), loadAdminPaymentsStats()]);
+}
+
+async function loadAdminPaymentsStats() {
+  try {
+    const s = await api('/api/payments/stats');
+    $('pay-stat-paid').textContent = fmtMoney(s.paid_this_month.total, 'ILS');
+    $('pay-stat-pending').textContent = fmtMoney(s.pending.total, 'ILS');
+    $('pay-stat-overdue').textContent = fmtMoney(s.overdue.total, 'ILS');
+    $('pay-stat-pending-n').textContent = t('payAdm.countPayments', { n: s.pending.count });
+    $('pay-stat-debtors').textContent = s.overdue.debtors > 0
+      ? t('payAdm.debtors', { n: s.overdue.debtors })
+      : '—';
+    $('pay-stat-rate').textContent = s.collection_rate != null
+      ? t('payAdm.collectRate', { n: s.collection_rate })
+      : '—';
+  } catch (e) { /* silent */ }
+}
+
+async function loadAdminPaymentsList() {
+  const list = $('pay-adm-list');
+  const empty = $('pay-adm-empty');
+  try {
+    const params = new URLSearchParams();
+    if (admPay.status !== 'all') params.set('status', admPay.status);
+    if (admPay.search) params.set('search', admPay.search);
+    const res = await api('/api/payments' + (params.toString() ? '?' + params.toString() : ''));
+    const rows = res.payments || [];
+    if (rows.length === 0) {
+      list.innerHTML = '';
+      empty.classList.remove('hidden');
+      return;
+    }
+    empty.classList.add('hidden');
+    list.innerHTML = rows.map(renderAdminPaymentCard).join('');
+  } catch (e) { toast(e.message); }
+}
+
+function fmtDate(s) {
+  if (!s) return '';
+  try {
+    const d = new Date(s);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString(store.lang === 'en' ? 'en-GB' : 'he-IL', {
+      day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+  } catch { return ''; }
+}
+
+function computeStatus(p) {
+  if (p.status === 'paid') return 'paid';
+  const today = new Date().toISOString().slice(0, 10);
+  const due = (p.due_date || '').slice(0, 10);
+  if (due && due < today) return 'overdue';
+  return 'pending';
+}
+
+function renderAdminPaymentCard(p) {
+  const status = computeStatus(p);
+  const initials = (p.full_name || '?').slice(0, 1);
+  const name = escapeHtml(p.full_name || t('approvals.unnamed'));
+  const aptLabel = p.apartment_number
+    ? `${t('payAdm.apt')} ${escapeHtml(p.apartment_number)}${p.floor ? ' · ' + t('common.floor') + ' ' + p.floor : ''}`
+    : '';
+  const desc = escapeHtml(p.description || '');
+  const amount = fmtMoney(p.amount, p.currency || 'ILS');
+  const typeLabel = p.payment_type === 'rule' ? t('payAdm.ruleLabel') : t('payAdm.oneTimeLabel');
+  const dateLine = status === 'paid' && p.payment_date
+    ? `${t('payAdm.paidOn')} ${fmtDate(p.payment_date)}`
+    : `${t('payAdm.dueBy')} ${fmtDate(p.due_date)}`;
+  const statusLabel = status === 'paid' ? t('payAdm.paidShort')
+                    : status === 'overdue' ? t('payAdm.overdueShort')
+                    : t('payAdm.pendingShort');
+
+  const mainAction = status === 'paid'
+    ? `<button class="btn-revert" data-act="revert">${t('payAdm.revert')}</button>`
+    : `<button class="btn-mark-paid" data-act="paid">${t('payAdm.markPaid')}</button>`;
+
+  return `
+    <div class="pay-adm-card status-${status}" data-id="${p.id}" data-amount="${p.amount}" data-desc="${escapeHtml(p.description || '')}" data-due="${p.due_date || ''}" data-name="${name}">
+      <div class="pay-adm-head">
+        <div class="pay-adm-avatar">${escapeHtml(initials)}</div>
+        <div class="pay-adm-info">
+          <b>${name}</b>
+          <small>${aptLabel}</small>
+        </div>
+        <div class="pay-adm-amount">
+          <b>${amount}</b>
+          <span class="pay-adm-status ${status}">${statusLabel}</span>
+        </div>
+      </div>
+      <div class="pay-adm-meta">
+        ${desc}<span class="dot">·</span>${typeLabel}<span class="dot">·</span>${dateLine}
+      </div>
+      <div class="pay-adm-actions">
+        ${mainAction}
+        <button class="btn-edit" data-act="edit" aria-label="${t('payAdm.edit')}">✏️</button>
+        <button class="btn-delete" data-act="delete" aria-label="מחיקה">🗑️</button>
+      </div>
+    </div>
+  `;
+}
+
+// Search input with debounce + status chips
+$('pay-adm-search')?.addEventListener('input', (e) => {
+  const v = e.target.value;
+  admPay.search = v;
+  $('pay-adm-clear')?.classList.toggle('hidden', !v);
+  clearTimeout(admPay.timer);
+  admPay.timer = setTimeout(() => loadAdminPaymentsList(), 220);
+});
+$('pay-adm-clear')?.addEventListener('click', () => {
+  $('pay-adm-search').value = '';
+  admPay.search = '';
+  $('pay-adm-clear').classList.add('hidden');
+  loadAdminPaymentsList();
+});
+document.querySelectorAll('.pay-chip').forEach((chip) => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.pay-chip').forEach((c) => c.classList.toggle('active', c === chip));
+    admPay.status = chip.dataset.pst;
+    loadAdminPaymentsList();
+  });
+});
+
+// Card actions: mark-paid / revert / edit / delete
+document.addEventListener('click', async (e) => {
+  const card = e.target.closest('.pay-adm-card');
+  if (!card) return;
+  const btn = e.target.closest('[data-act]');
+  if (!btn) return;
+  const id = card.dataset.id;
+  const act = btn.dataset.act;
+
+  if (act === 'paid') return openMarkPaidSheet(id, card.dataset.name, card.dataset.desc);
+  if (act === 'edit') return openEditSheet(id, card.dataset.desc, card.dataset.amount, card.dataset.due);
+  if (act === 'revert') {
+    card.classList.add('saving');
+    try {
+      await api('/api/payments/' + id + '/mark-pending', { method: 'POST' });
+      toast(t('payAdm.revertOk'));
+      loadAdminPayments();
+    } catch (err) { toast(err.message); card.classList.remove('saving'); }
+    return;
+  }
+  if (act === 'delete') {
+    if (!confirm(t('payAdm.deleteConfirm'))) return;
+    card.classList.add('saving');
+    try {
+      await api('/api/payments/' + id, { method: 'DELETE' });
+      toast(t('payAdm.deletedOk'));
+      loadAdminPayments();
+    } catch (err) { toast(err.message); card.classList.remove('saving'); }
+    return;
+  }
+});
+
+// Mark-paid sheet
+function openMarkPaidSheet(id, name, desc) {
+  admPay.currentId = id;
+  admPay.selectedMethod = 'cash';
+  document.querySelectorAll('.pay-method').forEach((m) => m.classList.toggle('active', m.dataset.pm === 'cash'));
+  $('pay-paid-target').textContent = `${name || ''} — ${desc || ''}`.trim().replace(/^—\s*/, '');
+  $('pay-paid-date').value = new Date().toISOString().slice(0, 10);
+  $('pay-paid-note').value = '';
+  $('pay-paid-sheet').classList.remove('hidden');
+}
+document.querySelectorAll('.pay-method').forEach((m) => {
+  m.addEventListener('click', () => {
+    admPay.selectedMethod = m.dataset.pm;
+    document.querySelectorAll('.pay-method').forEach((x) => x.classList.toggle('active', x === m));
+  });
+});
+$('pay-paid-cancel')?.addEventListener('click', () => $('pay-paid-sheet').classList.add('hidden'));
+$('pay-paid-save')?.addEventListener('click', async () => {
+  if (!admPay.currentId) return;
+  const btn = $('pay-paid-save');
+  btn.disabled = true;
+  try {
+    await api('/api/payments/' + admPay.currentId + '/mark-paid', {
+      method: 'POST',
+      body: JSON.stringify({
+        payment_method: admPay.selectedMethod,
+        payment_date: $('pay-paid-date').value || null,
+        note: $('pay-paid-note').value.trim() || null,
+      }),
+    });
+    $('pay-paid-sheet').classList.add('hidden');
+    toast(t('payAdm.paidOk'));
+    loadAdminPayments();
+  } catch (e) {
+    toast(e.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// Edit sheet
+function openEditSheet(id, desc, amount, due) {
+  admPay.currentId = id;
+  $('pay-edit-desc').value = desc || '';
+  $('pay-edit-amount').value = amount || '';
+  $('pay-edit-due').value = (due || '').slice(0, 10);
+  $('pay-edit-sheet').classList.remove('hidden');
+}
+$('pay-edit-cancel')?.addEventListener('click', () => $('pay-edit-sheet').classList.add('hidden'));
+$('pay-edit-save')?.addEventListener('click', async () => {
+  if (!admPay.currentId) return;
+  const btn = $('pay-edit-save');
+  btn.disabled = true;
+  try {
+    await api('/api/payments/' + admPay.currentId, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        description: $('pay-edit-desc').value.trim() || undefined,
+        amount: $('pay-edit-amount').value ? Number($('pay-edit-amount').value) : undefined,
+        due_date: $('pay-edit-due').value || undefined,
+      }),
+    });
+    $('pay-edit-sheet').classList.add('hidden');
+    toast(t('payAdm.savedOk'));
+    loadAdminPayments();
+  } catch (e) {
+    toast(e.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
 
 function setMgmtTab(tab) {
   appState.mgmtTab = tab;
   document.querySelectorAll('.mgmt-tab').forEach((b) => b.classList.toggle('active', b.dataset.mt === tab));
-  ['rules', 'expenses', 'maintenance'].forEach((k) => {
+  ['approvals', 'payments', 'rules', 'expenses', 'maintenance'].forEach((k) => {
     $('mgmt-' + k)?.classList.toggle('hidden', k !== tab);
   });
+  if (tab === 'approvals') loadApprovals();
+  if (tab === 'payments') loadAdminPayments();
   if (tab === 'rules') loadPaymentRules();
   if (tab === 'expenses') loadExpenses();
   if (tab === 'maintenance') loadMaintenance();
@@ -2398,11 +2959,26 @@ async function loadPaymentRules() {
     `).join('');
     list.querySelectorAll('.rule-item').forEach((el) => {
       const id = el.dataset.ruleId;
-      el.querySelector('[data-act="apply"]').addEventListener('click', async () => {
+      el.querySelector('[data-act="apply"]').addEventListener('click', async (ev) => {
+        const btn = ev.currentTarget;
+        // Guard against double-tap: disable the button for the life of the
+        // request so a frustrated second click cannot create duplicate
+        // payment rows.
+        if (btn.dataset.busy === '1') return;
+        btn.dataset.busy = '1';
+        btn.disabled = true;
+        const origLabel = btn.textContent;
+        btn.textContent = t('common.applying') || '...';
         try {
           const res = await api('/api/finance/payment-rules/' + id + '/apply', { method: 'POST' });
           toast(t('rule.applied', { n: res.created }));
-        } catch (e) { toast(e.message); }
+        } catch (e) {
+          toast(e.message);
+        } finally {
+          btn.dataset.busy = '0';
+          btn.disabled = false;
+          btn.textContent = origLabel;
+        }
       });
       el.querySelector('[data-act="del"]').addEventListener('click', async () => {
         if (!confirm(t('common.confirmDelete'))) return;
@@ -2555,13 +3131,12 @@ $('r-submit')?.addEventListener('click', async () => {
     amount: Number($('r-amount').value),
     frequency: $('r-freq').value,
     day_of_month: $('r-dom').value ? Number($('r-dom').value) : null,
-    start_date: $('r-start').value || null,
     applies_to: getAudiencePayload(),
   };
   if (!payload.name || !payload.amount || !payload.frequency) return toast(t('admin.needAllFields'));
   try {
     await api('/api/finance/payment-rules', { method: 'POST', body: JSON.stringify(payload) });
-    ['r-name', 'r-desc', 'r-amount', 'r-dom', 'r-start'].forEach((id) => ($(id).value = ''));
+    ['r-name', 'r-desc', 'r-amount', 'r-dom'].forEach((id) => ($(id).value = ''));
     $('rule-new-form').classList.add('hidden');
     loadPaymentRules();
     toast(t('rule.savedOk'));

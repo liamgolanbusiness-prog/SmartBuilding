@@ -138,9 +138,20 @@ router.post('/payment-rules/:id/apply', asyncHandler(async (req: AuthRequest, re
   }
   const dueStr = dueDate.toISOString().slice(0, 10);
 
-  // Insert one payment per resident
+  // Insert one payment per resident — but first check we haven't already
+  // generated this exact charge (same rule, same due date) to prevent a
+  // double-tap on the Apply button from creating two copies of every bill.
   let created = 0;
+  let skipped = 0;
   for (const r of residents) {
+    const existing = await query(
+      `SELECT 1 FROM payments
+        WHERE building_id = $1 AND resident_id = $2
+          AND payment_type = 'rule' AND description = $3 AND due_date = $4
+        LIMIT 1`,
+      [req.user!.buildingId, r.id, rule.name, dueStr]
+    );
+    if (existing.rows.length > 0) { skipped++; continue; }
     try {
       await query(
         `INSERT INTO payments (building_id, resident_id, payment_type, description, amount, currency, due_date, status)

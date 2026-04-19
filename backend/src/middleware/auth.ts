@@ -9,8 +9,16 @@ export interface AuthRequest extends Request {
     buildingId: string;
     role: string;
     apartmentNumber: string;
+    approvalStatus: string;
   };
 }
+
+// Endpoints a still-pending (unapproved) user is allowed to reach.
+// Everything else returns 403 until a vaad member approves them.
+const PENDING_ALLOWED_PATHS = new Set<string>([
+  '/api/auth/logout',
+  '/api/residents/me/pending',
+]);
 
 export const authenticate = async (
   req: AuthRequest,
@@ -31,8 +39,8 @@ export const authenticate = async (
 
     // Get user from database
     const result = await query(
-      `SELECT id, building_id, role, apartment_number, is_active 
-       FROM residents 
+      `SELECT id, building_id, role, apartment_number, is_active, approval_status
+       FROM residents
        WHERE id = $1`,
       [decoded.userId]
     );
@@ -47,13 +55,25 @@ export const authenticate = async (
       throw new AppError('User account is disabled', 401);
     }
 
+    const approvalStatus = user.approval_status || 'approved';
+    if (approvalStatus === 'rejected') {
+      throw new AppError('Your request was rejected by the building committee', 403);
+    }
+
     // Attach user to request
     req.user = {
       id: user.id,
       buildingId: user.building_id,
       role: user.role,
       apartmentNumber: user.apartment_number,
+      approvalStatus,
     };
+
+    // Pending users can only reach a whitelisted set of endpoints (the
+    // "waiting for approval" screen + logout). Everything else → 403.
+    if (approvalStatus === 'pending' && !PENDING_ALLOWED_PATHS.has(req.path)) {
+      throw new AppError('ACCOUNT_PENDING_APPROVAL', 403);
+    }
 
     next();
   } catch (error) {

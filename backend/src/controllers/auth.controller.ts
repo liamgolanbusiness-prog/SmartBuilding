@@ -38,8 +38,11 @@ export const sendOTP = async (req: Request, res: Response) => {
     normalizedPhone = '+972' + normalizedPhone;
   }
 
-  // Generate OTP
-  const code = generateOTP();
+  // Generate OTP. In DEMO_MODE the code is fixed to 123456 so the docs
+  // and the seeded-user hint panel are honest — any seeded phone can log
+  // in with 123456 without touching SMS.
+  const isDemo = process.env.DEMO_MODE === 'true';
+  const code = isDemo ? '123456' : generateOTP();
   const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
   // Save OTP to database
@@ -50,11 +53,11 @@ export const sendOTP = async (req: Request, res: Response) => {
   );
 
   // Send OTP via SMS
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' && !isDemo) {
     await sendSMS(normalizedPhone, `קוד האימות שלך: ${code}`);
   } else {
-    // In development, just log the OTP
-    console.log(`📱 OTP for ${normalizedPhone}: ${code}`);
+    // In development / demo, just log the OTP
+    console.log(`📱 OTP for ${normalizedPhone}: ${code}${isDemo ? ' (demo)' : ''}`);
   }
 
   res.status(200).json({
@@ -78,27 +81,35 @@ export const verifyOTP = async (req: Request, res: Response) => {
     normalizedPhone = '+972' + normalizedPhone;
   }
 
-  // Find valid OTP
-  const otpResult = await query(
-    `SELECT * FROM otp_codes
-     WHERE phone_number = $1 
-     AND code = $2 
-     AND expires_at > NOW()
-     AND verified = false
-     ORDER BY created_at DESC
-     LIMIT 1`,
-    [normalizedPhone, code]
-  );
+  // Demo mode: 123456 is always accepted for any seeded phone, no DB check.
+  // This keeps local testing frictionless even if a previous verify already
+  // marked the OTP row as verified, or the row was cleaned up.
+  const isDemo = process.env.DEMO_MODE === 'true';
+  const demoBypass = isDemo && code === '123456';
 
-  if (otpResult.rows.length === 0) {
-    throw new AppError('Invalid or expired OTP', 400);
+  if (!demoBypass) {
+    // Find valid OTP
+    const otpResult = await query(
+      `SELECT * FROM otp_codes
+       WHERE phone_number = $1
+       AND code = $2
+       AND expires_at > NOW()
+       AND verified = false
+       ORDER BY created_at DESC
+       LIMIT 1`,
+      [normalizedPhone, code]
+    );
+
+    if (otpResult.rows.length === 0) {
+      throw new AppError('Invalid or expired OTP', 400);
+    }
+
+    // Mark OTP as verified
+    await query(
+      `UPDATE otp_codes SET verified = true WHERE id = $1`,
+      [otpResult.rows[0].id]
+    );
   }
-
-  // Mark OTP as verified
-  await query(
-    `UPDATE otp_codes SET verified = true WHERE id = $1`,
-    [otpResult.rows[0].id]
-  );
 
   // Check if user exists
   let userResult = await query(
@@ -127,12 +138,21 @@ export const verifyOTP = async (req: Request, res: Response) => {
 
     const buildingId = buildingResult.rows[0].id;
 
-    // Create new user (basic profile - they'll complete it later)
+    // Create new user — waiting for vaad approval before they can access
+    // the building. Committee members see a pending list and approve/reject.
+    const fullName =
+      (typeof req.body.fullName === 'string' && req.body.fullName.trim()) ||
+      'דייר חדש';
+    const apartmentNumber =
+      (typeof req.body.apartmentNumber === 'string' && req.body.apartmentNumber.trim()) ||
+      null;
     userResult = await query(
-      `INSERT INTO residents (building_id, phone_number, phone_verified, full_name)
-       VALUES ($1, $2, true, 'New Resident')
+      `INSERT INTO residents
+         (building_id, phone_number, phone_verified, full_name, apartment_number,
+          approval_status, approval_requested_at)
+       VALUES ($1, $2, true, $3, $4, 'pending', NOW())
        RETURNING *`,
-      [buildingId, normalizedPhone]
+      [buildingId, normalizedPhone, fullName, apartmentNumber]
     );
 
     user = userResult.rows[0];
@@ -177,6 +197,7 @@ export const verifyOTP = async (req: Request, res: Response) => {
       role: user.role,
       buildingId: user.building_id,
       isSuperAdmin: !!user.is_super_admin,
+      approvalStatus: user.approval_status || 'approved',
     },
     isNewUser,
   });
