@@ -23,6 +23,92 @@ const generateRefreshToken = (userId: string): string => {
   } as jwt.SignOptions);
 };
 
+// Self-serve building creation: a brand-new super-admin fills the form
+// on the login screen. We create the building + the admin resident in one
+// shot, immediately approved, then fall through to the regular OTP flow.
+export const selfServeCreateBuilding = async (req: Request, res: Response) => {
+  const { building, admin } = req.body || {};
+  if (!building || !admin) throw new AppError('building and admin required', 400);
+  const name = String(building.name || '').trim();
+  const address = String(building.address || '').trim();
+  const city = String(building.city || '').trim();
+  const totalApts = Number(building.total_apartments) || 0;
+  const totalFloors = Number(building.total_floors) || 1;
+  const adminName = String(admin.full_name || admin.name || '').trim();
+  let adminPhone = String(admin.phone_number || admin.phone || '').replace(/\D/g, '');
+  const adminApt = String(admin.apartment_number || admin.apt || '').trim() || '1';
+
+  if (!name || !address || !city || !totalApts || !adminName || !adminPhone) {
+    throw new AppError('All fields are required', 400);
+  }
+  if (adminPhone.startsWith('0')) adminPhone = '+972' + adminPhone.slice(1);
+  else if (!adminPhone.startsWith('+')) adminPhone = '+972' + adminPhone;
+
+  // Refuse if this phone already has a resident record somewhere.
+  const existing = await query(
+    `SELECT id FROM residents WHERE phone_number = $1`,
+    [adminPhone]
+  );
+  if (existing.rows.length > 0) {
+    throw new AppError('מספר הטלפון כבר רשום. היכנסו ברגיל עם הטלפון שלכם.', 409);
+  }
+
+  // Generate a unique invite code.
+  let inviteCode = '';
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  for (let attempt = 0; attempt < 12 && !inviteCode; attempt++) {
+    let code = '';
+    while (code.length < 7) code += chars[Math.floor(Math.random() * chars.length)];
+    const clash = await query(`SELECT 1 FROM buildings WHERE invite_code = $1`, [code]);
+    if (clash.rows.length === 0) inviteCode = code;
+  }
+  if (!inviteCode) throw new AppError('Could not generate invite code, try again', 500);
+
+  const bldInsert = await query(
+    `INSERT INTO buildings (name, address, city, total_apartments, total_floors, invite_code)
+     VALUES ($1, $2, $3, $4, $5, $6)
+     RETURNING id`,
+    [name, address, city, totalApts, totalFloors, inviteCode]
+  );
+  const buildingId = bldInsert.rows[0].id;
+
+  await query(
+    `INSERT INTO residents
+       (building_id, phone_number, phone_verified, full_name, apartment_number, role,
+        approval_status, approved_at, is_active)
+     VALUES ($1, $2, true, $3, $4, 'vaad_admin', 'approved', NOW(), true)`,
+    [buildingId, adminPhone, adminName, adminApt]
+  );
+
+  // Welcome notification
+  try {
+    const newId = (await query(
+      `SELECT id FROM residents WHERE phone_number = $1 LIMIT 1`,
+      [adminPhone]
+    )).rows[0]?.id;
+    if (newId) {
+      await query(
+        `INSERT INTO notifications (building_id, resident_id, kind, title, body, ref_id, dedup_key)
+         VALUES ($1, $2, 'welcome_admin', $3, $4, $1, $5)
+         ON CONFLICT (resident_id, dedup_key) DO NOTHING`,
+        [
+          buildingId,
+          newId,
+          `ברוכים הבאים ל-Lobbix 👋`,
+          `הבניין "${name}" מוכן לשימוש. קוד ההזמנה שלכם: ${inviteCode}`,
+          `welcome:${buildingId}`,
+        ]
+      );
+    }
+  } catch (_) {}
+
+  res.status(201).json({
+    building: { id: buildingId, name, invite_code: inviteCode },
+    admin_phone: adminPhone,
+    message: 'Building created. Send an OTP to this phone to log in.',
+  });
+};
+
 export const sendOTP = async (req: Request, res: Response) => {
   const { phoneNumber } = req.body;
 
@@ -146,17 +232,57 @@ export const verifyOTP = async (req: Request, res: Response) => {
     const apartmentNumber =
       (typeof req.body.apartmentNumber === 'string' && req.body.apartmentNumber.trim()) ||
       null;
-    userResult = await query(
-      `INSERT INTO residents
-         (building_id, phone_number, phone_verified, full_name, apartment_number,
-          approval_status, approval_requested_at)
-       VALUES ($1, $2, true, $3, $4, 'pending', NOW())
-       RETURNING *`,
-      [buildingId, normalizedPhone, fullName, apartmentNumber]
-    );
+    const floorRaw = req.body.floor;
+    const floor =
+      floorRaw != null && String(floorRaw).trim() !== '' && !isNaN(Number(floorRaw))
+        ? Number(floorRaw)
+        : null;
+
+    try {
+      userResult = await query(
+        `INSERT INTO residents
+           (building_id, phone_number, phone_verified, full_name, apartment_number, floor,
+            approval_status, approval_requested_at)
+         VALUES ($1, $2, true, $3, $4, $5, 'pending', NOW())
+         RETURNING *`,
+        [buildingId, normalizedPhone, fullName, apartmentNumber, floor]
+      );
+    } catch (err: any) {
+      if (String(err?.code) === '23505') {
+        throw new AppError('מספר הדירה שהזנת כבר תפוס בבניין. נסה מספר אחר או פנה לוועד.', 409);
+      }
+      throw err;
+    }
 
     user = userResult.rows[0];
     isNewUser = true;
+
+    // Notify every vaad member of this building about the new request.
+    // Non-blocking — an error here must not break the signup.
+    try {
+      const vaadRows = await query(
+        `SELECT id FROM residents
+          WHERE building_id = $1
+            AND role IN ('vaad_admin', 'vaad_member', 'treasurer')
+            AND is_active = true`,
+        [buildingId]
+      );
+      for (const v of vaadRows.rows) {
+        await query(
+          `INSERT INTO notifications (building_id, resident_id, kind, title, body, ref_id, dedup_key)
+           VALUES ($1, $2, 'approval_pending', $3, $4, $5, $6)
+           ON CONFLICT (resident_id, dedup_key) DO NOTHING`,
+          [
+            buildingId,
+            v.id,
+            'בקשת הצטרפות חדשה',
+            `${fullName}${apartmentNumber ? ' · דירה ' + apartmentNumber : ''} · ${normalizedPhone}`,
+            user.id,
+            `approval_pending:${user.id}:${v.id}`,
+          ]
+        );
+      }
+    } catch (_) { /* swallow — signup already succeeded */ }
   } else {
     user = userResult.rows[0];
 

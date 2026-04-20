@@ -266,8 +266,10 @@ const I18N = {
     'tour.s5.b': 'ראו את היתרה שלכם, היסטוריית תשלומים, שיעור גבייה וגרף 6 חודשים. למנהלים יש גם דאשבורד מלא.',
     'tour.s6.t': 'דיירים 👥',
     'tour.s6.b': 'היכרות עם השכנים לפי מספר דירה. תוכלו לחפש, להזמין דיירים חדשים ולראות מי חבר בוועד.',
+    'tour.sMgmt.t': 'ניהול ועד 🧰',
+    'tour.sMgmt.b': 'הלשונית "ניהול" זמינה רק לחברי ועד: אישור בקשות הצטרפות של דיירים חדשים, ניהול תשלומים, חוקי תשלום, הוצאות ותחזוקה שוטפת.',
     'tour.s7.t': 'מוכנים לצאת לדרך! 🎉',
-    'tour.s7.b': 'חוזרים לדף הבית. אם אתם מנהלי ועד, היכנסו ל"אני" → "כלי ועד" לניהול חוקי תשלום, הוצאות ותחזוקה.',
+    'tour.s7.b': 'זהו, סיימנו. כל מה שלמדנו ממתין לכם בלשוניות למטה. תמיד תוכלו לחזור על הסיור דרך הפרופיל.',
     // Invite
     'res.invite': 'הזמנת דיירים',
     'invite.title': 'הזמנת דיירים חדשים',
@@ -313,7 +315,40 @@ const I18N = {
     'pending.phone': 'טלפון',
     'pending.refresh': 'רענון סטטוס',
     'pending.logout': 'התנתק',
+    'pending.cancel': 'ביטול הבקשה / בחירת בניין אחר',
+    'pending.cancelConfirm': 'לבטל את הבקשה? תוכל להצטרף מחדש עם קוד אחר.',
+    'pending.cancelOk': 'הבקשה בוטלה',
     'pending.rejected': 'בקשתך נדחתה על ידי ועד הבית',
+    'admin.genCode': '✨ צור',
+    'setup.title': 'בוא נתחיל 👋',
+    'setup.sub': 'שלושה צעדים כדי להפעיל את הבניין — בערך 2 דקות',
+    'setup.step1.t': 'הזמן את הדיירים',
+    'setup.step1.b': 'שתף את קוד הבניין או הזמן בבת-אחת רשימת שכנים',
+    'setup.step2.t': 'הוסף חוק תשלום',
+    'setup.step2.b': 'דמי ועד חודשיים/רבעוניים — נוצרים אוטומטית לדיירים',
+    'setup.step3.t': 'קבע תחזוקה שוטפת',
+    'setup.step3.b': 'מעלית, מטפים, מיכלי גג — תזכורות אוטומטיות',
+    'invite.shareLink': 'קישור חכם:',
+    'invite.bulkTitle': '➕ הזמנה בכמות (הדבקת רשימה)',
+    'invite.bulkHint': 'שורה אחת לכל דייר: טלפון, שם, דירה, קומה (מופרדים בפסיק או טאב). הדיירים נוספים כבר מאושרים ויכולים להיכנס מיד.',
+    'invite.bulkSubmit': 'הוסף את כל הדיירים',
+    'invite.bulkEmpty': 'הדבק רשימה קודם',
+    'invite.bulkAdded': 'נוספו',
+    'invite.bulkFailed': 'נכשלו',
+    'start.cta': 'התחילו בניין חדש',
+    'start.ctaSub': 'חינם עד 10 דירות · בלי כרטיס אשראי',
+    'start.title': 'בואו נקים את הבניין שלכם',
+    'start.sub': 'דקה אחת ואתם בפנים כמנהלי ועד',
+    'start.bldName': 'שם הבניין',
+    'start.bldAddress': 'כתובת',
+    'start.bldCity': 'עיר',
+    'start.bldFloors': 'קומות',
+    'start.bldApts': 'דירות',
+    'start.yourName': 'שמכם',
+    'start.yourPhone': 'הטלפון שלכם',
+    'start.yourApt': 'מספר הדירה שלכם',
+    'start.submit': 'צור את הבניין וכנס',
+    'start.createdOk': 'נוצר! קוד ההזמנה: {code}',
     'time.justNow': 'עכשיו',
     'time.minAbbr': ' דק׳',
     'time.hrAbbr': ' שע׳',
@@ -364,6 +399,47 @@ const I18N = {
     'payMethod.bank': 'העברה',
     'payMethod.app': 'אפליקציה',
     'payMethod.other': 'אחר',
+    'payAdm.allMonths': 'כל החודשים',
+    'payAdm.groupByMonth': 'קבץ לפי חודש',
+    'payAdm.analytics': 'תובנות וגרפים',
+    'payAdm.ytdCollected': 'נגבה מתחילת השנה',
+    'payAdm.ytdRate': 'שיעור גבייה YTD',
+    'payAdm.chart12m': '12 חודשים אחרונים',
+    'payAdm.legendDue': 'נדרש',
+    'payAdm.legendCollected': 'נגבה',
+    'payAdm.methodsTitle': 'פילוח אמצעי תשלום',
+    'payAdm.noData': 'אין נתונים עדיין',
+    'debtors.title': 'דיירים בפיגור',
+    'debtors.age1m': 'חודש',
+    'debtors.age2m': '2 חודשים',
+    'debtors.age3m': '3+ חודשים',
+    'debtors.ageDays': '{n} ימים',
+    'resDetail.title': 'כרטיס דייר',
+    'resDetail.paid': 'שולם',
+    'resDetail.pending': 'ממתין',
+    'resDetail.overdue': 'בפיגור',
+    'resDetail.openTickets': 'קריאות פתוחות',
+    'resDetail.tabPayments': 'תשלומים',
+    'resDetail.tabTickets': 'קריאות',
+    'resDetail.noPayments': 'אין היסטוריית תשלומים',
+    'resDetail.noTickets': 'לא פתח קריאות שירות',
+    'mtDone.title': 'סימון משימה כבוצעה',
+    'mtDone.nextSchedule': 'מתי המשימה הבאה?',
+    'mtDone.fromNow': 'מהיום',
+    'mtDone.fromOriginal': 'מתאריך היעד המקורי',
+    'mtDone.custom': 'תאריך מותאם',
+    'mtDone.save': 'שמור',
+    'mtDone.badDate': 'תאריך לא תקין',
+    'mt.originalDueLabel': 'יעד מקורי',
+    'join.title': 'ברוכים הבאים! בואו נשלים את הפרטים',
+    'join.sub': 'הפרטים יוצגו לוועד כדי לאשר את ההצטרפות',
+    'join.invite': 'קוד הזמנה של הבניין',
+    'join.name': 'שם מלא',
+    'join.apt': 'מס׳ דירה',
+    'join.floor': 'קומה',
+    'join.submit': 'שליחת בקשה לוועד',
+    'join.errInvite': 'נדרש קוד הזמנה',
+    'join.errName': 'נדרש שם מלא',
     'profile.replayTour': '🎬 הדרכה מחדש',
     // Management
     'mgmt.title': 'ניהול ועד',
@@ -831,8 +907,10 @@ const I18N = {
     'tour.s5.b': 'View your balance, payment history, collection rate, and a 6-month trend chart. Admins also get a full dashboard.',
     'tour.s6.t': 'Residents 👥',
     'tour.s6.b': 'Meet your neighbors by apartment number. Search, invite new residents, and see committee members.',
+    'tour.sMgmt.t': 'Committee tools 🧰',
+    'tour.sMgmt.b': 'The "Manage" tab is vaad-only: approve new resident requests, manage payments, payment rules, expenses, and recurring maintenance tasks.',
     'tour.s7.t': 'You\'re all set! 🎉',
-    'tour.s7.b': 'Heading back home. If you\'re a committee admin, go to Me → Vaad tools to manage payment rules, expenses, and maintenance.',
+    'tour.s7.b': 'That\'s it. Everything you learned is one tap away in the tabs below. You can always replay the tour from your profile.',
     // Invite
     'res.invite': 'Invite residents',
     'invite.title': 'Invite new residents',
@@ -878,7 +956,40 @@ const I18N = {
     'pending.phone': 'Phone',
     'pending.refresh': 'Refresh status',
     'pending.logout': 'Sign out',
+    'pending.cancel': 'Cancel request / join different building',
+    'pending.cancelConfirm': 'Cancel this request? You can join again with a different code.',
+    'pending.cancelOk': 'Request cancelled',
     'pending.rejected': 'Your request was rejected by the building committee',
+    'admin.genCode': '✨ Generate',
+    'setup.title': "Let's get started 👋",
+    'setup.sub': 'Three steps to activate your building — about 2 minutes',
+    'setup.step1.t': 'Invite residents',
+    'setup.step1.b': 'Share the invite code or bulk-add neighbors in one go',
+    'setup.step2.t': 'Add a payment rule',
+    'setup.step2.b': 'Monthly/quarterly vaad fees auto-generate charges for residents',
+    'setup.step3.t': 'Schedule recurring maintenance',
+    'setup.step3.b': 'Elevator, extinguishers, water tanks — automatic reminders',
+    'invite.shareLink': 'Smart link:',
+    'invite.bulkTitle': '➕ Bulk invite (paste a list)',
+    'invite.bulkHint': 'One resident per line: phone, name, apt, floor (comma or tab separated). They are added as already approved and can log in right away.',
+    'invite.bulkSubmit': 'Add all residents',
+    'invite.bulkEmpty': 'Paste a list first',
+    'invite.bulkAdded': 'added',
+    'invite.bulkFailed': 'failed',
+    'start.cta': 'Start a new building',
+    'start.ctaSub': 'Free up to 10 apartments · no credit card',
+    'start.title': "Let's set up your building",
+    'start.sub': "One minute and you're in as the committee admin",
+    'start.bldName': 'Building name',
+    'start.bldAddress': 'Address',
+    'start.bldCity': 'City',
+    'start.bldFloors': 'Floors',
+    'start.bldApts': 'Apartments',
+    'start.yourName': 'Your name',
+    'start.yourPhone': 'Your phone',
+    'start.yourApt': 'Your apartment #',
+    'start.submit': 'Create building and log in',
+    'start.createdOk': 'Created! Invite code: {code}',
     'time.justNow': 'just now',
     'time.minAbbr': 'm ago',
     'time.hrAbbr': 'h ago',
@@ -929,6 +1040,47 @@ const I18N = {
     'payMethod.bank': 'Transfer',
     'payMethod.app': 'App',
     'payMethod.other': 'Other',
+    'payAdm.allMonths': 'All months',
+    'payAdm.groupByMonth': 'Group by month',
+    'payAdm.analytics': 'Insights & charts',
+    'payAdm.ytdCollected': 'Collected YTD',
+    'payAdm.ytdRate': 'YTD collection rate',
+    'payAdm.chart12m': 'Last 12 months',
+    'payAdm.legendDue': 'Due',
+    'payAdm.legendCollected': 'Collected',
+    'payAdm.methodsTitle': 'Payment methods breakdown',
+    'payAdm.noData': 'No data yet',
+    'debtors.title': 'Residents in arrears',
+    'debtors.age1m': '1 month',
+    'debtors.age2m': '2 months',
+    'debtors.age3m': '3+ months',
+    'debtors.ageDays': '{n} days',
+    'resDetail.title': 'Resident profile',
+    'resDetail.paid': 'Paid',
+    'resDetail.pending': 'Pending',
+    'resDetail.overdue': 'Overdue',
+    'resDetail.openTickets': 'Open tickets',
+    'resDetail.tabPayments': 'Payments',
+    'resDetail.tabTickets': 'Tickets',
+    'resDetail.noPayments': 'No payment history',
+    'resDetail.noTickets': 'No service tickets',
+    'mtDone.title': 'Mark task as done',
+    'mtDone.nextSchedule': 'When is the next one?',
+    'mtDone.fromNow': 'From today',
+    'mtDone.fromOriginal': 'From original due date',
+    'mtDone.custom': 'Custom date',
+    'mtDone.save': 'Save',
+    'mtDone.badDate': 'Invalid date',
+    'mt.originalDueLabel': 'Original due',
+    'join.title': 'Welcome! Fill in your details',
+    'join.sub': 'The committee will see this info to approve your request',
+    'join.invite': 'Building invite code',
+    'join.name': 'Full name',
+    'join.apt': 'Apt',
+    'join.floor': 'Floor',
+    'join.submit': 'Submit request to committee',
+    'join.errInvite': 'Invite code is required',
+    'join.errName': 'Full name is required',
     'profile.replayTour': '🎬 Replay tour',
     // Management
     'mgmt.title': 'Vaad management',
@@ -1190,17 +1342,28 @@ async function api(path, opts = {}) {
   return data;
 }
 
-// ---------------- Onboarding tour ----------------
-const TOUR_STEPS = [
-  { icon: '👋', tKey: 'tour.s1', nav: 'home' },
-  { icon: '🏢', tKey: 'tour.s2', nav: 'home' },
-  { icon: '📢', tKey: 'tour.s3', nav: 'announcements' },
-  { icon: '🔧', tKey: 'tour.s4', nav: 'tickets' },
-  { icon: '💰', tKey: 'tour.s5', nav: 'payments' },
-  { icon: '👥', tKey: 'tour.s6', nav: 'residents' },
-  { icon: '🎉', tKey: 'tour.s7', nav: 'home' },
-];
+// ---------------- Onboarding tour (spotlight coach-marks) ----------------
+// Each step optionally points at a real DOM element via `target`. The SVG
+// mask cuts a rounded hole around that element so the user can see the
+// actual tab / feature being explained, while the rest of the UI is dimmed.
+// A coach-mark card docks above or below the target with an arrow.
+function buildTourSteps() {
+  const isVaad = document.body.classList.contains('is-vaad');
+  return [
+    { icon: '👋', tKey: 'tour.s1', nav: 'home', target: null /* centered intro */ },
+    { icon: '🏢', tKey: 'tour.s2', nav: 'home', target: '.tab[data-nav="home"]' },
+    { icon: '📢', tKey: 'tour.s3', nav: 'announcements', target: '.tab[data-nav="announcements"]' },
+    { icon: '🔧', tKey: 'tour.s4', nav: 'tickets', target: '.tab[data-nav="tickets"]' },
+    { icon: '💰', tKey: 'tour.s5', nav: 'payments', target: '.tab[data-nav="payments"]' },
+    isVaad ? { icon: '🧰', tKey: 'tour.sMgmt', nav: 'management', target: '.tab[data-nav="management"]' } : null,
+    { icon: '👥', tKey: 'tour.s6', nav: 'residents', target: '.tab[data-nav="profile"]' /* profile holds directory-like bits */ },
+    { icon: '🎉', tKey: 'tour.s7', nav: 'home', target: null },
+  ].filter(Boolean);
+}
+
+let TOUR_STEPS = [];
 let tourStep = 0;
+let tourPrevHighlighted = null;
 
 function renderTourStep() {
   const step = TOUR_STEPS[tourStep];
@@ -1211,17 +1374,107 @@ function renderTourStep() {
   $('tour-title').textContent = t(step.tKey + '.t');
   $('tour-body').textContent = t(step.tKey + '.b');
   $('tour-next').textContent = tourStep === TOUR_STEPS.length - 1 ? t('tour.finish') : t('tour.next');
-  // Navigate to the corresponding view in the background
+  $('tour-step-count').textContent = `${tourStep + 1} / ${TOUR_STEPS.length}`;
+
+  // Navigate to the correct view underneath
   if (step.nav) show(step.nav);
+
+  // Position after navigation settles so tab elements are measured correctly
+  requestAnimationFrame(() => positionTour(step));
+}
+
+function positionTour(step) {
+  const overlay = $('tour-overlay');
+  const card = $('tour-card');
+  const spot = document.getElementById('tour-spot');
+  const ring = document.getElementById('tour-spot-ring');
+
+  // Remove highlight from previous target
+  if (tourPrevHighlighted) {
+    tourPrevHighlighted.classList.remove('tour-target-highlight');
+    tourPrevHighlighted = null;
+  }
+
+  if (!step.target) {
+    // Intro / outro: centered card, no spotlight
+    card.classList.add('tour-card-centered');
+    card.removeAttribute('data-arrow');
+    card.style.top = '';
+    card.style.bottom = '';
+    card.style.insetInlineStart = '';
+    spot.setAttribute('x', '-100');
+    spot.setAttribute('y', '-100');
+    spot.setAttribute('width', '0');
+    spot.setAttribute('height', '0');
+    ring.setAttribute('opacity', '0');
+    return;
+  }
+
+  const targetEl = document.querySelector(step.target);
+  if (!targetEl) {
+    // Fallback to centered if target isn't in DOM
+    card.classList.add('tour-card-centered');
+    return;
+  }
+
+  // Measure relative to the overlay (which is inset: 0 on the phone/app container)
+  const overlayRect = overlay.getBoundingClientRect();
+  const r = targetEl.getBoundingClientRect();
+  const pad = 10;
+  const x = (r.left - overlayRect.left) - pad;
+  const y = (r.top - overlayRect.top) - pad;
+  const w = r.width + pad * 2;
+  const h = r.height + pad * 2;
+
+  spot.setAttribute('x', x);
+  spot.setAttribute('y', y);
+  spot.setAttribute('width', w);
+  spot.setAttribute('height', h);
+  ring.setAttribute('x', x);
+  ring.setAttribute('y', y);
+  ring.setAttribute('width', w);
+  ring.setAttribute('height', h);
+  ring.setAttribute('opacity', '.9');
+
+  // Highlight the actual tab briefly
+  targetEl.classList.add('tour-target-highlight');
+  tourPrevHighlighted = targetEl;
+
+  // Dock the card above the target if target is in lower half, otherwise below
+  card.classList.remove('tour-card-centered');
+  const containerH = overlayRect.height;
+  const cardGap = 16;
+  if (y > containerH / 2) {
+    // target lower half → card above
+    card.setAttribute('data-arrow', 'down');
+    const cardH = card.offsetHeight || 200;
+    let top = y - cardH - cardGap;
+    if (top < 12) top = 12;
+    card.style.top = top + 'px';
+    card.style.bottom = '';
+  } else {
+    // target upper half → card below
+    card.setAttribute('data-arrow', 'up');
+    const top = y + h + cardGap;
+    card.style.top = top + 'px';
+    card.style.bottom = '';
+  }
+  card.style.insetInlineStart = '16px';
 }
 
 function startTour() {
+  TOUR_STEPS = buildTourSteps();
   tourStep = 0;
   $('tour-overlay').classList.remove('hidden');
+  // Centered-card class resets are handled per-step
   renderTourStep();
 }
 function closeTour(markDone) {
   $('tour-overlay').classList.add('hidden');
+  if (tourPrevHighlighted) {
+    tourPrevHighlighted.classList.remove('tour-target-highlight');
+    tourPrevHighlighted = null;
+  }
   if (markDone) localStorage.setItem('vaad_tour_done', '1');
   show('home');
 }
@@ -1231,6 +1484,12 @@ $('tour-next')?.addEventListener('click', () => {
   renderTourStep();
 });
 $('tour-skip')?.addEventListener('click', () => closeTour(true));
+// Reposition on window resize so the spotlight follows the tab
+window.addEventListener('resize', () => {
+  if (!$('tour-overlay').classList.contains('hidden') && TOUR_STEPS[tourStep]) {
+    positionTour(TOUR_STEPS[tourStep]);
+  }
+});
 
 // ---------------- Web push-style notifications ----------------
 let notifPermReq = false;
@@ -1379,7 +1638,7 @@ function applyPrefs() {
 const applyTheme = applyPrefs;
 
 // ---------------- Routing ----------------
-const views = ['login', 'pending', 'home', 'announcements', 'tickets', 'payments', 'residents', 'profile', 'ticket-detail', 'ann-detail', 'admin', 'onboarded', 'management', 'documents', 'contractors', 'audit', 'legal'];
+const views = ['login', 'pending', 'home', 'announcements', 'tickets', 'payments', 'residents', 'resident-detail', 'profile', 'ticket-detail', 'ann-detail', 'admin', 'onboarded', 'management', 'documents', 'contractors', 'audit', 'legal'];
 const tabRoutes = ['home', 'announcements', 'tickets', 'payments', 'profile'];
 let currentRoute = 'login';
 let navStack = [];
@@ -1544,22 +1803,167 @@ $$('.otp-input input').forEach((inp, i, arr) => {
   });
 });
 
-$('verify-otp').addEventListener('click', async () => {
-  clearError();
+// Pending sign-up state: we hold the verified OTP (already validated on
+// step 1) so the join-form submit doesn't ask the user for the code again.
+const pendingSignup = { phoneNumber: null, code: null };
+
+function normalizePhoneInput() {
   let raw = $('phone').value.trim().replace(/\D/g, '');
   if (raw.startsWith('0')) raw = raw.slice(1);
-  const phoneNumber = raw.startsWith('972') ? '+' + raw : '+972' + raw;
+  return raw.startsWith('972') ? '+' + raw : '+972' + raw;
+}
+
+$('verify-otp').addEventListener('click', async () => {
+  clearError();
+  const phoneNumber = normalizePhoneInput();
   const code = $$('.otp-input input').map((i) => i.value).join('');
   if (code.length !== 6) return showError(t('login.enter6'));
+  // If there's a prefilled invite code from a /join/:code deep link we
+  // send it along; otherwise the server will signal us that it's a new
+  // user and the join form will collect it.
+  const preInvite = (appState.joinFromLink || '').trim().toUpperCase();
   try {
-    const res = await api('/api/auth/verify-otp', {
-      method: 'POST',
-      body: JSON.stringify({ phoneNumber, code, inviteCode: 'DEKEL2024' }),
-    });
+    const body = { phoneNumber, code };
+    if (preInvite) body.inviteCode = preInvite;
+    const res = await api('/api/auth/verify-otp', { method: 'POST', body: JSON.stringify(body) });
     store.token = res.accessToken;
     store.user = res.user;
     await enterDashboard();
-  } catch (e) { showError(e.message); }
+  } catch (e) {
+    const msg = String(e.message || '');
+    // Server requires invite code for new users → show the join form and
+    // let the user fill in their details instead of erroring out.
+    if (/invite code/i.test(msg) || /invite/i.test(msg)) {
+      pendingSignup.phoneNumber = phoneNumber;
+      pendingSignup.code = code;
+      showJoinStep();
+      return;
+    }
+    showError(e.message);
+  }
+});
+
+function showJoinStep() {
+  $('step-phone').classList.add('hidden');
+  $('step-otp').classList.add('hidden');
+  $('step-join').classList.remove('hidden');
+  clearError();
+  // Prefill invite code from a deep link if present
+  const preInvite = (appState.joinFromLink || '').trim().toUpperCase();
+  if (preInvite && !$('join-invite').value) $('join-invite').value = preInvite;
+  // Focus the first empty field
+  const first = $('join-invite').value ? $('join-name') : $('join-invite');
+  setTimeout(() => first?.focus(), 100);
+}
+
+$('join-submit')?.addEventListener('click', async () => {
+  clearError();
+  const inviteCode = $('join-invite').value.trim().toUpperCase();
+  const fullName = $('join-name').value.trim();
+  const apartmentNumber = $('join-apt').value.trim();
+  const floorRaw = $('join-floor').value.trim();
+  if (!inviteCode) return showError(t('join.errInvite') || 'נדרש קוד הזמנה');
+  if (!fullName) return showError(t('join.errName') || 'נדרש שם מלא');
+
+  const btn = $('join-submit');
+  btn.disabled = true;
+  try {
+    const res = await api('/api/auth/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify({
+        phoneNumber: pendingSignup.phoneNumber,
+        code: pendingSignup.code,
+        inviteCode,
+        fullName,
+        apartmentNumber: apartmentNumber || null,
+        floor: floorRaw ? Number(floorRaw) : null,
+      }),
+    });
+    store.token = res.accessToken;
+    store.user = res.user;
+    // Clear the step-join inputs for privacy
+    ['join-invite', 'join-name', 'join-apt', 'join-floor'].forEach((id) => ($(id).value = ''));
+    $('step-join').classList.add('hidden');
+    await enterDashboard();
+  } catch (e) {
+    showError(e.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// "← שינוי מספר טלפון" from the join form returns to step-phone.
+$('join-back')?.addEventListener('click', () => {
+  $('step-join').classList.add('hidden');
+  $('step-otp').classList.add('hidden');
+  $('step-phone').classList.remove('hidden');
+  pendingSignup.phoneNumber = null;
+  pendingSignup.code = null;
+  clearError();
+});
+
+// Deep-link support: /join/CODE prefills the invite so a resident can tap
+// a shared link and only has to enter their phone + name.
+(function detectJoinDeepLink() {
+  const m = location.pathname.match(/\/join\/([A-Za-z0-9_-]{3,20})/);
+  if (m) {
+    appState.joinFromLink = m[1].toUpperCase();
+    history.replaceState(null, '', '/app');
+    return;
+  }
+  // Landing-page CTA arrives at /app#create — open the start-building sheet.
+  if (location.hash === '#create') {
+    history.replaceState(null, '', '/app');
+    setTimeout(() => $('start-building-btn')?.click(), 200);
+  }
+})();
+
+// ------- Self-serve create new building (login screen) -------
+$('start-building-btn')?.addEventListener('click', () => {
+  $('start-building-sheet').classList.remove('hidden');
+});
+$('start-building-close')?.addEventListener('click', () => $('start-building-sheet').classList.add('hidden'));
+$('start-building-sheet')?.addEventListener('click', (e) => {
+  if (e.target.id === 'start-building-sheet') e.currentTarget.classList.add('hidden');
+});
+$('sb-submit')?.addEventListener('click', async () => {
+  const payload = {
+    building: {
+      name: $('sb-name').value.trim(),
+      address: $('sb-address').value.trim(),
+      city: $('sb-city').value.trim(),
+      total_floors: Number($('sb-floors').value || 1),
+      total_apartments: Number($('sb-apts').value || 0),
+    },
+    admin: {
+      full_name: $('sb-admin-name').value.trim(),
+      phone: $('sb-admin-phone').value.trim(),
+      apartment_number: $('sb-admin-apt').value.trim() || '1',
+    },
+  };
+  if (!payload.building.name || !payload.building.address || !payload.building.city ||
+      !payload.building.total_apartments || !payload.admin.full_name || !payload.admin.phone) {
+    return toast(t('admin.needAllFields') || 'מלאו את כל השדות');
+  }
+  const btn = $('sb-submit');
+  btn.disabled = true;
+  try {
+    const res = await api('/api/auth/create-building', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+    // Prefill the phone input with the admin's phone, close the sheet,
+    // and auto-send OTP so they walk straight into login.
+    $('start-building-sheet').classList.add('hidden');
+    $('phone').value = (res.admin_phone || '').replace(/^\+972/, '');
+    toast(t('start.createdOk', { code: res.building.invite_code }) || `נוצר! קוד ההזמנה: ${res.building.invite_code}`);
+    // Kick off the normal OTP flow
+    setTimeout(() => $('send-otp')?.click(), 100);
+  } catch (e) {
+    toast(e.message);
+  } finally {
+    btn.disabled = false;
+  }
 });
 
 async function enterDashboard() {
@@ -1574,6 +1978,7 @@ async function enterDashboard() {
     appState.me = me;
     applyVaadClass();
     refreshApprovalBadges();
+    loadServerNotifications();
     show('home');
     ensureNotifPerm(); // ask once after login
     // First-time tour
@@ -1625,13 +2030,24 @@ async function showPendingScreen() {
   }
 }
 
-document.addEventListener('click', (e) => {
+document.addEventListener('click', async (e) => {
   if (e.target.closest('#pending-refresh')) { e.preventDefault(); showPendingScreen(); }
   if (e.target.closest('#pending-logout')) {
     e.preventDefault();
     store.token = null; store.user = null; appState.me = null;
     document.body.classList.remove('is-vaad');
     show('login');
+  }
+  if (e.target.closest('#pending-cancel')) {
+    e.preventDefault();
+    if (!confirm(t('pending.cancelConfirm') || 'לבטל את הבקשה הזו? תוכל להצטרף מחדש עם קוד אחר.')) return;
+    try {
+      await api('/api/residents/me/cancel-pending', { method: 'POST' });
+    } catch (_) { /* even if server fails, log the user out locally */ }
+    store.token = null; store.user = null; appState.me = null;
+    document.body.classList.remove('is-vaad');
+    show('login');
+    toast(t('pending.cancelOk') || 'הבקשה בוטלה');
   }
 });
 
@@ -1675,6 +2091,61 @@ const appState = {
 };
 
 // ---------------- Home ----------------
+// Show the setup checklist for vaad admins whose building is basically
+// empty. Progress is computed from real data so the card self-hides once
+// all three tasks are done. A user-dismissed preference is sticky too.
+function renderSetupChecklist(residents, rules, maintenance) {
+  const el = $('setup-checklist');
+  if (!el) return;
+  const role = appState.me?.user?.role || '';
+  if (!['vaad_admin', 'vaad_member', 'treasurer'].includes(role)) {
+    el.classList.add('hidden');
+    return;
+  }
+  if (localStorage.getItem('vaad_setup_dismissed') === '1') {
+    el.classList.add('hidden');
+    return;
+  }
+  const inviteDone = (residents || []).length > 1;
+  const ruleDone = (rules || []).length > 0;
+  const mtDone = (maintenance || []).length > 0;
+  const done = [inviteDone, ruleDone, mtDone].filter(Boolean).length;
+
+  // All steps done → auto-hide and mark dismissed so it doesn't pop back
+  // up after a rule is deleted.
+  if (done === 3) {
+    localStorage.setItem('vaad_setup_dismissed', '1');
+    el.classList.add('hidden');
+    return;
+  }
+
+  el.classList.remove('hidden');
+  el.querySelector('[data-step="invite"]').classList.toggle('done', inviteDone);
+  el.querySelector('[data-step="rule"]').classList.toggle('done', ruleDone);
+  el.querySelector('[data-step="maintenance"]').classList.toggle('done', mtDone);
+  $('setup-progress-fill').style.width = `${(done / 3) * 100}%`;
+}
+
+// Checklist interactions (click a step to navigate, ✕ to dismiss).
+document.addEventListener('click', (e) => {
+  if (e.target.closest('#setup-dismiss')) {
+    e.preventDefault();
+    e.stopPropagation();
+    localStorage.setItem('vaad_setup_dismissed', '1');
+    $('setup-checklist')?.classList.add('hidden');
+    return;
+  }
+  const step = e.target.closest('.setup-step');
+  if (step && !e.target.closest('#setup-dismiss')) {
+    const dest = step.dataset.go || 'home';
+    const mt = step.dataset.mt;
+    show(dest);
+    if (mt && typeof setMgmtTab === 'function') {
+      setTimeout(() => setMgmtTab(mt), 50);
+    }
+  }
+});
+
 async function loadHome() {
   try {
     if (!appState.me) appState.me = await api('/api/residents/me');
@@ -1709,6 +2180,9 @@ async function loadHome() {
     animateCount($('stat-apts'), me.building?.total_apartments || 0);
     const open = tickets.filter((t) => t.status === 'open' || t.status === 'in_progress').length;
     animateCount($('stat-open'), open);
+
+    // Setup checklist for empty buildings (vaad only)
+    renderSetupChecklist(residents, appState.rules || [], appState.maintenance || []);
     $('bell-count').textContent = open;
     $('bell-count').dataset.n = open;
 
@@ -1806,23 +2280,87 @@ function drawPaymentChart(payments) {
 }
 
 // ---------------- Notifications panel ----------------
+// Unified stream: server-stored notifications (payment reminders) first,
+// then derived items (open tickets, pinned announcements) so vaad members
+// see reminders alongside operational items in a single panel.
 function buildNotifications() {
   const items = [];
+
+  // Server notifications (most important: payment reminders)
+  (appState.serverNotifications || []).slice(0, 8).forEach((n) => {
+    const icon = n.kind === 'payment_reminder' ? '💰' : '🔔';
+    const cls = n.read ? 'info' : 'urgent';
+    items.push({
+      id: n.id,
+      icon,
+      cls,
+      title: n.title,
+      sub: `${n.body} · ${fmtRelative(n.created_at)}`,
+      nav: 'payments',
+      serverId: n.id,
+      unread: !n.read,
+    });
+  });
+
   (appState.tickets || []).filter((tk) => tk.status === 'open' || tk.status === 'in_progress').slice(0, 5).forEach((tk) => {
     items.push({ icon: tk.priority === 'urgent' || tk.priority === 'high' ? '🚨' : '🔧', cls: tk.priority === 'urgent' ? 'urgent' : 'info', title: tk.title, sub: `${t('statusName.' + tk.status)} · ${fmtRelative(tk.created_at)}`, nav: 'tickets' });
   });
   (appState.announcements || []).filter((a) => a.is_pinned || a.category === 'urgent').slice(0, 3).forEach((a) => {
     items.push({ icon: a.category === 'urgent' ? '🚨' : '📌', cls: a.category === 'urgent' ? 'urgent' : 'ok', title: a.title, sub: `${t('notif.announcement')} · ${fmtRelative(a.published_at || a.created_at)}`, nav: 'announcements' });
   });
-  (appState.tickets || []).filter((tk) => tk.status === 'open' || tk.status === 'in_progress').slice(0, 0); // noop placeholder
+
   const list = $('notif-list');
   list.innerHTML = items.length ? items.map((n) =>
-    `<div class="notif-item" data-go="${n.nav}"><div class="dot ${n.cls}">${n.icon}</div><div><div class="n-title">${escapeHtml(n.title)}</div><div class="n-sub">${escapeHtml(n.sub)}</div></div></div>`
+    `<div class="notif-item ${n.unread ? 'unread' : ''}" data-go="${n.nav}"${n.serverId ? ` data-notif-id="${escapeAttr(n.serverId)}"` : ''}><div class="dot ${n.cls}">${n.icon}</div><div><div class="n-title">${escapeHtml(n.title)}</div><div class="n-sub">${escapeHtml(n.sub)}</div></div></div>`
   ).join('') : `<div class="empty" style="margin:12px">${t('notif.empty')}</div>`;
-  list.querySelectorAll('.notif-item').forEach((el) => el.addEventListener('click', () => {
+
+  list.querySelectorAll('.notif-item').forEach((el) => el.addEventListener('click', async () => {
+    const nid = el.dataset.notifId;
+    if (nid) {
+      // Mark read server-side + locally, then refresh the badge.
+      try { await api('/api/notifications/' + nid + '/read', { method: 'POST' }); } catch {}
+      const n = (appState.serverNotifications || []).find((x) => x.id === nid);
+      if (n) n.read = true;
+      updateBellBadge();
+    }
     $('notif-panel').classList.add('hidden');
     show(el.dataset.go);
   }));
+}
+
+// Fetch server-stored notifications (payment reminders etc.)
+async function loadServerNotifications() {
+  try {
+    const r = await api('/api/notifications');
+    appState.serverNotifications = r.notifications || [];
+    appState.serverNotificationsUnread = Number(r.unread || 0);
+    updateBellBadge();
+    // Fire an OS-level notification for brand-new unread items on first load
+    (appState.serverNotifications || []).forEach((n) => {
+      if (!n.read && !appState._seenNotif?.has(n.id)) {
+        appState._seenNotif = appState._seenNotif || new Set();
+        appState._seenNotif.add(n.id);
+        try { sendLocalNotification(n.title, n.body); } catch {}
+      }
+    });
+  } catch (e) { /* silent */ }
+}
+
+function updateBellBadge() {
+  const n = appState.serverNotificationsUnread || 0;
+  const bell = document.querySelector('#notif-btn, [data-action="notif"]');
+  if (!bell) return;
+  let badge = bell.querySelector('.bell-badge');
+  if (n > 0) {
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'bell-badge';
+      bell.appendChild(badge);
+    }
+    badge.textContent = n > 9 ? '9+' : String(n);
+  } else if (badge) {
+    badge.remove();
+  }
 }
 
 $('notif-close')?.addEventListener('click', () => $('notif-panel').classList.add('hidden'));
@@ -2236,12 +2774,17 @@ function renderPayment(p) {
 
 async function loadPayments() {
   try {
-    const [{ payments }, { expenses }, resData] = await Promise.all([
+    // Always fetch /stats alongside the list so every card in every
+    // payments view (personal Payments tab + ניהול panel) uses the exact
+    // same server-computed numbers. Single source of truth, no drift.
+    const [{ payments }, stats, { expenses }, resData] = await Promise.all([
       api('/api/payments'),
+      api('/api/payments/stats').catch(() => null),
       api('/api/finance/expenses').catch(() => ({ expenses: [] })),
       appState.residents?.length ? { residents: appState.residents } : api('/api/residents'),
     ]);
     appState.payments = payments;
+    appState.paymentsStats = stats;
     appState.publicExpenses = expenses || [];
     appState.residents = resData.residents || appState.residents;
     setFinTab(finTab);
@@ -2356,25 +2899,39 @@ function renderExpenseBreakdown(expenses, targetId) {
 // ---- Tab 2: Payments (admin vs resident views) ----
 function renderPaymentsTab() {
   const payments = appState.payments || [];
+  const stats = appState.paymentsStats || null;
   const isVaad = ['vaad_admin', 'vaad_member', 'treasurer'].includes(appState.me?.user?.role);
   const myId = appState.me?.user?.id;
-  const now = new Date();
 
-  const inThisMonth = (p) => { const d = new Date(p.due_date); return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth(); };
-  const thisMonth = payments.filter(inThisMonth);
-  const mPaid = thisMonth.filter((p) => p.status === 'paid');
-  const mPending = thisMonth.filter((p) => p.status !== 'paid');
-
-  // Collection bar (everyone sees this)
-  const paidAmt = mPaid.reduce((s, p) => s + Number(p.amount || 0), 0);
-  const totalAmt = thisMonth.reduce((s, p) => s + Number(p.amount || 0), 0);
+  // Use the server-computed stats so these numbers are always identical
+  // to the ניהול → תשלומים panel. Fall back to client-side math only if
+  // /stats isn't available for some reason (network error, etc.).
+  let paidAmt, paidCount, pendAmt, pendCount;
+  if (stats) {
+    paidAmt = stats.paid_this_month?.total || 0;
+    paidCount = stats.paid_this_month?.count || 0;
+    pendAmt = stats.pending?.total || 0;
+    pendCount = stats.pending?.count || 0;
+  } else {
+    const now = new Date();
+    const inThisMonth = (p) => { const d = new Date(p.due_date); return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth(); };
+    const thisMonth = payments.filter(inThisMonth);
+    const mPaid = thisMonth.filter((p) => p.status === 'paid');
+    const mPending = thisMonth.filter((p) => p.status !== 'paid');
+    paidAmt = mPaid.reduce((s, p) => s + Number(p.amount || 0), 0);
+    paidCount = mPaid.length;
+    pendAmt = mPending.reduce((s, p) => s + Number(p.amount || 0), 0);
+    pendCount = mPending.length;
+  }
+  const totalAmt = paidAmt + pendAmt;
   const paidPct = totalAmt ? Math.round((paidAmt / totalAmt) * 100) : 0;
   const pendPct = 100 - paidPct;
+
   $('fin-collection-bar').innerHTML = `
     <div class="fcb-stats">
-      <span class="ok">✓ ${mPaid.length} ${t('fin.paid')}</span>
-      <span class="warn">⏳ ${mPending.length} ${t('fin.waiting')}</span>
-      <span class="danger">${fmtMoney(mPending.reduce((s, p) => s + Number(p.amount || 0), 0))} ${t('fin.owed')}</span>
+      <span class="ok">✓ ${paidCount} ${t('fin.paid')}</span>
+      <span class="warn">⏳ ${pendCount} ${t('fin.waiting')}</span>
+      <span class="danger">${fmtMoney(pendAmt)} ${t('fin.owed')}</span>
     </div>
     <div class="fcb-progress">
       <div class="fcb-fill-paid" style="width:${paidPct}%"></div>
@@ -2476,7 +3033,7 @@ function renderExpensesPublic() {
 function renderResident(r) {
   const roleName = t('role.' + (r.role || 'resident'));
   return `
-    <div class="resident-card">
+    <div class="resident-card" data-resident-id="${escapeAttr(r.id)}" role="button" tabindex="0">
       <div class="avatar" style="background:${avatarColor(r.full_name)}">${initials(r.full_name)}</div>
       <div class="res-name" dir="${dir(r.full_name)}">${escapeHtml(r.full_name || '—')}</div>
       <div class="res-apt">${t('res.apt')} ${escapeHtml(r.apartment_number || '—')}</div>
@@ -2484,6 +3041,151 @@ function renderResident(r) {
     </div>
   `;
 }
+
+// ---- Resident detail ----
+async function openResidentDetail(residentId) {
+  if (!residentId) return;
+  appState.residentDetailId = residentId;
+  show('resident-detail');
+  // Show a placeholder while loading
+  $('rd-name').textContent = '...';
+  $('rd-apt-line').textContent = '';
+  $('rd-contact').textContent = '';
+  $('rd-paid').textContent = '₪0';
+  $('rd-pending').textContent = '₪0';
+  $('rd-overdue').textContent = '₪0';
+  $('rd-open-tickets').textContent = '0';
+  try {
+    const data = await api('/api/residents/' + residentId + '/profile');
+    appState.residentDetail = data;
+    renderResidentDetail(data);
+  } catch (e) { toast(e.message); back(); }
+}
+
+function renderResidentDetail(d) {
+  const u = d.user || {};
+  const totals = d.totals || {};
+  $('rd-avatar').textContent = initials(u.full_name || '?');
+  $('rd-avatar').style.background = avatarColor(u.full_name);
+  $('rd-name').textContent = u.full_name || '—';
+  const aptLine = [
+    u.apartment_number ? `${t('res.apt')} ${u.apartment_number}` : '',
+    u.floor ? `${t('common.floor')} ${u.floor}` : '',
+  ].filter(Boolean).join(' · ');
+  $('rd-apt-line').textContent = aptLine || '—';
+  const roleEl = $('rd-role');
+  if (u.role && u.role !== 'resident') {
+    roleEl.textContent = t('role.' + u.role);
+    roleEl.classList.remove('hidden');
+  } else {
+    roleEl.classList.add('hidden');
+  }
+  const contact = [u.phone_number, u.email].filter(Boolean).join(' · ');
+  $('rd-contact').textContent = contact;
+  $('rd-paid').textContent = fmtMoney(totals.paid || 0, 'ILS');
+  $('rd-pending').textContent = fmtMoney(totals.pending || 0, 'ILS');
+  $('rd-overdue').textContent = fmtMoney(totals.overdue || 0, 'ILS');
+  $('rd-open-tickets').textContent = String(totals.open_tickets || 0);
+  $('rd-tab-pay-count').textContent = String((d.payments || []).length);
+  $('rd-tab-tix-count').textContent = String((d.tickets || []).length);
+  renderResidentPaymentsList(d.payments || []);
+  renderResidentTicketsList(d.tickets || []);
+}
+
+function rdPaymentStatus(p) {
+  if (p.status === 'paid') return 'paid';
+  const today = new Date().toISOString().slice(0, 10);
+  const due = (p.due_date || '').toString().slice(0, 10);
+  if (due && due < today) return 'overdue';
+  return 'pending';
+}
+
+function renderResidentPaymentsList(payments) {
+  const list = $('rd-payments-list');
+  const empty = $('rd-payments-empty');
+  if (!payments.length) {
+    list.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  list.innerHTML = payments.map((p) => {
+    const st = rdPaymentStatus(p);
+    const stLabel = st === 'paid' ? t('payAdm.paidShort')
+                  : st === 'overdue' ? t('payAdm.overdueShort')
+                  : t('payAdm.pendingShort');
+    const methodLabel = p.payment_method ? (t('payMethod.' + (
+      p.payment_method === 'bank_transfer' ? 'bank' : p.payment_method
+    )) || p.payment_method) : '';
+    const dateLine = st === 'paid' && p.payment_date
+      ? `${t('payAdm.paidOn')} ${fmtDate(p.payment_date)}`
+      : `${t('payAdm.dueBy')} ${fmtDate(p.due_date)}`;
+    const note = p.metadata && p.metadata.manual_note ? p.metadata.manual_note : '';
+    return `
+      <div class="rd-pay-item ${st}">
+        <div class="rd-row">
+          <b>${escapeHtml(p.description || '—')}</b>
+          <span class="rd-amount">${fmtMoney(p.amount, p.currency || 'ILS')}</span>
+        </div>
+        <div class="rd-meta">
+          <span class="rd-pill ${st}">${stLabel}</span>
+          <span>${dateLine}</span>
+          ${methodLabel ? `<span class="dot">·</span><span>${escapeHtml(methodLabel)}</span>` : ''}
+          ${note ? `<span class="dot">·</span><span>${escapeHtml(note)}</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderResidentTicketsList(tickets) {
+  const list = $('rd-tickets-list');
+  const empty = $('rd-tickets-empty');
+  if (!tickets.length) {
+    list.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  list.innerHTML = tickets.map((t_) => {
+    const statusCls = t_.status || 'open';
+    const statusLabel = t('ticket.status.' + statusCls) || statusCls;
+    const priority = t_.priority || 'medium';
+    const priorityLabel = t('ticket.priority.' + priority) || priority;
+    const cat = t_.category ? (t('ticCat.' + t_.category) || t_.category) : '';
+    return `
+      <div class="rd-tix-item ${statusCls}">
+        <div class="rd-row">
+          <b>${escapeHtml(t_.title || '—')}</b>
+          <span class="rd-pill ${statusCls}">${escapeHtml(statusLabel)}</span>
+        </div>
+        <div class="rd-meta">
+          <span class="rd-pill ${priority}">${escapeHtml(priorityLabel)}</span>
+          ${cat ? `<span>${escapeHtml(cat)}</span><span class="dot">·</span>` : ''}
+          <span>${fmtDate(t_.created_at)}</span>
+          ${t_.resolved_at ? `<span class="dot">·</span><span>✓ ${fmtDate(t_.resolved_at)}</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Tap-through on resident cards (list + search results)
+document.addEventListener('click', (e) => {
+  const card = e.target.closest('[data-resident-id]');
+  if (!card) return;
+  openResidentDetail(card.dataset.residentId);
+});
+
+// Resident-detail tab switcher
+document.querySelectorAll('.rd-tab').forEach((tab) => {
+  tab.addEventListener('click', () => {
+    const which = tab.dataset.rdtab;
+    document.querySelectorAll('.rd-tab').forEach((t_) => t_.classList.toggle('active', t_ === tab));
+    $('rd-panel-payments').classList.toggle('hidden', which !== 'payments');
+    $('rd-panel-tickets').classList.toggle('hidden', which !== 'tickets');
+  });
+});
 
 async function loadResidents() {
   try {
@@ -2524,7 +3226,54 @@ $('res-search').addEventListener('input', (e) => {
 $('invite-btn')?.addEventListener('click', () => {
   const code = appState.me?.building?.invite_code || '—';
   $('invite-code-big').textContent = code;
+  // Build a ready-to-share deep link using the current origin.
+  const link = `${location.origin}/join/${code}`;
+  const linkEl = $('invite-share-link');
+  if (linkEl) linkEl.textContent = link;
   $('invite-sheet').classList.remove('hidden');
+});
+
+// Bulk-invite: parse the pasted list and POST.
+$('bulk-invite-submit')?.addEventListener('click', async () => {
+  const raw = $('bulk-invite-text').value.trim();
+  if (!raw) return toast(t('invite.bulkEmpty') || 'הדבק רשימה קודם');
+  // Accept comma- or tab-separated, one resident per line.
+  const residents = raw.split(/\r?\n/).map((line) => line.trim()).filter(Boolean).map((line) => {
+    const cells = line.split(/[,\t]/).map((s) => s.trim());
+    return {
+      phone: cells[0] || '',
+      full_name: cells[1] || '',
+      apartment_number: cells[2] || '',
+      floor: cells[3] || '',
+    };
+  });
+  if (!residents.length) return toast(t('invite.bulkEmpty') || 'לא נמצאה רשימה תקינה');
+  const btn = $('bulk-invite-submit');
+  btn.disabled = true;
+  btn.textContent = '…';
+  try {
+    const res = await api('/api/residents/bulk-invite', {
+      method: 'POST',
+      body: JSON.stringify({ residents }),
+    });
+    const box = $('bulk-invite-results');
+    box.classList.remove('hidden');
+    const failedRows = (res.results || []).filter((r) => !r.ok);
+    box.innerHTML = `
+      <div><span class="bir-ok">✓ ${res.added} ${t('invite.bulkAdded') || 'נוספו'}</span>${res.failed ? `<span style="margin-inline-start:10px" class="bir-fail">✕ ${res.failed} ${t('invite.bulkFailed') || 'נכשלו'}</span>` : ''}</div>
+      ${failedRows.length ? `<ul style="margin:8px 0 0 0;padding:0;list-style:none">${failedRows.map((r) => `<li>• ${escapeHtml(r.phone || '?')} — ${escapeHtml(r.error || '')}</li>`).join('')}</ul>` : ''}
+    `;
+    if (res.added > 0) {
+      $('bulk-invite-text').value = '';
+      // Refresh resident list behind the sheet
+      try { await loadResidents(); } catch {}
+    }
+  } catch (e) {
+    toast(e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = t('invite.bulkSubmit') || 'הוסף את כל הדיירים';
+  }
 });
 $('invite-close')?.addEventListener('click', () => $('invite-sheet').classList.add('hidden'));
 $('invite-sheet')?.addEventListener('click', (e) => { if (e.target.id === 'invite-sheet') e.currentTarget.classList.add('hidden'); });
@@ -2675,16 +3424,200 @@ document.addEventListener('click', async (e) => {
 });
 
 // ==================== Admin: payments ====================
-const admPay = { status: 'all', search: '', timer: null, selectedMethod: 'cash', currentId: null };
+const admPay = {
+  status: 'all',
+  search: '',
+  month: '', // '' = all months, 'YYYY-MM' = specific month
+  groupByMonth: false,
+  timer: null,
+  selectedMethod: 'cash',
+  currentId: null,
+  monthsPopulated: false,
+};
 
 async function loadAdminPayments() {
   if (!isVaadRole()) return;
-  await Promise.all([loadAdminPaymentsList(), loadAdminPaymentsStats()]);
+  populateMonthSelector();
+  await Promise.all([
+    loadAdminPaymentsList(),
+    loadAdminPaymentsStats(),
+    loadAdminDebtors(),
+  ]);
+}
+
+// Build the last 12 months as options in the month <select>. Runs once per
+// session — months don't change mid-visit.
+function populateMonthSelector() {
+  if (admPay.monthsPopulated) return;
+  const sel = $('pay-adm-month');
+  if (!sel) return;
+  const now = new Date();
+  const lang = store.lang === 'en' ? 'en-GB' : 'he-IL';
+  for (let i = 0; i < 12; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = d.toISOString().slice(0, 7);
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = d.toLocaleDateString(lang, { month: 'long', year: 'numeric' });
+    sel.appendChild(opt);
+  }
+  admPay.monthsPopulated = true;
+}
+
+async function loadAdminDebtors() {
+  try {
+    const { debtors } = await api('/api/payments/debtors');
+    renderDebtorsCard(debtors || []);
+  } catch (e) { /* silent */ }
+}
+
+function ageBucket(days) {
+  if (days >= 90) return '3m';
+  if (days >= 60) return '2m';
+  if (days >= 30) return '1m';
+  return 'new';
+}
+
+function ageLabel(days) {
+  if (days >= 90) return (t('debtors.age3m') || '3+ חודשים');
+  if (days >= 60) return (t('debtors.age2m') || '2 חודשים');
+  if (days >= 30) return (t('debtors.age1m') || 'חודש');
+  if (days > 0) return t('debtors.ageDays', { n: days });
+  return '';
+}
+
+function renderDebtorsCard(debtors) {
+  const card = $('debtors-card');
+  const list = $('debtors-list');
+  const countEl = $('debtors-count');
+  if (!debtors.length) {
+    card.classList.add('hidden');
+    return;
+  }
+  card.classList.remove('hidden');
+  countEl.textContent = debtors.length;
+  list.innerHTML = debtors.map((d) => {
+    const initials = (d.full_name || '?').slice(0, 1);
+    const name = escapeHtml(d.full_name || t('approvals.unnamed') || '—');
+    const apt = d.apartment_number ? `${t('payAdm.apt') || 'דירה'} ${escapeHtml(d.apartment_number)}` : '';
+    const bucket = ageBucket(Number(d.oldest_days_overdue) || 0);
+    const age = ageLabel(Number(d.oldest_days_overdue) || 0);
+    const total = fmtMoney(Number(d.total_owed) || 0, 'ILS');
+    return `
+      <div class="debtor-row" data-resident-id="${escapeAttr(d.resident_id)}">
+        <div class="debtor-avatar">${escapeHtml(initials)}</div>
+        <div class="debtor-main">
+          <b>${name}</b>
+          <small>${apt} · ${t('payAdm.countPayments', { n: d.unpaid_count })}</small>
+        </div>
+        <span class="debtor-age age-${bucket}">${escapeHtml(age)}</span>
+        <span class="debtor-amount">${total}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+$('debtors-toggle')?.addEventListener('click', (e) => {
+  const btn = e.currentTarget;
+  const expanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', String(!expanded));
+  $('debtors-list').classList.toggle('hidden', expanded);
+});
+
+// Analytics toggle + lazy load
+$('analytics-toggle')?.addEventListener('click', async (e) => {
+  const btn = e.currentTarget;
+  const panel = $('analytics-panel');
+  const expanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', String(!expanded));
+  panel.classList.toggle('hidden', expanded);
+  if (!expanded) await loadAnalytics();
+});
+
+async function loadAnalytics() {
+  try {
+    const a = await api('/api/payments/analytics');
+    const ytdPct = a.ytd.due > 0 ? Math.round((a.ytd.paid / a.ytd.due) * 100) : null;
+    $('an-ytd-paid').textContent = fmtMoney(a.ytd.paid, 'ILS');
+    $('an-ytd-rate').textContent = ytdPct != null ? ytdPct + '%' : '—';
+    drawMonthsChart(a.months || []);
+    drawMethodsDonut(a.methods || []);
+  } catch (e) { toast(e.message); }
+}
+
+function drawMonthsChart(months) {
+  const svg = $('an-months-chart');
+  if (!svg) return;
+  const W = 600, H = 180, padX = 10, padY = 10;
+  const n = months.length || 1;
+  const colW = (W - padX * 2) / n;
+  const barW = Math.min(18, colW * 0.32);
+  const innerH = H - padY * 2 - 20; // reserve 20 for labels
+  const max = Math.max(1, ...months.map((m) => Math.max(m.due || 0, m.collected || 0)));
+
+  const lang = store.lang === 'en' ? 'en-GB' : 'he-IL';
+  let out = '';
+  months.forEach((m, i) => {
+    const gx = padX + i * colW + colW / 2;
+    const dueH = (m.due / max) * innerH;
+    const colH = (m.collected / max) * innerH;
+    const baseY = padY + innerH;
+    out += `<rect class="bar-due" x="${gx - barW - 1}" y="${baseY - dueH}" width="${barW}" height="${dueH}" rx="3"/>`;
+    out += `<rect class="bar-collected" x="${gx + 1}" y="${baseY - colH}" width="${barW}" height="${colH}" rx="3"><title>${fmtMoney(m.collected, 'ILS')} / ${fmtMoney(m.due, 'ILS')}</title></rect>`;
+    const d = new Date(m.month + '-02');
+    const lbl = d.toLocaleDateString(lang, { month: 'short' });
+    out += `<text class="month-label" x="${gx}" y="${H - 4}" text-anchor="middle">${lbl}</text>`;
+  });
+  svg.innerHTML = out;
+}
+
+function drawMethodsDonut(methods) {
+  const svg = $('an-methods-donut');
+  const legend = $('an-methods-legend');
+  if (!svg) return;
+  const colors = { cash: '#10b981', check: '#f59e0b', bank_transfer: '#6366f1', app: '#06b6d4', other: '#94a3b8' };
+  const total = methods.reduce((s, m) => s + (Number(m.total) || 0), 0);
+  if (total === 0) {
+    svg.innerHTML = `<circle cx="50" cy="50" r="42" fill="none" stroke="#e5e7eb" stroke-width="14"/><text class="an-donut-label" x="50" y="52">—</text>`;
+    legend.innerHTML = `<div class="lm"><span class="lm-left">${t('payAdm.noData') || 'אין נתונים עדיין'}</span></div>`;
+    return;
+  }
+  const r = 42;
+  const c = 2 * Math.PI * r;
+  let offset = 0;
+  let rings = '';
+  methods.forEach((m) => {
+    const pct = (Number(m.total) || 0) / total;
+    const dash = c * pct;
+    const color = colors[m.method] || '#94a3b8';
+    rings += `<circle cx="50" cy="50" r="${r}" fill="none" stroke="${color}" stroke-width="14" stroke-dasharray="${dash} ${c - dash}" stroke-dashoffset="${-offset}" transform="rotate(-90 50 50)"/>`;
+    offset += dash;
+  });
+  svg.innerHTML = `${rings}<text class="an-donut-label" x="50" y="52">${fmtMoney(total, 'ILS')}</text>`;
+
+  legend.innerHTML = methods.map((m) => {
+    const pct = Math.round(((Number(m.total) || 0) / total) * 100);
+    const color = colors[m.method] || '#94a3b8';
+    const methodLabel = t('payMethod.' + (m.method === 'bank_transfer' ? 'bank' : m.method)) || m.method;
+    return `
+      <div class="lm">
+        <span class="lm-left">
+          <i class="lm-swatch" style="background:${color}"></i>
+          ${escapeHtml(methodLabel)}
+          <small style="color:var(--ink-4);font-weight:600">${pct}%</small>
+        </span>
+        <span class="lm-amount">${fmtMoney(m.total, 'ILS')}</span>
+      </div>
+    `;
+  }).join('');
 }
 
 async function loadAdminPaymentsStats() {
   try {
     const s = await api('/api/payments/stats');
+    // Cache here too so the Payments tab shares the same numbers
+    // without a duplicate round-trip when the user bounces between views.
+    appState.paymentsStats = s;
     $('pay-stat-paid').textContent = fmtMoney(s.paid_this_month.total, 'ILS');
     $('pay-stat-pending').textContent = fmtMoney(s.pending.total, 'ILS');
     $('pay-stat-overdue').textContent = fmtMoney(s.overdue.total, 'ILS');
@@ -2705,6 +3638,7 @@ async function loadAdminPaymentsList() {
     const params = new URLSearchParams();
     if (admPay.status !== 'all') params.set('status', admPay.status);
     if (admPay.search) params.set('search', admPay.search);
+    if (admPay.month) params.set('month', admPay.month);
     const res = await api('/api/payments' + (params.toString() ? '?' + params.toString() : ''));
     const rows = res.payments || [];
     if (rows.length === 0) {
@@ -2713,8 +3647,41 @@ async function loadAdminPaymentsList() {
       return;
     }
     empty.classList.add('hidden');
-    list.innerHTML = rows.map(renderAdminPaymentCard).join('');
+    if (admPay.groupByMonth) {
+      list.innerHTML = renderGroupedByMonth(rows);
+    } else {
+      list.innerHTML = rows.map(renderAdminPaymentCard).join('');
+    }
   } catch (e) { toast(e.message); }
+}
+
+function renderGroupedByMonth(rows) {
+  // Partition by due_date YYYY-MM. Keep server order within each group.
+  const groups = new Map();
+  rows.forEach((p) => {
+    const key = (p.due_date || '').toString().slice(0, 7) || '—';
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(p);
+  });
+  const lang = store.lang === 'en' ? 'en-GB' : 'he-IL';
+  const parts = [];
+  for (const [key, items] of groups) {
+    const total = items.reduce((s, p) => s + Number(p.amount || 0), 0);
+    const paidCount = items.filter((p) => p.status === 'paid').length;
+    let label = key;
+    if (/^\d{4}-\d{2}$/.test(key)) {
+      const d = new Date(key + '-02');
+      label = d.toLocaleDateString(lang, { month: 'long', year: 'numeric' });
+    }
+    parts.push(`
+      <div class="pay-adm-month-header">
+        <span>${escapeHtml(label)}</span>
+        <span class="mh-counts">${paidCount}/${items.length} · <span class="mh-total">${fmtMoney(total, 'ILS')}</span></span>
+      </div>
+    `);
+    parts.push(items.map(renderAdminPaymentCard).join(''));
+  }
+  return parts.join('');
 }
 
 function fmtDate(s) {
@@ -2752,6 +3719,10 @@ function renderAdminPaymentCard(p) {
   const statusLabel = status === 'paid' ? t('payAdm.paidShort')
                     : status === 'overdue' ? t('payAdm.overdueShort')
                     : t('payAdm.pendingShort');
+  const daysOverdue = Number(p.days_overdue || 0);
+  const agingPill = (status !== 'paid' && daysOverdue >= 30)
+    ? `<span class="pay-aging-pill age-${ageBucket(daysOverdue)}">${escapeHtml(ageLabel(daysOverdue))}</span>`
+    : '';
 
   const mainAction = status === 'paid'
     ? `<button class="btn-revert" data-act="revert">${t('payAdm.revert')}</button>`
@@ -2767,7 +3738,7 @@ function renderAdminPaymentCard(p) {
         </div>
         <div class="pay-adm-amount">
           <b>${amount}</b>
-          <span class="pay-adm-status ${status}">${statusLabel}</span>
+          <span class="pay-adm-status ${status}">${statusLabel}${agingPill}</span>
         </div>
       </div>
       <div class="pay-adm-meta">
@@ -2802,6 +3773,21 @@ document.querySelectorAll('.pay-chip').forEach((chip) => {
     admPay.status = chip.dataset.pst;
     loadAdminPaymentsList();
   });
+});
+$('pay-adm-month')?.addEventListener('change', (e) => {
+  admPay.month = e.target.value;
+  loadAdminPaymentsList();
+});
+$('pay-adm-group-month')?.addEventListener('change', (e) => {
+  admPay.groupByMonth = e.target.checked;
+  loadAdminPaymentsList();
+});
+// Debtor row → open that resident's detail page
+document.addEventListener('click', (e) => {
+  const row = e.target.closest('.debtor-row');
+  if (!row) return;
+  const id = row.dataset.residentId;
+  if (id) openResidentDetail(id);
 });
 
 // Card actions: mark-paid / revert / edit / delete
@@ -2853,6 +3839,19 @@ document.querySelectorAll('.pay-method').forEach((m) => {
   });
 });
 $('pay-paid-cancel')?.addEventListener('click', () => $('pay-paid-sheet').classList.add('hidden'));
+
+// Clicking backdrop or any [data-close-modal] button closes the nearest modal
+document.addEventListener('click', (e) => {
+  const closer = e.target.closest('[data-close-modal]');
+  if (!closer) return;
+  const modal = closer.closest('.pay-modal');
+  if (modal) modal.classList.add('hidden');
+});
+// Esc closes the topmost open modal
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  document.querySelectorAll('.pay-modal:not(.hidden)').forEach((m) => m.classList.add('hidden'));
+});
 $('pay-paid-save')?.addEventListener('click', async () => {
   if (!admPay.currentId) return;
   const btn = $('pay-paid-save');
@@ -2952,34 +3951,12 @@ async function loadPaymentRules() {
           <div class="rule-amount">${fmtMoney(r.amount, r.currency)}</div>
         </div>
         <div class="rule-actions">
-          <button class="apply" data-act="apply">${t('rule.applyNow')}</button>
           <button class="del" data-act="del">${t('common.delete')}</button>
         </div>
       </div>
     `).join('');
     list.querySelectorAll('.rule-item').forEach((el) => {
       const id = el.dataset.ruleId;
-      el.querySelector('[data-act="apply"]').addEventListener('click', async (ev) => {
-        const btn = ev.currentTarget;
-        // Guard against double-tap: disable the button for the life of the
-        // request so a frustrated second click cannot create duplicate
-        // payment rows.
-        if (btn.dataset.busy === '1') return;
-        btn.dataset.busy = '1';
-        btn.disabled = true;
-        const origLabel = btn.textContent;
-        btn.textContent = t('common.applying') || '...';
-        try {
-          const res = await api('/api/finance/payment-rules/' + id + '/apply', { method: 'POST' });
-          toast(t('rule.applied', { n: res.created }));
-        } catch (e) {
-          toast(e.message);
-        } finally {
-          btn.dataset.busy = '0';
-          btn.disabled = false;
-          btn.textContent = origLabel;
-        }
-      });
       el.querySelector('[data-act="del"]').addEventListener('click', async () => {
         if (!confirm(t('common.confirmDelete'))) return;
         try {
@@ -3260,12 +4237,10 @@ async function loadMaintenance() {
     }).join('');
     list.querySelectorAll('.mt-item').forEach((el) => {
       const id = el.dataset.mtId;
-      el.querySelector('[data-act="done"]').addEventListener('click', async () => {
-        try {
-          await api('/api/maintenance/' + id + '/done', { method: 'POST' });
-          toast(t('mt.doneOk'));
-          loadMaintenance();
-        } catch (e) { toast(e.message); }
+      el.querySelector('[data-act="done"]').addEventListener('click', () => {
+        // Pop a modal so the vaad can choose WHEN the next occurrence is:
+        // from today, from the original due date, or a custom date.
+        openMaintenanceDoneSheet(tk);
       });
       el.querySelector('[data-act="del"]').addEventListener('click', async () => {
         if (!confirm(t('common.confirmDelete'))) return;
@@ -3300,6 +4275,68 @@ function checkMaintenanceReminders(tasks) {
 }
 
 $('mt-new-btn')?.addEventListener('click', () => $('mt-new-form').classList.toggle('hidden'));
+// ---- Maintenance: mark-done scheduling picker ----
+// Keep the task being completed + the pre-computed suggested dates in state.
+const mtDone = { task: null };
+
+function addDaysISO(isoOrDate, days) {
+  const d = typeof isoOrDate === 'string' ? new Date(isoOrDate) : isoOrDate;
+  if (isNaN(d.getTime())) return '';
+  const out = new Date(d.getTime());
+  out.setDate(out.getDate() + days);
+  return out.toISOString().slice(0, 10);
+}
+
+function openMaintenanceDoneSheet(task) {
+  mtDone.task = task;
+  const intervalDays = Number(task.interval_days) || 30;
+  const fromNow = addDaysISO(new Date(), intervalDays);
+  const fromOriginal = task.next_due ? addDaysISO(task.next_due, intervalDays) : fromNow;
+
+  $('mt-done-target').textContent = task.title || '—';
+  $('mt-sched-from-now-date').textContent = fmtDate(fromNow);
+  const originalLabel = (task.next_due ? `${t('mt.originalDueLabel') || 'יעד מקורי'}: ${fmtDate(task.next_due)} → ` : '') + fmtDate(fromOriginal);
+  $('mt-sched-from-original-date').textContent = originalLabel;
+  $('mt-sched-custom-date').value = fromNow;
+
+  // Always default to "from-now" each time the modal opens.
+  document.querySelectorAll('input[name="mt-sched"]').forEach((r) => { r.checked = r.value === 'from-now'; });
+
+  $('mt-done-sheet').classList.remove('hidden');
+}
+
+$('mt-done-save')?.addEventListener('click', async () => {
+  const task = mtDone.task;
+  if (!task) return;
+  const intervalDays = Number(task.interval_days) || 30;
+  const pick = document.querySelector('input[name="mt-sched"]:checked')?.value || 'from-now';
+  let nextDue;
+  if (pick === 'from-now') nextDue = addDaysISO(new Date(), intervalDays);
+  else if (pick === 'from-original') nextDue = task.next_due ? addDaysISO(task.next_due, intervalDays) : addDaysISO(new Date(), intervalDays);
+  else nextDue = $('mt-sched-custom-date').value;
+
+  if (!nextDue || !/^\d{4}-\d{2}-\d{2}$/.test(nextDue)) {
+    toast(t('mtDone.badDate') || 'תאריך לא תקין');
+    return;
+  }
+  const btn = $('mt-done-save');
+  btn.disabled = true;
+  try {
+    await api('/api/maintenance/' + task.id + '/done', {
+      method: 'POST',
+      body: JSON.stringify({ next_due: nextDue }),
+    });
+    $('mt-done-sheet').classList.add('hidden');
+    toast(t('mt.doneOk'));
+    loadMaintenance();
+  } catch (e) {
+    toast(e.message);
+  } finally {
+    btn.disabled = false;
+    mtDone.task = null;
+  }
+});
+
 $('m-cancel')?.addEventListener('click', () => $('mt-new-form').classList.add('hidden'));
 $('m-submit')?.addEventListener('click', async () => {
   const payload = {
@@ -3350,8 +4387,30 @@ async function loadAdminBuildings() {
   }
 }
 
-$('admin-new-btn')?.addEventListener('click', () => {
+$('admin-new-btn')?.addEventListener('click', async () => {
   $('admin-new-form').classList.toggle('hidden');
+  // Pre-fill a suggested invite code on first open so the super-admin
+  // doesn't have to think of one. They can still edit or regenerate.
+  if (!$('admin-new-form').classList.contains('hidden') && !$('adm-code').value) {
+    try {
+      const base = $('adm-name').value.trim();
+      const { code } = await api('/api/admin/invite-code/suggest' + (base ? '?base=' + encodeURIComponent(base) : ''));
+      if (!$('adm-code').value) $('adm-code').value = code;
+    } catch (_) { /* ignore — user can type manually */ }
+  }
+});
+$('adm-code-gen')?.addEventListener('click', async () => {
+  try {
+    const base = $('adm-name').value.trim();
+    const { code } = await api('/api/admin/invite-code/suggest' + (base ? '?base=' + encodeURIComponent(base) : ''));
+    $('adm-code').value = code;
+  } catch (e) { toast(e.message); }
+});
+// Keep the code-input uppercase so typos in case don't cause login mismatches.
+$('adm-code')?.addEventListener('input', (e) => {
+  const v = e.target.value;
+  const up = v.toUpperCase();
+  if (v !== up) e.target.value = up;
 });
 $('adm-cancel')?.addEventListener('click', () => $('admin-new-form').classList.add('hidden'));
 $('adm-submit')?.addEventListener('click', async () => {
@@ -3533,7 +4592,10 @@ $('share-btn')?.addEventListener('click', async () => {
 });
 
 // ---------------- Bell ----------------
-$('bell-btn').addEventListener('click', () => {
+$('bell-btn').addEventListener('click', async () => {
+  // Freshen server notifications on each bell-open so new reminders show
+  // up even without a full dashboard reload.
+  await loadServerNotifications();
   buildNotifications();
   $('notif-panel').classList.toggle('hidden');
 });

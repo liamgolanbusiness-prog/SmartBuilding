@@ -93,11 +93,31 @@ router.post(
     const buildingId = bldRow.rows[0]?.id;
 
     // Insert first admin resident
-    await query(
-      `INSERT INTO residents (building_id, phone_number, phone_verified, full_name, apartment_number, role)
-       VALUES ($1, $2, true, $3, $4, 'vaad_admin')`,
+    const newAdminRes = await query(
+      `INSERT INTO residents (building_id, phone_number, phone_verified, full_name, apartment_number, role, is_super_admin)
+       VALUES ($1, $2, true, $3, $4, 'vaad_admin', false)
+       RETURNING id`,
       [buildingId, phone, admin_name, admin_apartment || '1']
     );
+    const newAdminId = newAdminRes.rows[0]?.id;
+
+    // Welcome notification — the new admin sees this the moment they log in.
+    if (newAdminId) {
+      try {
+        await query(
+          `INSERT INTO notifications (building_id, resident_id, kind, title, body, ref_id, dedup_key)
+           VALUES ($1, $2, 'welcome_admin', $3, $4, $1, $5)
+           ON CONFLICT (resident_id, dedup_key) DO NOTHING`,
+          [
+            buildingId,
+            newAdminId,
+            `ברוכים הבאים ל-Lobbix 👋`,
+            `${name} מוכן לשימוש. כנסו ללשונית "ניהול" להוסיף חוקי תשלום והזמנות לדיירים, או שתפו את קוד הבניין: ${invite_code}`,
+            `welcome:${buildingId}`,
+          ]
+        );
+      } catch (_) { /* non-blocking */ }
+    }
 
     res.status(201).json({
       message: 'Building created',
@@ -111,6 +131,27 @@ router.post(
         name: admin_name,
       },
     });
+  })
+);
+
+// Suggest a unique invite code the super-admin can use on the create form.
+// Keeps the code short (6-8 chars), uppercase, alphanumeric, and we verify
+// it doesn't collide with an existing building before returning.
+router.get(
+  '/invite-code/suggest',
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    const base = String(req.query.base || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 4);
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O/1/I for legibility
+    for (let attempt = 0; attempt < 12; attempt++) {
+      let code = base;
+      const want = Math.max(6, Math.min(8, base.length + 4));
+      while (code.length < want) {
+        code += chars[Math.floor(Math.random() * chars.length)];
+      }
+      const exists = await query(`SELECT 1 FROM buildings WHERE invite_code = $1`, [code]);
+      if (exists.rows.length === 0) return res.json({ code });
+    }
+    throw new AppError('Could not generate a unique code — try again', 500);
   })
 );
 

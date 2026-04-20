@@ -77,7 +77,10 @@ router.post('/', asyncHandler(async (req: AuthRequest, res: Response) => {
   res.status(201).json({ message: 'Task created' });
 }));
 
-// Mark task as done → bump last_done and compute next_due
+// Mark task as done → bump last_done and compute next_due.
+// Vaad can optionally pass `next_due` (from a "schedule next" picker on the
+// client) to override the default "now + interval" behavior — e.g. "from
+// original due date" keeps the original cadence even if completed late.
 router.post('/:id/done', asyncHandler(async (req: AuthRequest, res: Response) => {
   if (!isVaad(req)) throw new AppError('Admin access required', 403);
   const row = await query(
@@ -86,13 +89,21 @@ router.post('/:id/done', asyncHandler(async (req: AuthRequest, res: Response) =>
   );
   const task = row.rows[0];
   if (!task) throw new AppError('Task not found', 404);
+
+  const clientNextDue =
+    typeof req.body?.next_due === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(req.body.next_due)
+      ? req.body.next_due
+      : null;
+
   const now = new Date();
-  const next = new Date(now.getTime() + (Number(task.interval_days) || 30) * 24 * 60 * 60 * 1000);
+  const defaultNext = new Date(now.getTime() + (Number(task.interval_days) || 30) * 24 * 60 * 60 * 1000);
+  const next = clientNextDue || defaultNext.toISOString().slice(0, 10);
+
   await query(
     `UPDATE maintenance_tasks SET last_done = $1, next_due = $2 WHERE id = $3`,
-    [now.toISOString().slice(0, 10), next.toISOString().slice(0, 10), req.params.id]
+    [now.toISOString().slice(0, 10), next, req.params.id]
   );
-  res.json({ message: 'Marked done', next_due: next.toISOString().slice(0, 10) });
+  res.json({ message: 'Marked done', next_due: next });
 }));
 
 // Delete (soft: deactivate)

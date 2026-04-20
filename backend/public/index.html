@@ -80,7 +80,7 @@
                 <div class="pending-wrap">
                   <div class="pending-ic">⏳</div>
                   <h2 class="pending-title" data-i18n="pending.title">ממתין לאישור ועד</h2>
-                  <p class="pending-sub" data-i18n="pending.sub">חברי ועד הבית שלך קיבלו את הבקשה שלך. ברגע שיאשרו, יוצגו לך כל הפרטים.</p>
+                  <p class="pending-sub" data-i18n="pending.sub">חברי ועד הבית קיבלו את בקשתך וקיבלו על כך התראה. ברגע שיאשרו, האפליקציה תיפתח אוטומטית. בדרך כלל זה לוקח כמה שעות.</p>
                   <div class="pending-card">
                     <div class="pending-row"><span data-i18n="pending.building">בניין</span><b id="pending-building">—</b></div>
                     <div class="pending-row"><span data-i18n="pending.name">שם</span><b id="pending-name">—</b></div>
@@ -88,6 +88,7 @@
                     <div class="pending-row"><span data-i18n="pending.phone">טלפון</span><b id="pending-phone">—</b></div>
                   </div>
                   <button class="btn-ghost btn-lg" id="pending-refresh" data-i18n="pending.refresh">רענון סטטוס</button>
+                  <button class="btn-link" id="pending-cancel" data-i18n="pending.cancel">ביטול הבקשה / בחירת בניין אחר</button>
                   <button class="btn-link" id="pending-logout" data-i18n="pending.logout">התנתק</button>
                 </div>
               </section>
@@ -130,6 +131,35 @@
                     <button id="back-phone" class="btn-ghost btn-lg" data-i18n="login.changePhone">← שינוי מספר טלפון</button>
                   </div>
 
+                  <!-- New-user join form: invite code + identity.
+                       Appears AFTER OTP when the server signals this phone is
+                       not yet a resident of any building. -->
+                  <div id="step-join" class="hidden">
+                    <div class="join-banner">
+                      <div class="join-banner-ic">🔑</div>
+                      <div>
+                        <b data-i18n="join.title">ברוכים הבאים! בואו נשלים את הפרטים</b>
+                        <small data-i18n="join.sub">הפרטים יוצגו לוועד כדי לאשר את ההצטרפות</small>
+                      </div>
+                    </div>
+                    <label data-i18n="join.invite">קוד הזמנה של הבניין</label>
+                    <input id="join-invite" class="text-input" placeholder="LIAMTEST" autocapitalize="characters" autocomplete="off" style="margin-bottom:10px" />
+                    <label data-i18n="join.name">שם מלא</label>
+                    <input id="join-name" class="text-input" placeholder="ישראל ישראלי" style="margin-bottom:10px" />
+                    <div class="row2" style="margin-bottom:10px">
+                      <div>
+                        <label data-i18n="join.apt">מס׳ דירה</label>
+                        <input id="join-apt" class="text-input" placeholder="5" inputmode="numeric" />
+                      </div>
+                      <div>
+                        <label data-i18n="join.floor">קומה</label>
+                        <input id="join-floor" class="text-input" placeholder="2" inputmode="numeric" />
+                      </div>
+                    </div>
+                    <button id="join-submit" class="btn-primary btn-lg" data-i18n="join.submit">שליחת בקשה לוועד</button>
+                    <button id="join-back" class="btn-ghost btn-lg" data-i18n="login.changePhone">← שינוי מספר טלפון</button>
+                  </div>
+
                   <div id="login-error" class="error hidden"></div>
 
                   <div class="login-divider demo-only"><span data-i18n="login.or">או</span></div>
@@ -159,8 +189,53 @@
                   </div>
                 </div>
 
+                <div class="start-building-row">
+                  <button id="start-building-btn" class="btn-link-big" type="button">
+                    <span data-i18n="start.cta">התחילו בניין חדש</span>
+                    <small data-i18n="start.ctaSub">חינם עד 10 דירות · בלי כרטיס אשראי</small>
+                  </button>
+                </div>
+
                 <div class="login-trust muted small">
                   <span>🔒</span> <span data-i18n="login.trust">מאובטח · ללא סיסמאות · הצפנה מקצה לקצה</span>
+                </div>
+
+                <!-- Self-serve "create new building" modal -->
+                <div id="start-building-sheet" class="modal-overlay hidden">
+                  <div class="modal" style="max-width:360px">
+                    <div class="modal-close" id="start-building-close">✕</div>
+                    <div class="invite-hero">
+                      <div class="invite-icon">🏢</div>
+                      <h3 data-i18n="start.title">בואו נקים את הבניין שלכם</h3>
+                      <p class="muted small" data-i18n="start.sub">דקה אחת ואתם בפנים כמנהלי ועד</p>
+                    </div>
+                    <label data-i18n="start.bldName">שם הבניין</label>
+                    <input id="sb-name" class="text-input" placeholder="מגדלי הים התיכון" style="margin-bottom:8px" />
+                    <label data-i18n="start.bldAddress">כתובת</label>
+                    <input id="sb-address" class="text-input" placeholder="שדרות בן גוריון 42" style="margin-bottom:8px" />
+                    <label data-i18n="start.bldCity">עיר</label>
+                    <input id="sb-city" class="text-input" placeholder="תל אביב" style="margin-bottom:8px" />
+                    <div class="row2" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+                      <div>
+                        <label data-i18n="start.bldFloors">קומות</label>
+                        <input id="sb-floors" type="number" min="1" class="text-input" placeholder="10" />
+                      </div>
+                      <div>
+                        <label data-i18n="start.bldApts">דירות</label>
+                        <input id="sb-apts" type="number" min="1" class="text-input" placeholder="38" />
+                      </div>
+                    </div>
+                    <label data-i18n="start.yourName">שמכם</label>
+                    <input id="sb-admin-name" class="text-input" placeholder="ישראל ישראלי" style="margin-bottom:8px" />
+                    <label data-i18n="start.yourPhone">הטלפון שלכם</label>
+                    <div class="phone-input" style="margin-bottom:8px">
+                      <span class="cc">🇮🇱 +972</span>
+                      <input id="sb-admin-phone" type="tel" placeholder="501111111" />
+                    </div>
+                    <label data-i18n="start.yourApt">מספר הדירה שלכם</label>
+                    <input id="sb-admin-apt" class="text-input" placeholder="1" style="margin-bottom:14px" />
+                    <button class="btn-primary" id="sb-submit" data-i18n="start.submit">צור את הבניין וכנס</button>
+                  </div>
                 </div>
               </section>
 
@@ -190,6 +265,43 @@
                     <div><b id="stat-apts">0</b><small data-i18n="home.stat.apts">דירות</small></div>
                     <div><b id="stat-open">0</b><small data-i18n="home.stat.open">קריאות פתוחות</small></div>
                   </div>
+                </div>
+
+                <!-- First-time setup checklist for vaad admins of an empty
+                     building. Auto-hidden once every step is done. -->
+                <div id="setup-checklist" class="setup-checklist hidden vaad-only">
+                  <div class="setup-head">
+                    <div class="setup-head-top">
+                      <b data-i18n="setup.title">בוא נתחיל 👋</b>
+                      <button class="setup-dismiss" id="setup-dismiss" aria-label="הסתר">✕</button>
+                    </div>
+                    <small data-i18n="setup.sub">שלושה צעדים כדי להפעיל את הבניין — בערך 2 דקות</small>
+                    <div class="setup-progress"><div class="setup-progress-fill" id="setup-progress-fill"></div></div>
+                  </div>
+                  <button class="setup-step" data-step="invite" data-go="residents">
+                    <span class="setup-step-check">1</span>
+                    <div class="setup-step-body">
+                      <b data-i18n="setup.step1.t">הזמן את הדיירים</b>
+                      <small data-i18n="setup.step1.b">שתף את קוד הבניין או הזמן בבת-אחת רשימת שכנים</small>
+                    </div>
+                    <svg class="setup-arrow" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                  </button>
+                  <button class="setup-step" data-step="rule" data-go="management" data-mt="rules">
+                    <span class="setup-step-check">2</span>
+                    <div class="setup-step-body">
+                      <b data-i18n="setup.step2.t">הוסף חוק תשלום</b>
+                      <small data-i18n="setup.step2.b">דמי ועד חודשיים/רבעוניים — נוצרים אוטומטית לדיירים</small>
+                    </div>
+                    <svg class="setup-arrow" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                  </button>
+                  <button class="setup-step" data-step="maintenance" data-go="management" data-mt="maintenance">
+                    <span class="setup-step-check">3</span>
+                    <div class="setup-step-body">
+                      <b data-i18n="setup.step3.t">קבע תחזוקה שוטפת</b>
+                      <small data-i18n="setup.step3.b">מעלית, מטפים, מיכלי גג — תזכורות אוטומטיות</small>
+                    </div>
+                    <svg class="setup-arrow" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                  </button>
                 </div>
 
                 <div class="section-head">
@@ -520,6 +632,75 @@
                 <div class="h-spacer"></div>
               </section>
 
+              <!-- RESIDENT DETAIL -->
+              <section id="view-resident-detail" class="view hidden">
+                <header class="app-header">
+                  <button class="icon-btn" data-back><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
+                  <h2 data-i18n="resDetail.title">כרטיס דייר</h2>
+                  <span class="spacer"></span>
+                </header>
+
+                <div class="rd-hero">
+                  <div class="rd-avatar" id="rd-avatar">?</div>
+                  <div class="rd-ident">
+                    <h3 id="rd-name">—</h3>
+                    <div class="rd-ident-line">
+                      <span id="rd-apt-line">—</span>
+                      <span class="rd-role" id="rd-role"></span>
+                    </div>
+                    <div class="rd-contact" id="rd-contact"></div>
+                  </div>
+                </div>
+
+                <div class="rd-stats">
+                  <div class="rd-stat rd-stat-paid">
+                    <small data-i18n="resDetail.paid">שולם</small>
+                    <b id="rd-paid">₪0</b>
+                  </div>
+                  <div class="rd-stat rd-stat-pending">
+                    <small data-i18n="resDetail.pending">ממתין</small>
+                    <b id="rd-pending">₪0</b>
+                  </div>
+                  <div class="rd-stat rd-stat-overdue">
+                    <small data-i18n="resDetail.overdue">בפיגור</small>
+                    <b id="rd-overdue">₪0</b>
+                  </div>
+                  <div class="rd-stat rd-stat-tickets">
+                    <small data-i18n="resDetail.openTickets">קריאות פתוחות</small>
+                    <b id="rd-open-tickets">0</b>
+                  </div>
+                </div>
+
+                <div class="rd-tabs">
+                  <button class="rd-tab active" data-rdtab="payments">
+                    <span data-i18n="resDetail.tabPayments">תשלומים</span>
+                    <span class="rd-tab-badge" id="rd-tab-pay-count">0</span>
+                  </button>
+                  <button class="rd-tab" data-rdtab="tickets">
+                    <span data-i18n="resDetail.tabTickets">קריאות</span>
+                    <span class="rd-tab-badge" id="rd-tab-tix-count">0</span>
+                  </button>
+                </div>
+
+                <div class="rd-panel" id="rd-panel-payments">
+                  <div id="rd-payments-list" class="list"></div>
+                  <div id="rd-payments-empty" class="rd-empty hidden">
+                    <div class="rd-empty-ic">💸</div>
+                    <div class="rd-empty-title" data-i18n="resDetail.noPayments">אין היסטוריית תשלומים</div>
+                  </div>
+                </div>
+
+                <div class="rd-panel hidden" id="rd-panel-tickets">
+                  <div id="rd-tickets-list" class="list"></div>
+                  <div id="rd-tickets-empty" class="rd-empty hidden">
+                    <div class="rd-empty-ic">🔧</div>
+                    <div class="rd-empty-title" data-i18n="resDetail.noTickets">לא פתח קריאות שירות</div>
+                  </div>
+                </div>
+
+                <div class="h-spacer"></div>
+              </section>
+
               <!-- INVITE SHEET overlay (absolute) -->
               <div id="invite-sheet" class="modal-overlay hidden">
                 <div class="modal">
@@ -532,6 +713,10 @@
                   <div class="invite-code-box">
                     <div class="invite-code-label" data-i18n="invite.code">קוד ההזמנה</div>
                     <div class="invite-code" id="invite-code-big">—</div>
+                    <div class="invite-link-box">
+                      <span data-i18n="invite.shareLink">קישור חכם:</span>
+                      <code id="invite-share-link">—</code>
+                    </div>
                   </div>
                   <div class="invite-actions">
                     <button class="btn-primary" id="invite-copy-btn" data-i18n="invite.copy">📋 העתק קוד</button>
@@ -541,6 +726,16 @@
                     <div class="invite-step"><b>1.</b> <span data-i18n="invite.step1">שלחו את הקוד לדייר</span></div>
                     <div class="invite-step"><b>2.</b> <span data-i18n="invite.step2">הדייר מתקין את האפליקציה</span></div>
                     <div class="invite-step"><b>3.</b> <span data-i18n="invite.step3">נכנס עם מספר הטלפון + קוד ההזמנה</span></div>
+                  </div>
+
+                  <div class="bulk-invite-wrap vaad-only">
+                    <details class="bulk-invite-details">
+                      <summary data-i18n="invite.bulkTitle">➕ הזמנה בכמות (הדבקת רשימה)</summary>
+                      <p class="muted small" data-i18n="invite.bulkHint">שורה אחת לכל דייר: טלפון, שם, דירה, קומה (מופרדים בפסיק או טאב). הדיירים נוספים כבר מאושרים ויכולים להיכנס מיד.</p>
+                      <textarea id="bulk-invite-text" class="text-input" rows="6" placeholder="0501234567, ישראל ישראלי, 5, 2&#10;0502345678	שרה לוי	6	2" dir="ltr"></textarea>
+                      <button class="btn-primary" id="bulk-invite-submit" data-i18n="invite.bulkSubmit">הוסף את כל הדיירים</button>
+                      <div id="bulk-invite-results" class="bulk-invite-results hidden"></div>
+                    </details>
                   </div>
                 </div>
               </div>
@@ -700,18 +895,79 @@
                     </div>
                   </div>
 
+                  <!-- Debtors card — red-flag residents who are behind -->
+                  <div class="debtors-card hidden" id="debtors-card">
+                    <div class="debtors-head">
+                      <div class="debtors-head-left">
+                        <span class="debtors-ic">⚠️</span>
+                        <b data-i18n="debtors.title">דיירים בפיגור</b>
+                      </div>
+                      <button class="debtors-toggle" id="debtors-toggle" aria-expanded="false">
+                        <span id="debtors-count">0</span>
+                        <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </button>
+                    </div>
+                    <div class="debtors-list hidden" id="debtors-list"></div>
+                  </div>
+
+                  <!-- Analytics: 12-month collections chart + methods donut -->
+                  <div class="analytics-toggle-wrap">
+                    <button class="analytics-toggle" id="analytics-toggle" aria-expanded="false">
+                      <span>📊 <span data-i18n="payAdm.analytics">תובנות וגרפים</span></span>
+                      <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                  </div>
+                  <div class="analytics-panel hidden" id="analytics-panel">
+                    <div class="analytics-ytd">
+                      <div>
+                        <small data-i18n="payAdm.ytdCollected">נגבה מתחילת השנה</small>
+                        <b id="an-ytd-paid">₪0</b>
+                      </div>
+                      <div>
+                        <small data-i18n="payAdm.ytdRate">שיעור גבייה YTD</small>
+                        <b id="an-ytd-rate">—</b>
+                      </div>
+                    </div>
+                    <div class="analytics-chart">
+                      <div class="analytics-chart-head">
+                        <b data-i18n="payAdm.chart12m">12 חודשים אחרונים</b>
+                        <div class="analytics-legend">
+                          <span><i style="background:#c7d2fe"></i><span data-i18n="payAdm.legendDue">נדרש</span></span>
+                          <span><i style="background:#6366f1"></i><span data-i18n="payAdm.legendCollected">נגבה</span></span>
+                        </div>
+                      </div>
+                      <svg id="an-months-chart" class="an-months-chart" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+                    </div>
+                    <div class="analytics-methods">
+                      <b data-i18n="payAdm.methodsTitle">פילוח אמצעי תשלום</b>
+                      <div class="analytics-methods-body">
+                        <svg id="an-methods-donut" class="an-donut" viewBox="0 0 100 100"></svg>
+                        <div id="an-methods-legend" class="an-methods-legend"></div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="pay-adm-tools">
                     <div class="pay-search-wrap">
                       <svg viewBox="0 0 24 24" class="pay-search-ic"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                       <input id="pay-adm-search" data-i18n-placeholder="payAdm.searchPh" placeholder="חיפוש לפי שם, דירה, תיאור..." autocomplete="off" />
                       <button id="pay-adm-clear" class="pay-search-clear hidden" aria-label="נקה">✕</button>
                     </div>
-                    <div class="pay-adm-chips">
-                      <button class="pay-chip active" data-pst="all" data-i18n="payAdm.all">הכל</button>
-                      <button class="pay-chip" data-pst="pending" data-i18n="payAdm.pendingShort">ממתין</button>
-                      <button class="pay-chip" data-pst="overdue" data-i18n="payAdm.overdueShort">פיגור</button>
-                      <button class="pay-chip" data-pst="paid" data-i18n="payAdm.paidShort">שולם</button>
+                    <div class="pay-adm-filter-row">
+                      <div class="pay-adm-chips">
+                        <button class="pay-chip active" data-pst="all" data-i18n="payAdm.all">הכל</button>
+                        <button class="pay-chip" data-pst="pending" data-i18n="payAdm.pendingShort">ממתין</button>
+                        <button class="pay-chip" data-pst="overdue" data-i18n="payAdm.overdueShort">פיגור</button>
+                        <button class="pay-chip" data-pst="paid" data-i18n="payAdm.paidShort">שולם</button>
+                      </div>
+                      <select id="pay-adm-month" class="pay-month-select" aria-label="חודש">
+                        <option value="" data-i18n="payAdm.allMonths">כל החודשים</option>
+                      </select>
                     </div>
+                    <label class="pay-group-toggle">
+                      <input type="checkbox" id="pay-adm-group-month" />
+                      <span data-i18n="payAdm.groupByMonth">קבץ לפי חודש</span>
+                    </label>
                   </div>
 
                   <div id="pay-adm-list" class="list"></div>
@@ -719,49 +975,6 @@
                     <div class="approvals-empty-ic">💸</div>
                     <div class="approvals-empty-title" data-i18n="payAdm.emptyTitle">אין תשלומים להצגה</div>
                     <div class="approvals-empty-sub" data-i18n="payAdm.emptySub">כשיווצרו חיובים (דרך חוקי תשלום או ידנית) הם יופיעו כאן.</div>
-                  </div>
-                </div>
-
-                <!-- Mark-as-paid sheet -->
-                <div id="pay-paid-sheet" class="sheet hidden sheet-floating">
-                  <div class="sheet-title" data-i18n="payAdm.markPaidTitle">סמן כשולם</div>
-                  <div class="pay-paid-target" id="pay-paid-target">—</div>
-                  <label class="field-label" data-i18n="payAdm.method">אמצעי תשלום</label>
-                  <div class="pay-methods">
-                    <button class="pay-method active" data-pm="cash">💵 <span data-i18n="payMethod.cash">מזומן</span></button>
-                    <button class="pay-method" data-pm="check">🧾 <span data-i18n="payMethod.check">צ׳ק</span></button>
-                    <button class="pay-method" data-pm="bank_transfer">🏦 <span data-i18n="payMethod.bank">העברה</span></button>
-                    <button class="pay-method" data-pm="app">📱 <span data-i18n="payMethod.app">אפליקציה</span></button>
-                    <button class="pay-method" data-pm="other">📎 <span data-i18n="payMethod.other">אחר</span></button>
-                  </div>
-                  <label class="field-label" data-i18n="payAdm.dateLabel">תאריך תשלום</label>
-                  <input id="pay-paid-date" type="date" />
-                  <label class="field-label" data-i18n="payAdm.noteLabel">הערה (אופציונלי)</label>
-                  <textarea id="pay-paid-note" rows="2" data-i18n-placeholder="payAdm.notePh" placeholder="מס׳ צ׳ק, פרטים נוספים..."></textarea>
-                  <div class="sheet-actions">
-                    <button class="btn-ghost" id="pay-paid-cancel" data-i18n="common.cancel">ביטול</button>
-                    <button class="btn-primary" id="pay-paid-save" data-i18n="payAdm.markPaidSave">סמן כשולם</button>
-                  </div>
-                </div>
-
-                <!-- Edit payment sheet -->
-                <div id="pay-edit-sheet" class="sheet hidden sheet-floating">
-                  <div class="sheet-title" data-i18n="payAdm.editTitle">עריכת חיוב</div>
-                  <label class="field-label" data-i18n="payAdm.descLabel">תיאור</label>
-                  <input id="pay-edit-desc" />
-                  <div class="row2">
-                    <div>
-                      <label class="field-label" data-i18n="payAdm.amountLabel">סכום</label>
-                      <input id="pay-edit-amount" type="number" step="0.01" min="0" />
-                    </div>
-                    <div>
-                      <label class="field-label" data-i18n="payAdm.dueLabel">תאריך פירעון</label>
-                      <input id="pay-edit-due" type="date" />
-                    </div>
-                  </div>
-                  <div class="sheet-actions">
-                    <button class="btn-ghost" id="pay-edit-cancel" data-i18n="common.cancel">ביטול</button>
-                    <button class="btn-primary" id="pay-edit-save" data-i18n="common.save">שמירה</button>
                   </div>
                 </div>
 
@@ -934,7 +1147,10 @@
                     <input id="adm-floors" type="number" min="1" data-i18n-placeholder="admin.totalFloors" placeholder="מספר קומות" />
                     <input id="adm-apts" type="number" min="1" data-i18n-placeholder="admin.totalApts" placeholder="מספר דירות" />
                   </div>
-                  <input id="adm-code" data-i18n-placeholder="admin.inviteCode" placeholder="קוד הזמנה" style="margin-bottom:10px" />
+                  <div class="invite-code-row" style="margin-bottom:10px">
+                    <input id="adm-code" data-i18n-placeholder="admin.inviteCode" placeholder="קוד הזמנה" autocapitalize="characters" autocomplete="off" />
+                    <button type="button" id="adm-code-gen" class="btn-ghost" data-i18n="admin.genCode">✨ צור</button>
+                  </div>
                   <div class="sheet-divider" data-i18n="admin.firstAdmin">מנהל ראשון</div>
                   <input id="adm-admin-name" data-i18n-placeholder="admin.adminName" placeholder="שם המנהל" />
                   <div class="phone-input" style="margin-bottom:10px">
@@ -1171,9 +1387,112 @@
 
             <div class="home-indicator"></div>
 
-            <!-- Onboarding tour overlay -->
-            <div id="tour-overlay" class="tour-overlay hidden">
-              <div class="tour-card">
+            <!-- Mark-as-paid modal -->
+            <div id="pay-paid-sheet" class="pay-modal hidden" role="dialog" aria-modal="true">
+              <div class="pay-modal-backdrop" data-close-modal></div>
+              <div class="pay-modal-card">
+                <button class="pay-modal-close" id="pay-paid-cancel" aria-label="סגירה">✕</button>
+                <div class="pay-modal-title" data-i18n="payAdm.markPaidTitle">סמן כשולם</div>
+                <div class="pay-paid-target" id="pay-paid-target">—</div>
+                <label class="field-label" data-i18n="payAdm.method">אמצעי תשלום</label>
+                <div class="pay-methods">
+                  <button class="pay-method active" data-pm="cash">💵 <span data-i18n="payMethod.cash">מזומן</span></button>
+                  <button class="pay-method" data-pm="check">🧾 <span data-i18n="payMethod.check">צ׳ק</span></button>
+                  <button class="pay-method" data-pm="bank_transfer">🏦 <span data-i18n="payMethod.bank">העברה</span></button>
+                  <button class="pay-method" data-pm="app">📱 <span data-i18n="payMethod.app">אפליקציה</span></button>
+                  <button class="pay-method" data-pm="other">📎 <span data-i18n="payMethod.other">אחר</span></button>
+                </div>
+                <label class="field-label" data-i18n="payAdm.dateLabel">תאריך תשלום</label>
+                <input id="pay-paid-date" type="date" />
+                <label class="field-label" data-i18n="payAdm.noteLabel">הערה (אופציונלי)</label>
+                <textarea id="pay-paid-note" rows="2" data-i18n-placeholder="payAdm.notePh" placeholder="מס׳ צ׳ק, פרטים נוספים..."></textarea>
+                <div class="pay-modal-actions">
+                  <button class="btn-ghost" data-close-modal data-i18n="common.cancel">ביטול</button>
+                  <button class="btn-primary" id="pay-paid-save" data-i18n="payAdm.markPaidSave">סמן כשולם</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Maintenance: next-schedule modal when marking a recurring task as done -->
+            <div id="mt-done-sheet" class="pay-modal hidden" role="dialog" aria-modal="true">
+              <div class="pay-modal-backdrop" data-close-modal></div>
+              <div class="pay-modal-card">
+                <button class="pay-modal-close" data-close-modal aria-label="סגירה">✕</button>
+                <div class="pay-modal-title" data-i18n="mtDone.title">סימון כבוצע</div>
+                <div class="pay-paid-target" id="mt-done-target">—</div>
+                <label class="field-label" data-i18n="mtDone.nextSchedule">מתי המשימה הבאה?</label>
+                <div class="mt-sched-options">
+                  <label class="mt-sched-opt">
+                    <input type="radio" name="mt-sched" value="from-now" checked />
+                    <div class="mt-sched-body">
+                      <b data-i18n="mtDone.fromNow">מהיום</b>
+                      <small id="mt-sched-from-now-date">—</small>
+                    </div>
+                  </label>
+                  <label class="mt-sched-opt">
+                    <input type="radio" name="mt-sched" value="from-original" />
+                    <div class="mt-sched-body">
+                      <b data-i18n="mtDone.fromOriginal">מתאריך היעד המקורי</b>
+                      <small id="mt-sched-from-original-date">—</small>
+                    </div>
+                  </label>
+                  <label class="mt-sched-opt">
+                    <input type="radio" name="mt-sched" value="custom" />
+                    <div class="mt-sched-body">
+                      <b data-i18n="mtDone.custom">תאריך מותאם</b>
+                      <input id="mt-sched-custom-date" type="date" />
+                    </div>
+                  </label>
+                </div>
+                <div class="pay-modal-actions">
+                  <button class="btn-ghost" data-close-modal data-i18n="common.cancel">ביטול</button>
+                  <button class="btn-primary" id="mt-done-save" data-i18n="mtDone.save">שמור</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Edit payment modal -->
+            <div id="pay-edit-sheet" class="pay-modal hidden" role="dialog" aria-modal="true">
+              <div class="pay-modal-backdrop" data-close-modal></div>
+              <div class="pay-modal-card">
+                <button class="pay-modal-close" id="pay-edit-cancel" aria-label="סגירה">✕</button>
+                <div class="pay-modal-title" data-i18n="payAdm.editTitle">עריכת חיוב</div>
+                <label class="field-label" data-i18n="payAdm.descLabel">תיאור</label>
+                <input id="pay-edit-desc" />
+                <div class="row2">
+                  <div>
+                    <label class="field-label" data-i18n="payAdm.amountLabel">סכום</label>
+                    <input id="pay-edit-amount" type="number" step="0.01" min="0" />
+                  </div>
+                  <div>
+                    <label class="field-label" data-i18n="payAdm.dueLabel">תאריך פירעון</label>
+                    <input id="pay-edit-due" type="date" />
+                  </div>
+                </div>
+                <div class="pay-modal-actions">
+                  <button class="btn-ghost" data-close-modal data-i18n="common.cancel">ביטול</button>
+                  <button class="btn-primary" id="pay-edit-save" data-i18n="common.save">שמירה</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Onboarding tour — spotlight + coach-mark card.
+                 The SVG mask carves a rounded hole around the target element
+                 so the user can see exactly what's being explained. -->
+            <div id="tour-overlay" class="tour-overlay hidden" aria-hidden="true">
+              <svg class="tour-mask" width="100%" height="100%" preserveAspectRatio="none">
+                <defs>
+                  <mask id="tour-spotlight-mask">
+                    <rect x="0" y="0" width="100%" height="100%" fill="white"/>
+                    <rect id="tour-spot" x="0" y="0" width="0" height="0" rx="14" ry="14" fill="black"/>
+                  </mask>
+                </defs>
+                <rect x="0" y="0" width="100%" height="100%" fill="rgba(11,16,32,0.72)" mask="url(#tour-spotlight-mask)"/>
+                <rect id="tour-spot-ring" x="0" y="0" width="0" height="0" rx="16" ry="16" fill="none" stroke="#a5b4fc" stroke-width="2" stroke-dasharray="6 6" opacity="0"/>
+              </svg>
+
+              <div class="tour-card" id="tour-card">
+                <div class="tour-arrow" id="tour-arrow" aria-hidden="true"></div>
                 <div class="tour-step-indicator" id="tour-step-indicator"></div>
                 <div class="tour-icon" id="tour-icon">👋</div>
                 <h3 class="tour-title" id="tour-title">—</h3>
@@ -1182,6 +1501,7 @@
                   <button class="btn-ghost" id="tour-skip" data-i18n="tour.skip">דלג</button>
                   <button class="btn-primary" id="tour-next" data-i18n="tour.next">הבא</button>
                 </div>
+                <div class="tour-step-count" id="tour-step-count">1 / 7</div>
               </div>
             </div>
 

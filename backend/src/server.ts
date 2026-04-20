@@ -21,6 +21,8 @@ import adminRoutes from './routes/admin.routes';
 import financeRoutes from './routes/finance.routes';
 import maintenanceRoutes from './routes/maintenance.routes';
 import productionRoutes from './routes/production.routes';
+import notificationRoutes from './routes/notification.routes';
+import { startReminderScheduler } from './services/reminders.service';
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler';
@@ -53,6 +55,13 @@ app.get('/', (req: Request, res: Response) => {
   res.sendFile(path.join(PUBLIC_DIR, 'landing.html'));
 });
 app.get(['/app', '/app/'], (req: Request, res: Response) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+});
+// Join-by-link: /join/CODE or /app/join/CODE both open the PWA with the
+// invite code prefilled. The client inspects `location.pathname` in
+// `detectJoinDeepLink()` and clears the URL afterwards.
+app.get(['/join/:code', '/app/join/:code'], (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
   res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
 });
@@ -129,6 +138,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/v1', productionRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {
@@ -154,6 +164,10 @@ io.on('connection', (socket) => {
 
 // Make io accessible to routes
 app.set('io', io);
+
+// Kick off the payment-reminder scheduler so due_today / +1 / +7 / +30
+// notifications are generated on a daily cadence without external cron.
+startReminderScheduler(io);
 
 // Start server
 httpServer.listen(PORT, () => {

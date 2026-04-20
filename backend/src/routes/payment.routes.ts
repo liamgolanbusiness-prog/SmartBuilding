@@ -14,6 +14,25 @@ const requireVaad = (req: AuthRequest) => {
   if (!isVaad(req)) throw new AppError('Vaad access required', 403);
 };
 
+// Flip any pending payment whose due_date has passed to status='overdue'.
+// Ultra-cheap to run on every list read — it's a single UPDATE with an
+// indexed WHERE. Avoids standing up a cron just for status hygiene.
+async function autoFlipOverdue(buildingId: string) {
+  try {
+    await query(
+      `UPDATE payments
+          SET status = 'overdue', updated_at = NOW()
+        WHERE building_id = $1
+          AND status = 'pending'
+          AND due_date < CURRENT_DATE`,
+      [buildingId]
+    );
+  } catch (err) {
+    // Don't block the read if this ever hiccups — just log.
+    console.error('autoFlipOverdue failed:', (err as Error).message);
+  }
+}
+
 // Guarantee the payment belongs to the current user's building before any
 // vaad action. Prevents a member of building A from touching building B.
 async function loadPaymentForBuilding(id: string, buildingId: string) {
@@ -26,11 +45,14 @@ async function loadPaymentForBuilding(id: string, buildingId: string) {
 }
 
 // List payments for current user's building. Supports optional search +
-// status filters so the admin panel can do everything in one round-trip.
+// status / month / resident filters so the admin panel can do everything
+// in one round-trip. Runs auto-flip-to-overdue first so the returned
+// statuses are always fresh.
 router.get(
   '/',
   asyncHandler(async (req: AuthRequest, res: Response) => {
-    const { search, status, resident_id } = req.query as Record<string, string>;
+    await autoFlipOverdue(req.user!.buildingId);
+    const { search, status, resident_id, month } = req.query as Record<string, string>;
     const params: any[] = [req.user!.buildingId];
     const where: string[] = ['p.building_id = $1'];
 
@@ -41,6 +63,13 @@ router.get(
     if (resident_id) {
       params.push(resident_id);
       where.push(`p.resident_id = $${params.length}`);
+    }
+    // month = YYYY-MM → filter by due_date within that calendar month
+    if (month && /^\d{4}-\d{2}$/.test(month)) {
+      params.push(month + '-01');
+      where.push(
+        `p.due_date >= $${params.length}::date AND p.due_date < ($${params.length}::date + INTERVAL '1 month')`
+      );
     }
     if (search && search.trim()) {
       params.push('%' + search.trim().toLowerCase() + '%');
@@ -54,7 +83,11 @@ router.get(
       `SELECT p.id, p.payment_type, p.description, p.amount, p.currency,
               p.due_date, p.payment_date, p.status, p.payment_method,
               p.metadata, p.created_at, p.resident_id,
-              r.full_name, r.apartment_number, r.floor
+              r.full_name, r.apartment_number, r.floor,
+              CASE
+                WHEN p.status = 'paid' THEN 0
+                ELSE GREATEST(0, (CURRENT_DATE - p.due_date)::int)
+              END AS days_overdue
        FROM payments p
        LEFT JOIN residents r ON r.id = p.resident_id
        WHERE ${where.join(' AND ')}
@@ -67,11 +100,128 @@ router.get(
   })
 );
 
-// Aggregated stats — drives the top cards on the admin payments panel.
+// Debtors aggregate — who's behind, how much, how long. Powers the red
+// "in arrears" card at the top of the vaad payments panel.
+router.get(
+  '/debtors',
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    requireVaad(req);
+    await autoFlipOverdue(req.user!.buildingId);
+    const result = await query(
+      `SELECT r.id AS resident_id,
+              r.full_name,
+              r.apartment_number,
+              r.floor,
+              r.phone_number,
+              COUNT(p.id)::int AS unpaid_count,
+              COALESCE(SUM(p.amount), 0)::numeric AS total_owed,
+              MAX(GREATEST(0, (CURRENT_DATE - p.due_date)::int))::int AS oldest_days_overdue,
+              MIN(p.due_date) AS oldest_due
+         FROM payments p
+         JOIN residents r ON r.id = p.resident_id
+        WHERE p.building_id = $1
+          AND p.status IN ('pending', 'overdue')
+          AND p.due_date < CURRENT_DATE
+        GROUP BY r.id, r.full_name, r.apartment_number, r.floor, r.phone_number
+        ORDER BY oldest_days_overdue DESC, total_owed DESC
+        LIMIT 50`,
+      [req.user!.buildingId]
+    );
+    res.json({ debtors: result.rows });
+  })
+);
+
+// 12-month rolling analytics: per-month due vs collected, plus breakdowns
+// by payment method and category. Powers the charts on the vaad panel.
+router.get(
+  '/analytics',
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    requireVaad(req);
+    await autoFlipOverdue(req.user!.buildingId);
+
+    const months = await query(
+      `WITH month_series AS (
+         SELECT generate_series(
+           DATE_TRUNC('month', NOW() - INTERVAL '11 months'),
+           DATE_TRUNC('month', NOW()),
+           INTERVAL '1 month'
+         ) AS m
+       )
+       SELECT TO_CHAR(ms.m, 'YYYY-MM') AS month,
+              COALESCE(SUM(p.amount) FILTER (
+                WHERE p.due_date >= ms.m AND p.due_date < ms.m + INTERVAL '1 month'
+              ), 0)::numeric AS due_total,
+              COALESCE(SUM(p.amount) FILTER (
+                WHERE p.status = 'paid'
+                  AND p.payment_date >= ms.m AND p.payment_date < ms.m + INTERVAL '1 month'
+              ), 0)::numeric AS collected_total,
+              COUNT(p.id) FILTER (
+                WHERE p.status = 'paid'
+                  AND p.payment_date >= ms.m AND p.payment_date < ms.m + INTERVAL '1 month'
+              )::int AS paid_count
+         FROM month_series ms
+         LEFT JOIN payments p ON p.building_id = $1
+        GROUP BY ms.m
+        ORDER BY ms.m`,
+      [req.user!.buildingId]
+    );
+
+    const methods = await query(
+      `SELECT COALESCE(payment_method, 'other') AS method,
+              COUNT(*)::int AS n,
+              COALESCE(SUM(amount), 0)::numeric AS total
+         FROM payments
+        WHERE building_id = $1 AND status = 'paid'
+        GROUP BY method
+        ORDER BY total DESC`,
+      [req.user!.buildingId]
+    );
+
+    const ytdPaid = await query(
+      `SELECT COALESCE(SUM(amount), 0)::numeric AS total
+         FROM payments
+        WHERE building_id = $1 AND status = 'paid'
+          AND payment_date >= DATE_TRUNC('year', NOW())`,
+      [req.user!.buildingId]
+    );
+
+    const ytdDue = await query(
+      `SELECT COALESCE(SUM(amount), 0)::numeric AS total
+         FROM payments
+        WHERE building_id = $1
+          AND due_date >= DATE_TRUNC('year', NOW())
+          AND due_date <= CURRENT_DATE`,
+      [req.user!.buildingId]
+    );
+
+    res.json({
+      months: months.rows.map((r: any) => ({
+        month: r.month,
+        due: Number(r.due_total) || 0,
+        collected: Number(r.collected_total) || 0,
+        paid_count: Number(r.paid_count) || 0,
+      })),
+      methods: methods.rows.map((r: any) => ({
+        method: r.method,
+        n: Number(r.n) || 0,
+        total: Number(r.total) || 0,
+      })),
+      ytd: {
+        paid: Number(ytdPaid.rows[0].total) || 0,
+        due: Number(ytdDue.rows[0].total) || 0,
+      },
+    });
+  })
+);
+
+// Aggregated stats — the single source of truth for every payments view
+// (personal Payments tab, vaad management panel, resident profile card).
+// Intentionally available to all residents: the whole product promise is
+// transparency of the building's finances.
 router.get(
   '/stats',
   asyncHandler(async (req: AuthRequest, res: Response) => {
-    requireVaad(req);
+    await autoFlipOverdue(req.user!.buildingId);
     const b = req.user!.buildingId;
     const paidThisMonth = await query(
       `SELECT COALESCE(SUM(amount), 0) AS total, COUNT(*) AS n

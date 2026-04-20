@@ -18,6 +18,7 @@ export interface AuthRequest extends Request {
 const PENDING_ALLOWED_PATHS = new Set<string>([
   '/api/auth/logout',
   '/api/residents/me/pending',
+  '/api/residents/me/cancel-pending',
 ]);
 
 export const authenticate = async (

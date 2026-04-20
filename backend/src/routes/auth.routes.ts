@@ -7,6 +7,9 @@ const router = Router();
 // Send OTP to phone number
 router.post('/send-otp', asyncHandler(authController.sendOTP));
 
+// Self-serve "start a new building" (landing page CTA).
+router.post('/create-building', asyncHandler(authController.selfServeCreateBuilding));
+
 // Verify OTP and login
 router.post('/verify-otp', asyncHandler(authController.verifyOTP));
 
